@@ -522,10 +522,7 @@ tr.deleted-row{
 
 <script>
 // ===== הגדרות =====
-
-// לכאן תכניס את ה-Apps Script שלך (POST JSON):
 const API_URL = 'https://script.google.com/macros/s/AKfycbzUHeV_5NdOwymZ5QbHJMsWT-jd9nwV1BV5sNbJbbjEwytSFMJfsCZSOO-NRZDbxz0/exec';
-// קוד ניהול פשוט לייצוא/סנכרון ידני (תוכל לשנות):
 const ADMIN_CODE = '2100';
 
 const STORAGE_KEY = 'lfp_records_v3';
@@ -537,14 +534,8 @@ let editingIndex = null;
 let ownerId = null;
 let currentRating = 0;
 
-// ===== בעלים (owner) לכל דפדפן =====
-function initOwner(){
-  ownerId = localStorage.getItem(OWNER_KEY);
-  if(!ownerId){
-    ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
-    localStorage.setItem(OWNER_KEY, ownerId);
-  }
-}
+// === עזר ===
+const E = id => document.getElementById(id);
 
 // ===== הודעות רכות =====
 function showMsg(text,type='info'){
