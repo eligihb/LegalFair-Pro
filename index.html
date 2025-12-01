@@ -70,23 +70,78 @@ button:hover {
   background: #0b7f74;
 }
 
+.secondary-btn {
+  margin-top: 8px;
+  background: #6b7280;
+}
+.secondary-btn:hover {
+  background: #4b5563;
+}
+
 /* רשימת הרשומות */
 .record-list {
   margin-top: 20px;
 }
 
 .record {
+  position: relative;
   background: #e8f7f6;
   border: 1px solid #b4e1dd;
-  padding: 12px;
+  padding: 12px 12px 10px 32px;
   border-radius: 12px;
   margin-bottom: 10px;
   font-size: .95rem;
 }
 
+.edit-btn {
+  position: absolute;
+  inset-inline-start: 6px;
+  inset-block-start: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 .export-btn {
-  margin-top: 10px;
+  margin-top: 8px;
   background: #0a58ff !important;
+}
+.export-btn:hover {
+  background: #0640c4 !important;
+}
+
+/* תצוגת טבלה */
+.table-wrapper {
+  margin-top: 20px;
+  overflow-x: auto;
+  display: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .85rem;
+  background: #fff;
+}
+
+th, td {
+  border: 1px solid #d0d7e2;
+  padding: 4px 6px;
+  text-align: right;
+}
+
+th {
+  background: #eef2ff;
+  font-weight: 600;
+}
+
+#editStatus {
+  text-align: center;
+  color: #b91c1c;
+  font-size: .85rem;
+  margin-bottom: 4px;
+  min-height: 1.2em;
 }
 </style>
 
@@ -151,66 +206,244 @@ button:hover {
   <label>התרשמות כללית</label>
   <textarea id="notes" placeholder="רושם, התאמה, חוו"ד..."></textarea>
 
-  <button onclick="addRecord()">הוסף לרשימה</button>
+  <div id="editStatus"></div>
 
-  <button class="export-btn" onclick="exportData()">ייצא הכל ל-CSV</button>
+  <button id="mainBtn" type="button" onclick="addRecord()">הוסף לרשימה</button>
+  <button class="secondary-btn" type="button" onclick="toggleView()">תצוגת טבלה</button>
+  <button class="export-btn" type="button" onclick="exportData()">ייצא הכל ופתח גוגל שיטס</button>
 
   <div class="record-list" id="list"></div>
+
+  <div class="table-wrapper" id="tableWrapper">
+    <table id="tableView">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>מוקד</th>
+          <th>תאריך</th>
+          <th>נציג</th>
+          <th>שם</th>
+          <th>שנה</th>
+          <th>עיר</th>
+          <th>טלפון</th>
+          <th>מייל</th>
+          <th>תחום</th>
+          <th>התרשמות</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
 </div>
 
 <script>
+// === הגדרות כלליות ===
+
+// החלף לכתובת הגיליון שלך:
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1bDLu3qPGn2v8ofWxtn7D3eMHwYwfaWRwollzgJfGTPc/edit?gid=0#gid=0';
+
+const STORAGE_KEY = 'lfp_records_v1';
+const HEADER_KEY  = 'lfp_header_v1';
+
 let records = [];
+let editingIndex = null;
+
+// === שמירת/טעינת נתונים מהדפדפן (localStorage) ===
+
+function saveRecordsToStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  } catch(e) {}
+}
+
+function saveHeaderToStorage() {
+  const header = {
+    center: center.value,
+    date: date.value,
+    agent: agent.value
+  };
+  try {
+    localStorage.setItem(HEADER_KEY, JSON.stringify(header));
+  } catch(e) {}
+}
+
+function loadFromStorage() {
+  try {
+    const r = localStorage.getItem(STORAGE_KEY);
+    if (r) {
+      records = JSON.parse(r) || [];
+    }
+    const h = localStorage.getItem(HEADER_KEY);
+    if (h) {
+      const header = JSON.parse(h);
+      if (header.center) center.value = header.center;
+      if (header.date)   date.value   = header.date;
+      if (header.agent)  agent.value  = header.agent;
+    }
+  } catch(e) {
+    records = [];
+  }
+  renderRecords();
+  renderTable();
+}
+
+// === לוגיקת טופס ===
 
 function addRecord(){
   const data = {
     center: center.value,
-    date: date.value,
-    agent: agent.value,
-    name: name.value,
-    year: year.value,
-    city: city.value,
-    phone: phone.value,
-    email: email.value,
-    field: field.value,
-    notes: notes.value
+    date:   date.value,
+    agent:  agent.value,
+    name:   name.value,
+    year:   year.value,
+    city:   city.value,
+    phone:  phone.value,
+    email:  email.value,
+    field:  field.value,
+    notes:  notes.value
   };
 
-  records.push(data);
-  renderRecords();
+  if (!data.name) {
+    alert('נא למלא שם מתעניין');
+    return;
+  }
 
-  // איפוס
-  name.value = "";
-  city.value = "";
+  // שמירת כותרות (מוקד/תאריך/נציג) למשתמש
+  saveHeaderToStorage();
+
+  if (editingIndex !== null) {
+    records[editingIndex] = data;
+  } else {
+    records.push(data);
+  }
+
+  saveRecordsToStorage();
+  renderRecords();
+  renderTable();
+
+  // איפוס שדות המתעניין
+  name.value  = "";
+  year.value  = "";
+  city.value  = "";
   phone.value = "";
   email.value = "";
   field.value = "";
   notes.value = "";
+
+  editingIndex = null;
+  document.getElementById('mainBtn').textContent = 'הוסף לרשימה';
+  document.getElementById('editStatus').textContent = '';
 }
+
+function editRecord(index){
+  const r = records[index];
+  center.value = r.center || '';
+  date.value   = r.date   || '';
+  agent.value  = r.agent  || '';
+  name.value   = r.name   || '';
+  year.value   = r.year   || '';
+  city.value   = r.city   || '';
+  phone.value  = r.phone  || '';
+  email.value  = r.email  || '';
+  field.value  = r.field  || '';
+  notes.value  = r.notes  || '';
+
+  editingIndex = index;
+  document.getElementById('mainBtn').textContent = 'עדכן רשומה';
+  document.getElementById('editStatus').textContent =
+    'מצב עריכה: רשומה #' + (index + 1);
+}
+
+// === הצגת כרטיסיות ===
 
 function renderRecords(){
   const box = document.getElementById("list");
   box.innerHTML = "";
 
-  records.forEach(r => {
+  records.forEach((r, idx) => {
     box.innerHTML += `
       <div class="record">
-        <b>${r.name}</b> • ${r.year}<br>
-        ${r.city} • ${r.phone}<br>
-        מייל: ${r.email}<br>
-        תחום: ${r.field}<br>
-        <small>מוקד: ${r.center} | ${r.date} | נציג: ${r.agent}</small><br>
-        <div><i>${r.notes}</i></div>
+        <button class="edit-btn" type="button" onclick="editRecord(${idx})">✏️</button>
+        <b>${r.name || ''}</b> • ${r.year || ''}<br>
+        ${r.city || ''} • ${r.phone || ''}<br>
+        מייל: ${r.email || ''}<br>
+        תחום: ${r.field || ''}<br>
+        <small>מוקד: ${r.center || ''} | ${r.date || ''} | נציג: ${r.agent || ''}</small><br>
+        <div><i>${r.notes || ''}</i></div>
       </div>
     `;
   });
 }
 
+// === תצוגת טבלה ===
+
+function renderTable(){
+  const tbody = document.querySelector('#tableView tbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+  records.forEach((r, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${idx + 1}</td>
+      <td>${r.center || ''}</td>
+      <td>${r.date || ''}</td>
+      <td>${r.agent || ''}</td>
+      <td>${r.name || ''}</td>
+      <td>${r.year || ''}</td>
+      <td>${r.city || ''}</td>
+      <td>${r.phone || ''}</td>
+      <td>${r.email || ''}</td>
+      <td>${r.field || ''}</td>
+      <td>${(r.notes || '').replace(/[\r\n]+/g,' ')}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function toggleView(){
+  const cards = document.getElementById('list');
+  const tableWrap = document.getElementById('tableWrapper');
+  const btn = document.querySelector('.secondary-btn');
+
+  const showingTable = tableWrap.style.display === 'block';
+
+  if (showingTable) {
+    tableWrap.style.display = 'none';
+    cards.style.display = 'block';
+    btn.textContent = 'תצוגת טבלה';
+  } else {
+    tableWrap.style.display = 'block';
+    cards.style.display = 'none';
+    btn.textContent = 'תצוגת כרטיסיות';
+  }
+}
+
+// === ייצוא CSV + פתיחת גוגל שיטס ===
+
 function exportData(){
+  if (!records.length) {
+    alert('אין רשומות לייצא.');
+    return;
+  }
+
   let csv = "מוקד,תאריך,נציג,שם,שנה,עיר,טלפון,מייל,תחום,התרשמות\n";
 
   records.forEach(r=>{
-    csv += `${r.center},${r.date},${r.agent},${r.name},${r.year},${r.city},${r.phone},${r.email},${r.field},${r.notes}\n`;
+    const row = [
+      r.center || '',
+      r.date   || '',
+      r.agent  || '',
+      r.name   || '',
+      r.year   || '',
+      r.city   || '',
+      r.phone  || '',
+      r.email  || '',
+      r.field  || '',
+      (r.notes || '').replace(/[\r\n]+/g,' ')
+    ];
+    csv += row.join(",") + "\n";
   });
 
   const blob = new Blob([csv], {type:"text/csv"});
@@ -220,9 +453,22 @@ function exportData(){
   a.href = url;
   a.download = "רשומות_יריד.csv";
   a.click();
+  URL.revokeObjectURL(url);
+
+  // פתיחת גוגל שיטס שלך בטאב חדש
+  if (SHEET_URL && SHEET_URL.startsWith('http')) {
+    window.open(SHEET_URL, '_blank');
+  }
 }
+
+// שמירת כותרות בכל שינוי
+['center','date','agent'].forEach(id=>{
+  document.getElementById(id).addEventListener('change', saveHeaderToStorage);
+});
+
+// טעינה ראשונית
+document.addEventListener('DOMContentLoaded', loadFromStorage);
 </script>
 
 </body>
 </html>
-
