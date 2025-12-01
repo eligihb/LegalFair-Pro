@@ -544,14 +544,25 @@
       return;
     }
 
-    const id = editingId || ('r_'+Date.now()+'_'+Math.random().toString(36).slice(2,7));
+   // קוד מתוקן (העתק והדבק במקום הבלוק הקודם)
 
-    const rec = {
-      id, ownerId,
-      center, agent, date,
-      name, year, city, phone, email, field,
-      rating:currentRating, traits, impression, notes
-    };
+    const id = editingId || ('r_'+Date.now()+'_'+Math.random().toString(36).slice(2,7));
+
+    // *** תחילת הוספה ***
+    // מחשב את השעה הנוכחית וממיר אותה למחרוזת (לדוגמה: "13:41")
+    const now = new Date();
+    const time = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
+    // *** סוף הוספה ***
+
+    const rec = {
+      id, ownerId,
+      center, agent, date,
+      // *** הוסף את השעה כאן ***
+      time,
+      // *** סוף הוספה ***
+      name, year, city, phone, email, field,
+      rating:currentRating, traits, impression, notes
+    };
 
     // עדכון במערך / חדש
     const idx = records.findIndex(r=>r.id===id);
