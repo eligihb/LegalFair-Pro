@@ -365,7 +365,7 @@ tr.deleted-row{
     <div class="header-bar">
       <div>
         <div class="header-bar-title">רישום מתעניינים – יריד מתמחים</div>
-        <div class="header-bar-sub">מותאם לנציגים בשטח – מהיר, ידידותי ומסודר</div>
+        <div class="header-bar-sub"></div>
       </div>
       <div class="header-actions">
         <button class="btn-open-records" type="button" id="openRecordsBtn">פתח רשומות</button>
@@ -393,12 +393,12 @@ tr.deleted-row{
 
       <hr>
 
-      <div class="card-title" style="margin-top:4px;">פרטי המתעניין</div>
+      <div class="card-title" style="margin-top:4px;">פרטי סטודנט</div>
 
       <div class="row-2">
         <div class="col">
-          <label for="name">שם מתעניין</label>
-          <input id="name" type="text" placeholder="לדוגמה: דנה כהן">
+          <label for="name">שם סטונדט</label>
+          <input id="name" type="text" placeholder="">
         </div>
         <div class="col">
           <label for="year">שנה</label>
@@ -416,7 +416,7 @@ tr.deleted-row{
       <div class="row-2">
         <div class="col">
           <label for="city">עיר</label>
-          <input id="city" type="text" placeholder="לדוגמה: נתניה">
+          <input id="city" type="text" placeholder="">
         </div>
         <div class="col">
           <label for="phone">טלפון</label>
@@ -429,7 +429,7 @@ tr.deleted-row{
 
       <label for="field">תחום מועדף</label>
       <select id="field">
-        <option value="">בחר תחום</option>
+        <option value="">בחר תחום התמחות מעודף</option>
         <option>ליטיגציה</option>
         <option>מסחרי</option>
         <option>חדלות פירעון</option>
@@ -460,13 +460,16 @@ tr.deleted-row{
         <button type="button" class="trait-chip" data-trait="ורבלי">ורבלי</button>
         <button type="button" class="trait-chip" data-trait="ביטחון עצמי">ביטחון עצמי</button>
         <button type="button" class="trait-chip" data-trait="יכולת ניסוח">יכולת ניסוח</button>
+        <button type="button" class="trait-chip" data-trait=" מוטביציה"> מוטיבציה</button>
+        <button type="button" class="trait-chip" data-trait=" יחסי אנוש מעולים"> יחסי אנוש מעולים</button>
+
       </div>
 
       <label for="impression">התרשמות כללית</label>
-      <textarea id="impression" placeholder="תחושה כללית, חוזקות, נקודות לשימור / לשיפור..."></textarea>
+      <textarea id="impression" placeholder="התרשמות כללית"></textarea>
 
       <label for="notes">הערות / מעקב</label>
-      <textarea id="notes" placeholder="למשל: לקבוע שיחה בשבוע הבא, לשלוח דוגמת פס״ק, מועמד פוטנציאלי למחזור הבא ועוד."></textarea>
+      <textarea id="notes" placeholder="הערות"></textarea>
 
       <div class="msg-box" id="msgBox"></div>
       <div class="edit-status" id="editStatus"></div>
@@ -523,7 +526,7 @@ tr.deleted-row{
 // לכאן תכניס את ה-Apps Script שלך (POST JSON):
 const API_URL = 'https://script.google.com/macros/s/XXXXXXXXXXXX/exec';
 // קוד ניהול פשוט לייצוא/סנכרון ידני (תוכל לשנות):
-const ADMIN_CODE = '1234';
+const ADMIN_CODE = '2100';
 
 const STORAGE_KEY = 'lfp_records_v3';
 const HEADER_KEY  = 'lfp_header_v3';
