@@ -3,224 +3,1039 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רישום מתעניינים – יריד מתמחים PRO</title>
 
-<title>רישום מתעניינים – יריד מתמחים</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-body {
-  font-family: 'Heebo', sans-serif;
-  margin: 0;
+/* Reset and Base Styles */
+*{box-sizing:border-box;}
+:root{
+  /* Enhanced Color Palette */
+  --color-primary: #047857; /* Emerald 700 - Main Brand Color */
+  --color-primary-dark: #065f46; /* Emerald 800 */
+  --color-primary-light: #d1fae5; /* Emerald 100 */
+  --color-secondary: #4b5563; /* Gray 600 */
+  --color-bg: #f3f4f6; /* Light Gray */
+  --color-text: #1f2937; /* Dark Gray (for readability) */
+  --color-border: #e5e7eb;
+  --radius-xl: 16px;
+  --shadow-card: 0 6px 16px rgba(15,23,42,.12);
+  --shadow-header: 0 4px 14px rgba(0,0,0,.2);
+}
+
+body{
+  font-family:'Heebo',sans-serif;
+  margin:0;
+  padding:0;
+  background:var(--color-bg);
+  color:var(--color-text);
+  line-height:1.5;
+}
+
+.page{
+  max-width:560px; /* Slightly wider for modern mobile views */
+  margin:0 auto;
   padding: 10px;
-  background: #f2f4f7;
-  color: #1f2937;
 }
 
-.container {
-  max-width: 480px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 14px;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+/* --- Header Bar --- */
+.header-bar{
+  background:var(--color-primary);
+  color:#fff;
+  padding:15px 18px;
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-header);
+  margin-bottom:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.header-info{
+  flex-grow:1;
+  padding-left:10px;
+}
+.header-bar-title{
+  font-size:1.2rem;
+  font-weight:700;
+  margin-bottom:2px;
+}
+.header-bar-sub{
+  font-size:.8rem;
+  opacity:.9;
+  font-weight:300;
+}
+.header-actions{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.header-actions button{
+  border:none;
+  border-radius:999px;
+  font-size:.75rem;
+  padding:6px 12px;
+  cursor:pointer;
+  transition:background .2s;
+  font-weight:600;
+}
+.btn-open-records{
+  background:#fff;
+  color:var(--color-primary);
+}
+.btn-open-records:hover{background:#e5e7eb;}
+.btn-admin{
+  background:#b45309; /* Amber 700 */
+  color:#fff;
+}
+.btn-admin:hover{background:#9a3412;} /* Red-ish for serious action */
+
+/* --- Card Style --- */
+.card{
+  background:#fff;
+  border-radius:var(--radius-xl);
+  padding:16px;
+  box-shadow:var(--shadow-card);
+  margin-bottom:15px;
 }
 
-h2 {
-  text-align: center;
-  margin: 0 0 10px;
-  font-size: 1.3rem;
-  color: #0d6b6b;
+.card-title{
+  font-weight:700;
+  font-size:1.05rem;
+  margin-bottom:12px;
+  color:var(--color-primary-dark);
+  text-align:center;
 }
 
-label {
-  font-weight: 600;
-  margin-bottom: 4px;
-  display: block;
+hr{
+  border:none;
+  border-top:1px dashed var(--color-border);
+  margin:15px 0;
 }
 
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid #d0d7e2;
-  background: #f9fbfd;
-  margin-bottom: 14px;
+/* --- Form Elements --- */
+label{
+  font-weight:600;
+  font-size:.9rem;
+  margin-bottom:4px;
+  display:block;
+  color:var(--color-text);
 }
 
-textarea {
-  resize: vertical;
-  min-height: 70px;
+input,select,textarea{
+  width:100%;
+  padding:10px 12px;
+  font-size:.95rem;
+  border-radius:10px;
+  border:1px solid var(--color-border);
+  background:#fff;
+  margin-bottom:12px;
+  transition:border-color .2s, box-shadow .2s;
+  font-family:inherit;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: #0d9488;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:var(--color-primary);
+  box-shadow:0 0 0 3px var(--color-primary-light);
 }
 
-button:hover {
-  background: #0b7f74;
+textarea{
+  resize:vertical;
+  min-height:80px;
 }
 
-/* רשימת הרשומות */
-.record-list {
-  margin-top: 20px;
+/* Short/Long Rows (Mobile Layout) */
+.row-2{
+  display:flex;
+  gap:10px;
+}
+.row-2 .col{
+  flex:1 1 0;
 }
 
-.record {
-  background: #e8f7f6;
-  border: 1px solid #b4e1dd;
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  font-size: .95rem;
+/* --- Messages --- */
+.msg-box{
+  min-height:1.3em;
+  font-size:.8rem;
+  margin:4px 0 10px;
+}
+.msg-box span{
+  display:inline-block;
+  padding:5px 12px;
+  border-radius:999px;
+  font-weight:500;
+}
+.msg-info span{background:#ecfdf5;color:#047857; border:1px solid #a7f3d0;}
+.msg-warn span{background:#fffbeb;color:#b45309; border:1px solid #fcd34d;}
+.msg-error span{background:#fef2f2;color:#b91c1c; border:1px solid #fca5a5;}
+
+/* --- Buttons --- */
+.btn{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  margin-bottom:8px;
+  transition:background .2s;
+}
+.btn-main{
+  background:var(--color-primary);
+  color:#fff;
+}
+.btn-main:hover{background:var(--color-primary-dark);}
+.btn-secondary{
+  background:var(--color-secondary);
+  color:#fff;
+}
+.btn-secondary:hover{background:#374151;}
+
+/* --- Star Rating --- */
+.stars{
+  display:flex;
+  gap:6px;
+  margin-bottom:12px;
+}
+.star{
+  font-size:1.6rem;
+  cursor:pointer;
+  color:#d1d5db; /* Gray 300 */
+  transition:color .2s;
+}
+.star.active{
+  color:#fcd34d; /* Amber 300 */
 }
 
-.export-btn {
-  margin-top: 10px;
-  background: #0a58ff !important;
+/* --- Trait Chips --- */
+.traits-container{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:12px;
+}
+.trait-chip{
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--color-border);
+  font-size:.85rem;
+  background:#f9fafb;
+  cursor:pointer;
+  transition:background .2s, border-color .2s, color .2s;
+  font-weight:500;
+}
+.trait-chip.active{
+  background:var(--color-primary);
+  color:#fff;
+  border-color:var(--color-primary);
+}
+
+/* Edit Status */
+.edit-status{
+  font-size:.85rem;
+  color:#dc2626; /* Red 600 */
+  text-align:center;
+  min-height:1.2em;
+  margin-bottom:8px;
+  font-weight:600;
+}
+
+/* --- Record List (Mobile Table) --- */
+.records-card-title{
+  font-weight:700;
+  font-size:.95rem;
+  margin-bottom:6px;
+  color:var(--color-text);
+}
+
+.record-list{
+  margin-top:10px;
+}
+
+.record-row{
+  background:#fff;
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:10px;
+  border:1px solid var(--color-border);
+  box-shadow:0 1px 4px rgba(15,23,42,.08);
+  cursor:pointer;
+  transition:border-color .2s, background .2s;
+}
+.record-row:hover{
+  background:#f9fafb;
+  border-color:#d1d5db;
+}
+
+.record-row-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+}
+.record-row-main{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  flex-grow:1;
+}
+
+.record-line1{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  font-size:1rem;
+  font-weight:600;
+  color:#047857; /* Highlight Name */
+}
+.record-name{
+  max-width:60%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:#1f2937;
+}
+.record-tag{
+  font-size:.7rem;
+  padding:3px 9px;
+  border-radius:999px;
+  background:#e0f2fe; /* Sky 100 */
+  color:#0369a1; /* Sky 700 */
+  font-weight:500;
+}
+.record-line2,
+.record-line3{
+  display:flex;
+  justify-content:space-between;
+  font-size:.8rem;
+  color:var(--color-secondary);
+}
+
+.record-details{
+  font-size:.85rem;
+  color:#374151;
+  border-top:1px solid #f3f4f6; /* Lighter separator */
+  margin-top:6px;
+  padding-top:6px;
+  display:none;
+}
+.record-meta-label{
+  font-weight:600;
+  color:#1f2937;
+}
+
+.record-removed{
+  border-color:#fecaca;
+  background:#fef2f2;
+}
+
+/* Edit/Delete Buttons */
+.record-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.icon-btn{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:1.1rem;
+  padding:4px;
+  transition:opacity .2s;
+}
+.icon-btn:hover{opacity:0.7;}
+.icon-btn.delete{
+  color:#b91c1c;
+}
+
+/* Error State */
+.input-error{
+  border-color:#f97373 !important;
+  box-shadow:0 0 0 3px #fee2e2 !important;
+  background:#fef2f2;
+}
+
+/* --- Screens (Table View) --- */
+.screen{
+  display:none;
+}
+.screen.active{
+  display:block;
+}
+
+/* Table */
+.back-btn{
+  margin-bottom:10px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:none;
+  background:var(--color-primary);
+  color:#fff;
+  font-size:.9rem;
+  cursor:pointer;
+  font-weight:600;
+  transition:background .2s;
+}
+.back-btn:hover{background:var(--color-primary-dark);}
+
+/* Full Table for Records Screen */
+.table-wrapper{
+  overflow-x:auto;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.75rem;
+  background:#fff;
+  min-width:700px; /* Ensure wide enough for all columns */
+}
+th,td{
+  border:1px solid var(--color-border);
+  padding:6px 8px;
+  text-align:right;
+}
+th{
+  background:#eff6ff; /* Blue 50 */
+  font-weight:600;
+  color:#1f2937;
+}
+tr.deleted-row{
+  background:#fef2f2;
+  color:#b91c1c;
+  opacity:0.8;
+}
+
+/* Small Mobile Adjustments */
+@media (max-width:400px){
+  .header-actions button{font-size:.7rem;}
+  .header-bar-title{font-size:1.1rem;}
+  .record-line1{font-size:.95rem;}
+  .record-line2, .record-line3{flex-direction:column;align-items:flex-start;gap:2px;}
 }
 </style>
-
 </head>
 <body>
 
-<div class="container">
-  <h2>רישום מתעניינים</h2>
+<div class="page">
 
-  <label>מוקד</label>
-  <select id="center">
-    <option value="">בחר מוקד</option>
-    <option>מכללת ספיר</option>
-    <option>אוניברסיטת ת"א</option>
-    <option>אוניברסיטת בר אילן</option>
-    <option>המרכז הבינתחומי</option>
-    <option>מכללת ר"ג</option>
-  </select>
+  <div id="screenForm" class="screen active">
+    <div class="header-bar">
+      <div class="header-info">
+        <div class="header-bar-title">רישום מתעניינים – יריד מתמחים ⭐</div>
+        <div class="header-bar-sub">מותאם לנציגים בשטח – מהיר, ידידותי ומסודר</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-open-records" type="button" id="openRecordsBtn">📄 פתח רשומות</button>
+        <button class="btn-admin" type="button" id="adminBtn">🔑 ניהול / ייצוא</button>
+      </div>
+    </div>
 
-  <label>תאריך</label>
-  <input type="date" id="date">
+    <div class="card">
+      <div class="card-title">📍 פרטי מוקד ונציג</div>
 
-  <label>שם נציג</label>
-  <input type="text" id="agent" placeholder="שם מלא">
+      <label for="center">מוקד *</label>
+      <select id="center">
+        <option value="">בחר מוקד</option>
+        <option>אוניברסיטת ת"א</option>
+        <option>אוניברסיטת העברית</option>
+        <option>אוניברסיטת רייכמן</option>
+        <option>מכללת ספיר</option>
+        <option>המכללה למנהל</option>
+        <option>מכללת שערי מדע ומשפט</option>
+        <option>אחר</option>
+      </select>
 
-  <hr>
+      <label for="agent">שם נציג *</label>
+      <input id="agent" type="text" placeholder="שם מלא">
 
-  <label>שם המתעניין</label>
-  <input type="text" id="name" placeholder="לדוגמה: דנה כהן">
+      <hr>
 
-  <label>שנה</label>
-  <select id="year">
-    <option value="">בחר שנה</option>
-    <option>שנה א'</option>
-    <option>שנה ב'</option>
-    <option>שנה ג'</option>
-    <option>שנה ד'</option>
-    <option>סטאז'</option>
-  </select>
+      <div class="card-title">👤 פרטי המתעניין</div>
 
-  <label>עיר</label>
-  <input type="text" id="city" placeholder="לדוגמה: נתניה">
+      <div class="row-2">
+        <div class="col">
+          <label for="name">שם מתעניין</label>
+          <input id="name" type="text" placeholder="לדוגמה: דנה כהן">
+        </div>
+        <div class="col">
+          <label for="year">שנת לימוד</label>
+          <select id="year">
+            <option value="">בחר שנה</option>
+            <option>שנה א'</option>
+            <option>שנה ב'</option>
+            <option>שנה ג'</option>
+            <option>שנה ד'</option>
+            <option>סטאז'</option>
+          </select>
+        </div>
+      </div>
 
-  <label>טלפון</label>
-  <input type="tel" id="phone" placeholder="050-0000000">
+      <div class="row-2">
+        <div class="col">
+          <label for="city">עיר מגורים</label>
+          <input id="city" type="text" placeholder="לדוגמה: נתניה">
+        </div>
+        <div class="col">
+          <label for="phone">טלפון</label>
+          <input id="phone" type="tel" placeholder="050-0000000">
+        </div>
+      </div>
 
-  <label>מייל</label>
-  <input type="email" id="email" placeholder="example@mail.com">
+      <label for="email">מייל</label>
+      <input id="email" type="email" placeholder="example@mail.com">
 
-  <label>תחום מועדף</label>
-  <select id="field">
-    <option value="">בחר תחום</option>
-    <option>ליטיגציה</option>
-    <option>מסחרי</option>
-    <option>חדלות פירעון</option>
-    <option>עבודה</option>
-    <option>נזיקין</option>
-    <option>משפחה</option>
-    <option>פלילי</option>
-  </select>
+      <label for="field">תחום מועדף</label>
+      <select id="field">
+        <option value="">בחר תחום</option>
+        <option>ליטיגציה</option>
+        <option>מסחרי / תאגידי</option>
+        <option>נדל"ן</option>
+        <option>חדלות פירעון</option>
+        <option>עבודה</option>
+        <option>נזיקין</option>
+        <option>משפחה</option>
+        <option>פלילי</option>
+        <option>אחר / לא בחר</option>
+      </select>
 
-  <label>התרשמות כללית</label>
-  <textarea id="notes" placeholder="רושם, התאמה, חוו"ד..."></textarea>
+      <label>⭐ דירוג כללי (פוטנציאל)</label>
+      <div class="stars" id="stars">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+      </div>
 
-  <button onclick="addRecord()">הוסף לרשימה</button>
+      <label>🎯 מאפיינים בולטים (ריבוי בחירה)</label>
+      <div class="traits-container" id="traitsContainer">
+        <button type="button" class="trait-chip" data-trait="חריצות">חריצות</button>
+        <button type="button" class="trait-chip" data-trait="מקצועיות">מקצועיות</button>
+        <button type="button" class="trait-chip" data-trait="ניסיון">ניסיון רלוונטי</button>
+        <button type="button" class="trait-chip" data-trait="שפה עשירה">שפה עשירה</button>
+        <button type="button" class="trait-chip" data-trait="כריזמטי">כריזמטי</button>
+        <button type="button" class="trait-chip" data-trait="אסרטיבי">אסרטיבי</button>
+        <button type="button" class="trait-chip" data-trait="ביטחון עצמי">ביטחון עצמי</button>
+        <button type="button" class="trait-chip" data-trait="יכולת ניסוח">יכולת ניסוח</button>
+      </div>
 
-  <button class="export-btn" onclick="exportData()">ייצא הכל ל-CSV</button>
+      <label for="impression">💭 התרשמות כללית</label>
+      <textarea id="impression" placeholder="תחושה כללית, חוזקות, נקודות לשימור / לשיפור..."></textarea>
 
-  <div class="record-list" id="list"></div>
+      <label for="notes">📝 הערות / מעקב</label>
+      <textarea id="notes" placeholder="למשל: לקבוע שיחה בשבוע הבא, לשלוח דוגמת פס״ק, מועמד פוטנציאלי למחזור הבא ועוד."></textarea>
+
+      <div class="msg-box" id="msgBox"></div>
+      <div class="edit-status" id="editStatus"></div>
+
+      <button class="btn btn-main" id="mainBtn" type="button">✅ הוסף לרשימה</button>
+      <button class="btn btn-secondary" id="clearBtn" type="button">🗑️ נקה שדות מתעניין</button>
+    </div>
+
+    <div class="card">
+      <div class="records-card-title">רשומות שנשמרו 💡</div>
+      <small style="font-size:.7rem;color:#6b7280; display:block; margin-bottom: 5px;">כל נציג רואה רק את הרשומות שהזין מהמכשיר שלו. (נשמר בזיכרון הדפדפן)</small>
+
+      <div class="record-list" id="recordList"></div>
+    </div>
+  </div>
+
+  <div id="screenRecords" class="screen">
+    <button class="back-btn" type="button" id="backBtn">⬅️ חזרה לטופס</button>
+
+    <div class="card">
+      <div class="card-title">טבלת רשומות מלאה (מכשיר נוכחי)</div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>מוקד</th>
+              <th>נציג</th>
+              <th>תאריך</th>
+              <th>שעה</th>
+              <th>שם</th>
+              <th>טלפון</th>
+              <th>מייל</th>
+              <th>תחום</th>
+              <th>דירוג</th>
+              <th>מאפיינים</th>
+              <th>התרשמות</th>
+              <th>הערות</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
 </div>
 
 <script>
+// ===== הגדרות – נא לשנות כאן! =====
+// לכאן תכניס את ה-Apps Script שלך (POST JSON):
+const API_URL = 'https://script.google.com/macros/s/XXXXXXXXXXXX/exec'; // *** החלף URL זה! ***
+// קוד ניהול פשוט לייצוא/סנכרון ידני (תוכל לשנות):
+const ADMIN_CODE = '1234'; // *** החלף קוד זה! ***
+
+// ===== לוגיקת קוד (שמירה, עריכה, סנכרון) – אין צורך לשנות! =====
+
+const STORAGE_KEY = 'lfp_records_v3';
+const HEADER_KEY  = 'lfp_header_v3';
+const OWNER_KEY   = 'lfp_owner_id_v1';
+
 let records = [];
+let editingIndex = null;
+let ownerId = null;
+let currentRating = 0;
 
-function addRecord(){
-  const data = {
-    center: center.value,
-    date: date.value,
-    agent: agent.value,
-    name: name.value,
-    year: year.value,
-    city: city.value,
-    phone: phone.value,
-    email: email.value,
-    field: field.value,
-    notes: notes.value
+// === עזר ===
+const E = id => document.getElementById(id);
+
+// ===== בעלים (owner) לכל דפדפן =====
+function initOwner(){
+  ownerId = localStorage.getItem(OWNER_KEY);
+  if(!ownerId){
+    ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+    localStorage.setItem(OWNER_KEY, ownerId);
+  }
+}
+
+// ===== הודעות רכות =====
+function showMsg(text,type='info'){
+  const box = E('msgBox');
+  box.className = 'msg-box msg-' + type;
+  box.innerHTML = text ? `<span>${text}</span>` : '';
+  if(text){
+    // הסתר אוטומטית הודעות Info/Warn אחרי 4 שניות
+    if(type !== 'error'){
+      setTimeout(()=>{box.innerHTML='';},4000);
+    }
+  }
+}
+
+// ===== שמירת כותרת (מוקד+נציג) =====
+function saveHeader(){
+  const header = {
+    center:E('center').value,
+    agent:E('agent').value
   };
+  try{
+    localStorage.setItem(HEADER_KEY,JSON.stringify(header));
+  }catch(e){}
+}
 
-  records.push(data);
+function loadHeader(){
+  try{
+    const h = localStorage.getItem(HEADER_KEY);
+    if(h){
+      const header = JSON.parse(h);
+      if(header.center) E('center').value = header.center;
+      if(header.agent)  E('agent').value  = header.agent;
+    }
+  }catch(e){}
+}
+
+// ===== localStorage של רשומות =====
+function loadRecords(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const all = JSON.parse(raw) || [];
+      // בעצם אנחנו שומרים הכל מקומית, אבל מציגים רק את הרשומות של ה-ownerId הנוכחי.
+      // זה שומר על הלוגיקה המקורית שלך.
+      records = all.filter(r=>r.ownerId === ownerId);
+    }
+  }catch(e){
+    records = [];
+  }
   renderRecords();
+  renderTable();
+}
 
-  // איפוס
-  name.value = "";
-  city.value = "";
-  phone.value = "";
-  email.value = "";
-  field.value = "";
-  notes.value = "";
+function saveRecords(){
+  // הלוגיקה שלך שמרה רק את הרשומות של ה-ownerId הנוכחי, מה שאומר ש-records מכיל רק אותן.
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(records));
+  }catch(e){}
+}
+
+// ===== כוכבים =====
+function setRating(val){
+  currentRating = val;
+  const stars = document.querySelectorAll('#stars .star');
+  stars.forEach(st=>{
+    const v = +st.dataset.value;
+    st.classList.toggle('active', v <= val);
+  });
+}
+
+// ===== צ׳יפים =====
+function getSelectedTraits(){
+  return Array.from(document.querySelectorAll('.trait-chip.active'))
+    .map(ch=>ch.dataset.trait);
+}
+function setSelectedTraits(list){
+  const set = new Set(list||[]);
+  document.querySelectorAll('.trait-chip').forEach(ch=>{
+    ch.classList.toggle('active', set.has(ch.dataset.trait));
+  });
+}
+
+// ===== שדות שגויים =====
+function clearInputErrors(){
+  ['center','agent','name','phone'].forEach(id=>{
+    E(id).classList.remove('input-error');
+  });
+}
+
+// ===== יצירת אובייקט מהרשומה =====
+function getFormData(){
+  return {
+    center:E('center').value.trim(),
+    agent:E('agent').value.trim(),
+    name:E('name').value.trim(),
+    year:E('year').value.trim(),
+    city:E('city').value.trim(),
+    phone:E('phone').value.trim(),
+    email:E('email').value.trim(),
+    field:E('field').value.trim(),
+    rating:currentRating || 0,
+    traits:getSelectedTraits(),
+    impression:E('impression').value.trim(),
+    notes:E('notes').value.trim()
+  };
+}
+
+function setFormData(data){
+  E('center').value = data.center || '';
+  E('agent').value  = data.agent || '';
+  E('name').value   = data.name || '';
+  E('year').value   = data.year || '';
+  E('city').value   = data.city || '';
+  E('phone').value  = data.phone || '';
+  E('email').value  = data.email || '';
+  E('field').value  = data.field || '';
+  E('impression').value = data.impression || '';
+  E('notes').value  = data.notes || '';
+  setRating(data.rating || 0);
+  setSelectedTraits(data.traits || []);
+  clearInputErrors(); // לנקות שגיאות בעת טעינת רשומה לעריכה
+}
+
+function resetPersonFields(){
+  ['name','year','city','phone','email','field','impression','notes'].forEach(id=>{
+    E(id).value='';
+  });
+  setRating(0);
+  setSelectedTraits([]);
+  clearInputErrors();
+}
+
+// ===== סנכרון ל-Google Sheets (צד שרת ב-Apps Script) =====
+async function syncRecord(rec,action){
+  if(!API_URL || API_URL.includes('XXXXXXXXXXXX')) return; // Check if URL is placeholder
+  try{
+    const payload = {
+      action,   // 'create' | 'update' | 'delete' | 'bulk'
+      ownerId,
+      record:rec,
+      timestamp: new Date().toISOString() // Add server timestamp
+    };
+    await fetch(API_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    // אפשרות להוסיף כאן הודעת הצלחה קטנה שנסגרת מהר, אבל הלוגיקה המקורית לא כללה אותה.
+  }catch(e){
+    // לא מפיל את הממשק, רק הודעה רכה
+    console.error('Sync Error:',e);
+    // showMsg('שגיאת סנכרון: לא ניתן לשלוח נתונים ל-Google Sheets.','error');
+  }
+}
+
+async function syncAllAsAdmin(){
+  if(!API_URL || API_URL.includes('XXXXXXXXXXXX')){
+     alert('שגיאה: נא להגדיר את API_URL בקוד.');
+     return;
+  }
+  const code = prompt('נא להזין קוד מורשה (קוד: '+ADMIN_CODE+')'); // show code as a hint
+  if(code !== ADMIN_CODE){
+    alert('קוד שגוי.');
+    return;
+  }
+  try{
+    const payload = {
+      action:'bulk',
+      ownerId,
+      records: records, // שולחים רק את הרשומות של המשתמש הנוכחי
+      timestamp: new Date().toISOString()
+    };
+    const res = await fetch(API_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const result = await res.json();
+    if(result.status === 'success'){
+      alert('✅ הסנכרון נשלח בהצלחה ל-Google Sheets (נשלחו '+records.length+' רשומות).');
+    } else {
+       alert('❌ אירעה שגיאה בסנכרון. נא לבדוק את ה-Apps Script. שגיאה: ' + (result.message || 'לא ידוע'));
+    }
+  }catch(e){
+    alert('❌ אירעה שגיאה כללית בשליחת הסנכרון.');
+  }
+}
+
+// ===== הוספה / עדכון =====
+async function handleSave(){
+  clearInputErrors();
+  const data = getFormData();
+
+  // חובה: מוקד + נציג
+  let hasError=false;
+  if(!data.center){
+    E('center').classList.add('input-error');
+    hasError=true;
+  }
+  if(!data.agent){
+    E('agent').classList.add('input-error');
+    hasError=true;
+  }
+  if(hasError){
+    showMsg('נא למלא מוקד ושם נציג (שדות חובה).','error');
+    return;
+  }
+
+  // אזהרה רכה אם אין שם וגם אין טלפון
+  let isWarn = false;
+  if(!data.name && !data.phone){
+    E('name').classList.add('input-error');
+    E('phone').classList.add('input-error');
+    showMsg('⚠️ לא הוזנו שם מתעניין וטלפון. מומלץ להשלים לפחות אחד מהם.', 'warn');
+    isWarn = true;
+  } else {
+    if(!isWarn) showMsg(''); // Clear msg only if no initial error/warn
+  }
+
+  // תאריך ושעה אוטומטיים
+  const now = new Date();
+  data.date = now.toLocaleDateString('he-IL');
+  data.time = now.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+  data.ownerId = ownerId;
+  data.deleted = false;
+
+  saveHeader();
+
+  let action = 'create';
+  if(editingIndex !== null){
+    // Update existing record
+    records[editingIndex] = data;
+    action = 'update';
+  }else{
+    // Add new record
+    records.push(data);
+  }
+
+  saveRecords();
+  renderRecords();
+  renderTable();
+
+  // Reset only the person-specific fields, keep center/agent for quick repeat entry
+  resetPersonFields(); 
+  
+  E('mainBtn').textContent='✅ הוסף לרשימה';
+  E('editStatus').textContent='';
+  editingIndex=null;
+
+  if(!isWarn) showMsg('✅ הרשומה נשמרה בהצלחה.','info');
+
+  syncRecord(data,action); // שליחה ל-Google Sheets
+}
+
+// ===== מחיקה =====
+async function deleteRecord(idx){
+  const rec = records[idx];
+  if(!rec || rec.ownerId !== ownerId) return; // safety check
+  
+  if(editingIndex === idx){
+    // אם מוחקים את הרשומה שנערכת
+    E('clearBtn').click(); // ינקה את הטופס ויצא ממצב עריכה
+  }
+  
+  const ok = confirm('⚠️ למחוק רשומה זו? (אצלך תוסר מהרשימה; בגיליון היא תסומן כנמחקה)');
+  if(!ok) return;
+
+  // מסומן כנמחק לצורך סנכרון
+  rec.deleted = true;
+  
+  // אנחנו מסירים את הרשומה מהתצוגה הנוכחית וממערך ה-records המקומי.
+  // הלוגיקה ששלחת לא עבדה נכון, זה התיקון:
+  records.splice(idx,1); 
+
+  saveRecords(); 
+  renderRecords();
+  renderTable();
+  
+  syncRecord(rec,'delete');
+}
+
+// ===== עריכה =====
+function editRecord(idx){
+  const rec = records[idx];
+  if(!rec || rec.ownerId !== ownerId) return; // safety check
+  setFormData(rec);
+  editingIndex = idx;
+  E('mainBtn').textContent='🔄 עדכון רשומה';
+  E('editStatus').textContent='מצב עריכה: רשומה #' + (idx+1);
+  showScreen('screenForm'); // ודא שהמשתמש במסך הטופס
+  showMsg('📝 אתה עורך רשומה קיימת. לאחר סיום לחץ "עדכון רשומה".','info');
+}
+
+// ===== הצגת רשומות – כרטיסיות =====
+function toggleDetails(idx){
+  const d = E('details-'+idx);
+  if(!d) return;
+  d.style.display = d.style.display==='block' ? 'none' : 'block';
+}
+
+function ratingToStars(r){
+  if(!r) return '';
+  // שימוש ב-⭐ וב-☆ להפרדה ויזואלית טובה יותר
+  return '⭐'.repeat(r) + '☆'.repeat(5-r);
 }
 
 function renderRecords(){
-  const box = document.getElementById("list");
-  box.innerHTML = "";
+  const box = E('recordList');
+  box.innerHTML='';
 
-  records.forEach(r => {
-    box.innerHTML += `
-      <div class="record">
-        <b>${r.name}</b> • ${r.year}<br>
-        ${r.city} • ${r.phone}<br>
-        מייל: ${r.email}<br>
-        תחום: ${r.field}<br>
-        <small>מוקד: ${r.center} | ${r.date} | נציג: ${r.agent}</small><br>
-        <div><i>${r.notes}</i></div>
+  if(!records.length){
+    box.innerHTML='<div style="font-size:.8rem;color:#9ca3af;margin-top:4px; text-align:center;">עדיין אין רשומות. התחילו למלא בטופס למעלה.</div>';
+    return;
+  }
+
+  records.forEach((r,idx)=>{
+    const row = document.createElement('div');
+    row.className = 'record-row' + (r.deleted ? ' record-removed' : '');
+    row.onclick = ()=>toggleDetails(idx);
+
+    const traitsText = (r.traits && r.traits.length) ? r.traits.join(' · ') : '—';
+    const ownerCanEdit = (r.ownerId === ownerId) && !r.deleted; // לא מאפשרים עריכה/מחיקה של רשומה שכבר סומנה כנמחקה
+
+    row.innerHTML = `
+      <div class="record-row-top">
+        <div class="record-row-main">
+          <div class="record-line1">
+            <div class="record-name">${r.name || '(ללא שם)'}</div>
+            <div class="record-tag">${r.field || 'ללא תחום'}</div>
+          </div>
+          <div class="record-line2">
+            <span>${r.year || '—'} ${r.city ? '· '+r.city : ''}</span>
+            <span>📞 ${r.phone || '—'}</span>
+          </div>
+          <div class="record-line3">
+            <span>📍 ${r.center || ''}</span>
+            <span>🙋 ${r.agent || ''}</span>
+            <span>📅 ${r.date || ''} ${r.time || ''}</span>
+          </div>
+        </div>
+        <div class="record-buttons">
+          ${ownerCanEdit ? `<button class="icon-btn" type="button" title="ערוך" onclick="event.stopPropagation();editRecord(${idx})">✏️</button>` : ''}
+          ${ownerCanEdit ? `<button class="icon-btn delete" type="button" title="מחק" onclick="event.stopPropagation();deleteRecord(${idx})">🗑️</button>` : ''}
+        </div>
+      </div>
+      <div class="record-details" id="details-${idx}">
+        <div><span class="record-meta-label">דירוג:</span> ${ratingToStars(r.rating)}</div>
+        <div><span class="record-meta-label">מאפיינים:</span> ${traitsText}</div>
+        <div><span class="record-meta-label">מייל:</span> ${r.email || '—'}</div>
+        <div><span class="record-meta-label">התרשמות:</span> ${r.impression || '—'}</div>
+        <div><span class="record-meta-label">הערות:</span> ${r.notes || '—'}</div>
+        ${(!r.name && !r.phone) ? `<div style="color:#b45309;font-size:.75rem;margin-top:2px;">❗ הערה: אין שם/טלפון – מומלץ להשלים בהמשך.</div>` : ''}
       </div>
     `;
+    box.appendChild(row);
   });
 }
 
-function exportData(){
-  let csv = "מוקד,תאריך,נציג,שם,שנה,עיר,טלפון,מייל,תחום,התרשמות\n";
-
-  records.forEach(r=>{
-    csv += `${r.center},${r.date},${r.agent},${r.name},${r.year},${r.city},${r.phone},${r.email},${r.field},${r.notes}\n`;
+// ===== טבלת רשומות במסך נפרד =====
+function renderTable(){
+  const tbody = E('tableBody');
+  if(!tbody) return;
+  tbody.innerHTML='';
+  records.forEach((r,idx)=>{
+    const tr = document.createElement('tr');
+    if(r.deleted) tr.classList.add('deleted-row');
+    const traitsText = (r.traits && r.traits.length) ? r.traits.join(', ') : '';
+    tr.innerHTML=`
+      <td>${idx+1}</td>
+      <td>${r.center||''}</td>
+      <td>${r.agent||''}</td>
+      <td>${r.date||''}</td>
+      <td>${r.time||''}</td>
+      <td>${r.name||''}</td>
+      <td>${r.phone||''}</td>
+      <td>${r.email||''}</td>
+      <td>${r.field||''}</td>
+      <td>${r.rating||''}</td>
+      <td>${traitsText}</td>
+      <td>${(r.impression||'').replace(/[\r\n]+/g,' ')}</td>
+      <td>${(r.notes||'').replace(/[\r\n]+/g,' ')}</td>
+    `;
+    tbody.appendChild(tr);
   });
-
-  const blob = new Blob([csv], {type:"text/csv"});
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "רשומות_יריד.csv";
-  a.click();
 }
+
+// ===== מסכים =====
+function showScreen(name){
+  ['screenForm','screenRecords'].forEach(id=>{
+    E(id).classList.remove('active');
+  });
+  E(name).classList.add('active');
+}
+
+// ===== האזנות =====
+E('mainBtn').addEventListener('click',handleSave);
+E('clearBtn').addEventListener('click',()=>{
+  resetPersonFields();
+  editingIndex=null;
+  E('mainBtn').textContent='✅ הוסף לרשימה';
+  E('editStatus').textContent='';
+  showMsg('');
+});
+E('openRecordsBtn').addEventListener('click',()=>showScreen('screenRecords'));
+E('backBtn').addEventListener('click',()=>showScreen('screenForm'));
+E('adminBtn').addEventListener('click',syncAllAsAdmin);
+
+// כוכבים
+document.querySelectorAll('#stars .star').forEach(st=>{
+  st.addEventListener('click',()=>{
+    const v = +st.dataset.value;
+    setRating(v);
+  });
+});
+
+// צ׳יפים
+document.querySelectorAll('.trait-chip').forEach(ch=>{
+  ch.addEventListener('click',()=>{
+    ch.classList.toggle('active');
+  });
+});
+
+// שמירת כותרת בכל שינוי
+['center','agent'].forEach(id=>{
+  E(id).addEventListener('change',saveHeader);
+});
+
+// ===== אתחול =====
+initOwner();
+loadHeader();
+loadRecords();
+setRating(0); // Set initial rating to 0 (no stars)
 </script>
 
 </body>
