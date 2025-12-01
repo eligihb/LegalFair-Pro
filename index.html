@@ -9,438 +9,594 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-body {
-  font-family: 'Heebo', sans-serif;
-  margin: 0;
-  padding: 10px;
-  background: #f2f4f7;
-  color: #1f2937;
+*{box-sizing:border-box;}
+
+body{
+  font-family:'Heebo',sans-serif;
+  margin:0;
+  padding:10px;
+  background:#f3f4f6;
+  color:#111827;
 }
 
-.container {
-  max-width: 480px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 14px;
-  border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+.page{
+  max-width:520px;
+  margin:0 auto;
 }
 
-h2 {
-  text-align: center;
-  margin: 0 0 10px;
-  font-size: 1.3rem;
-  color: #0d6b6b;
+.header-bar{
+  background:#0f766e;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:14px;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+  margin-bottom:10px;
+}
+.header-bar-title{
+  font-size:1.1rem;
+  font-weight:700;
+}
+.header-bar-sub{
+  font-size:.8rem;
+  opacity:.9;
 }
 
-label {
-  font-weight: 600;
-  margin-bottom: 4px;
-  display: block;
+/* כרטיס הטופס */
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:12px;
+  box-shadow:0 4px 12px rgba(15,23,42,.08);
+  margin-bottom:12px;
 }
 
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid #d0d7e2;
-  background: #f9fbfd;
-  margin-bottom: 14px;
+.card-title{
+  font-weight:700;
+  font-size:.95rem;
+  margin-bottom:6px;
+  color:#0f766e;
+  text-align:center;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 70px;
+label{
+  font-weight:600;
+  font-size:.85rem;
+  margin-bottom:2px;
+  display:block;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background: #0d9488;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
+input,select,textarea{
+  width:100%;
+  padding:9px 10px;
+  font-size:.95rem;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  background:#f9fafb;
+  margin-bottom:10px;
 }
 
-button:hover {
-  background: #0b7f74;
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:#0f766e;
+  box-shadow:0 0 0 2px rgba(15,118,110,.12);
 }
 
-.secondary-btn {
-  margin-top: 8px;
-  background: #6b7280;
-}
-.secondary-btn:hover {
-  background: #4b5563;
+textarea{
+  resize:vertical;
+  min-height:70px;
 }
 
-/* רשימת הרשומות */
-.record-list {
-  margin-top: 20px;
+/* הודעות */
+.msg-box{
+  min-height:1.3em;
+  font-size:.8rem;
+  margin:2px 0 6px;
+}
+.msg-box span{
+  display:inline-block;
+  padding:3px 8px;
+  border-radius:999px;
+}
+.msg-info span{background:#e0f2fe;color:#075985;}
+.msg-warn span{background:#fef9c3;color:#92400e;}
+.msg-error span{background:#fee2e2;color:#991b1b;}
+
+/* כפתורים */
+.btn{
+  width:100%;
+  padding:11px;
+  border-radius:10px;
+  border:none;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  margin-bottom:6px;
+}
+.btn-main{
+  background:#0d9488;
+  color:#fff;
+}
+.btn-main:hover{background:#0f766e;}
+.btn-secondary{
+  background:#6b7280;
+  color:#fff;
+}
+.btn-secondary:hover{background:#4b5563;}
+.btn-export{
+  background:#2563eb;
+  color:#fff;
+}
+.btn-export:hover{background:#1d4ed8;}
+
+/* שורת מצב עריכה */
+.edit-status{
+  font-size:.8rem;
+  color:#b91c1c;
+  text-align:center;
+  min-height:1.2em;
+  margin-bottom:4px;
 }
 
-.record {
-  position: relative;
-  background: #e8f7f6;
-  border: 1px solid #b4e1dd;
-  padding: 12px 12px 10px 32px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  font-size: .95rem;
+/* רשימת רשומות – תצוגת "טבלה מוביילית" */
+.records-card-title{
+  font-weight:700;
+  font-size:.9rem;
+  margin-bottom:4px;
+  color:#111827;
 }
 
-.edit-btn {
-  position: absolute;
-  inset-inline-start: 6px;
-  inset-block-start: 6px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
+.record-list{
+  margin-top:6px;
 }
 
-.export-btn {
-  margin-top: 8px;
-  background: #0a58ff !important;
+.record-row{
+  background:#f9fafb;
+  border-radius:10px;
+  padding:8px 10px;
+  margin-bottom:6px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 1px 3px rgba(15,23,42,.06);
+  cursor:pointer;
 }
-.export-btn:hover {
-  background: #0640c4 !important;
+.record-row-main{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.record-line1{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  font-size:.9rem;
+  font-weight:600;
+}
+.record-name{
+  max-width:55%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.record-tag{
+  font-size:.75rem;
+  padding:2px 8px;
+  border-radius:999px;
+  background:#ecfeff;
+  color:#0f766e;
+}
+.record-line2,
+.record-line3{
+  display:flex;
+  justify-content:space-between;
+  font-size:.78rem;
+  color:#4b5563;
 }
 
-/* תצוגת טבלה */
-.table-wrapper {
-  margin-top: 20px;
-  overflow-x: auto;
-  display: none;
+.record-details{
+  font-size:.8rem;
+  color:#374151;
+  border-top:1px dashed #e5e7eb;
+  margin-top:4px;
+  padding-top:4px;
+  display:none;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .85rem;
-  background: #fff;
+.record-meta-label{
+  font-weight:600;
 }
 
-th, td {
-  border: 1px solid #d0d7e2;
-  padding: 4px 6px;
-  text-align: right;
+/* כפתור עריכה קטן */
+.record-row-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:4px;
+}
+.edit-icon-btn{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:1.1rem;
+  padding:0 0 0 4px;
 }
 
-th {
-  background: #eef2ff;
-  font-weight: 600;
+/* שדות מודגשים כשחסר */
+.input-error{
+  border-color:#f97373 !important;
+  background:#fef2f2;
 }
 
-#editStatus {
-  text-align: center;
-  color: #b91c1c;
-  font-size: .85rem;
-  margin-bottom: 4px;
-  min-height: 1.2em;
+/* התאמה לטלפונים קטנים */
+@media (max-width:360px){
+  .record-line2,
+  .record-line3{flex-direction:column;align-items:flex-start;gap:2px;}
 }
 </style>
-
 </head>
 <body>
 
-<div class="container">
-  <h2>רישום מתעניינים</h2>
+<div class="page">
 
-  <label>מוקד</label>
-  <select id="center">
-    <option value="">בחר מוקד</option>
-    <option>מכללת ספיר</option>
-    <option>אוניברסיטת ת"א</option>
-    <option>אוניברסיטת בר אילן</option>
-    <option>המרכז הבינתחומי</option>
-    <option>מכללת ר"ג</option>
-  </select>
+  <div class="header-bar">
+    <div class="header-bar-title">רישום מתעניינים – יריד מתמחים</div>
+    <div class="header-bar-sub">מותאם לנציגים בשטח – מהיר, ידידותי ומסודר</div>
+  </div>
 
-  <label>תאריך</label>
-  <input type="date" id="date">
+  <!-- טופס הזנה -->
+  <div class="card">
+    <div class="card-title">פרטי מוקד ונציג</div>
 
-  <label>שם נציג</label>
-  <input type="text" id="agent" placeholder="שם מלא">
+    <label for="center">מוקד *</label>
+    <select id="center">
+      <option value="">בחר מוקד</option>
+      <option>מכללת ספיר</option>
+      <option>אוניברסיטת ת"א</option>
+      <option>אוניברסיטת בר אילן</option>
+      <option>המרכז הבינתחומי</option>
+      <option>מכללת ר"ג</option>
+    </select>
 
-  <hr>
+    <label for="agent">שם נציג *</label>
+    <input id="agent" type="text" placeholder="שם מלא">
 
-  <label>שם המתעניין</label>
-  <input type="text" id="name" placeholder="לדוגמה: דנה כהן">
+    <hr>
 
-  <label>שנה</label>
-  <select id="year">
-    <option value="">בחר שנה</option>
-    <option>שנה א'</option>
-    <option>שנה ב'</option>
-    <option>שנה ג'</option>
-    <option>שנה ד'</option>
-    <option>סטאז'</option>
-  </select>
+    <div class="card-title" style="margin-top:4px;">פרטי המתעניין</div>
 
-  <label>עיר</label>
-  <input type="text" id="city" placeholder="לדוגמה: נתניה">
+    <label for="name">שם מתעניין</label>
+    <input id="name" type="text" placeholder="לדוגמה: דנה כהן">
 
-  <label>טלפון</label>
-  <input type="tel" id="phone" placeholder="050-0000000">
+    <label for="year">שנה</label>
+    <select id="year">
+      <option value="">בחר שנה</option>
+      <option>שנה א'</option>
+      <option>שנה ב'</option>
+      <option>שנה ג'</option>
+      <option>שנה ד'</option>
+      <option>סטאז'</option>
+    </select>
 
-  <label>מייל</label>
-  <input type="email" id="email" placeholder="example@mail.com">
+    <label for="city">עיר</label>
+    <input id="city" type="text" placeholder="לדוגמה: נתניה">
 
-  <label>תחום מועדף</label>
-  <select id="field">
-    <option value="">בחר תחום</option>
-    <option>ליטיגציה</option>
-    <option>מסחרי</option>
-    <option>חדלות פירעון</option>
-    <option>עבודה</option>
-    <option>נזיקין</option>
-    <option>משפחה</option>
-    <option>פלילי</option>
-  </select>
+    <label for="phone">טלפון</label>
+    <input id="phone" type="tel" placeholder="050-0000000">
 
-  <label>התרשמות כללית</label>
-  <textarea id="notes" placeholder="רושם, התאמה, חוו"ד..."></textarea>
+    <label for="email">מייל</label>
+    <input id="email" type="email" placeholder="example@mail.com">
 
-  <div id="editStatus"></div>
+    <label for="field">תחום מועדף</label>
+    <select id="field">
+      <option value="">בחר תחום</option>
+      <option>ליטיגציה</option>
+      <option>מסחרי</option>
+      <option>חדלות פירעון</option>
+      <option>עבודה</option>
+      <option>נזיקין</option>
+      <option>משפחה</option>
+      <option>פלילי</option>
+    </select>
 
-  <button id="mainBtn" type="button" onclick="addRecord()">הוסף לרשימה</button>
-  <button class="secondary-btn" type="button" onclick="toggleView()">תצוגת טבלה</button>
-  <button class="export-btn" type="button" onclick="exportData()">ייצא הכל ופתח גוגל שיטס</button>
+    <label for="impression">התרשמות כללית</label>
+    <textarea id="impression" placeholder="תחושה כללית, התאמה, חוזקות..."></textarea>
 
-  <div class="record-list" id="list"></div>
+    <label for="notes">הערות</label>
+    <textarea id="notes" placeholder="פרטים נוספים, תזכורות, מעקב, סטטוס..."></textarea>
 
-  <div class="table-wrapper" id="tableWrapper">
-    <table id="tableView">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>מוקד</th>
-          <th>תאריך</th>
-          <th>נציג</th>
-          <th>שם</th>
-          <th>שנה</th>
-          <th>עיר</th>
-          <th>טלפון</th>
-          <th>מייל</th>
-          <th>תחום</th>
-          <th>התרשמות</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="msg-box" id="msgBox"></div>
+    <div class="edit-status" id="editStatus"></div>
+
+    <button class="btn btn-main" id="mainBtn" type="button">הוסף לרשימה</button>
+    <button class="btn btn-secondary" type="button" id="clearBtn">נקה שדות מתעניין</button>
+    <button class="btn btn-export" type="button" id="exportBtn">ייצוא לקובץ + פתיחת גוגל שיטס</button>
+  </div>
+
+  <!-- רשימת רשומות -->
+  <div class="card">
+    <div class="records-card-title">רשומות שנשמרו (בדפדפן שלך)</div>
+    <small style="font-size:.75rem;color:#6b7280;">תאריך ושעה נשמרים אוטומטית בזמן ההוספה.</small>
+
+    <div class="record-list" id="recordList"></div>
   </div>
 
 </div>
 
 <script>
-// === הגדרות כלליות ===
+// ===== הגדרות כלליות =====
 
 // החלף לכתובת הגיליון שלך:
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1bDLu3qPGn2v8ofWxtn7D3eMHwYwfaWRwollzgJfGTPc/edit?gid=0#gid=0';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/XXXXXXXXXXXX/edit';
 
-const STORAGE_KEY = 'lfp_records_v1';
-const HEADER_KEY  = 'lfp_header_v1';
+const STORAGE_KEY = 'lfp_records_v2';
+const HEADER_KEY  = 'lfp_header_v2';
+const OWNER_KEY   = 'lfp_owner_id_v1';
 
 let records = [];
 let editingIndex = null;
+let ownerId = null;
 
-// === שמירת/טעינת נתונים מהדפדפן (localStorage) ===
-
-function saveRecordsToStorage() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-  } catch(e) {}
+// ייחוד "משתמש" בדפדפן הנוכחי
+function initOwner() {
+  ownerId = localStorage.getItem(OWNER_KEY);
+  if (!ownerId) {
+    ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+    localStorage.setItem(OWNER_KEY, ownerId);
+  }
 }
 
-function saveHeaderToStorage() {
+// הצגת הודעה רכה
+function showMsg(text, type='info'){
+  const box = document.getElementById('msgBox');
+  box.className = 'msg-box msg-' + type;
+  box.innerHTML = text ? `<span>${text}</span>` : '';
+  if(text){
+    setTimeout(()=>{ box.innerHTML=''; }, 4000);
+  }
+}
+
+// שמירת כותרת (מוקד+נציג) ל-localStorage
+function saveHeader(){
   const header = {
-    center: center.value,
-    date: date.value,
-    agent: agent.value
+    center: document.getElementById('center').value,
+    agent:  document.getElementById('agent').value
   };
-  try {
+  try{
     localStorage.setItem(HEADER_KEY, JSON.stringify(header));
-  } catch(e) {}
+  }catch(e){}
 }
 
-function loadFromStorage() {
-  try {
+// טעינת כותרת ורשומות
+function loadFromStorage(){
+  try{
     const r = localStorage.getItem(STORAGE_KEY);
-    if (r) {
-      records = JSON.parse(r) || [];
+    if(r){
+      const all = JSON.parse(r) || [];
+      // מסנן כך שנציג רואה רק רשומות שלו
+      records = all.filter(item => item.ownerId === ownerId);
     }
-    const h = localStorage.getItem(HEADER_KEY);
-    if (h) {
-      const header = JSON.parse(h);
-      if (header.center) center.value = header.center;
-      if (header.date)   date.value   = header.date;
-      if (header.agent)  agent.value  = header.agent;
-    }
-  } catch(e) {
+  }catch(e){
     records = [];
   }
+
+  try{
+    const h = localStorage.getItem(HEADER_KEY);
+    if(h){
+      const header = JSON.parse(h);
+      if(header.center) document.getElementById('center').value = header.center;
+      if(header.agent)  document.getElementById('agent').value  = header.agent;
+    }
+  }catch(e){}
+
   renderRecords();
-  renderTable();
 }
 
-// === לוגיקת טופס ===
+function saveRecords(){
+  // שומר גם רשומות של אחרים במקרה עתידי? כאן נשמור רק את שלנו.
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  }catch(e){}
+}
 
-function addRecord(){
-  const data = {
-    center: center.value,
-    date:   date.value,
-    agent:  agent.value,
-    name:   name.value,
-    year:   year.value,
-    city:   city.value,
-    phone:  phone.value,
-    email:  email.value,
-    field:  field.value,
-    notes:  notes.value
+// איפוס הדגשות
+function clearInputErrors(){
+  ['center','agent','name','phone'].forEach(id=>{
+    document.getElementById(id).classList.remove('input-error');
+  });
+}
+
+// יצירת אובייקט מהרשומה בטופס
+function getFormData(){
+  const center = document.getElementById('center');
+  const agent  = document.getElementById('agent');
+  const name   = document.getElementById('name');
+  const year   = document.getElementById('year');
+  const city   = document.getElementById('city');
+  const phone  = document.getElementById('phone');
+  const email  = document.getElementById('email');
+  const field  = document.getElementById('field');
+  const impression = document.getElementById('impression');
+  const notes  = document.getElementById('notes');
+
+  return {
+    center: center.value.trim(),
+    agent:  agent.value.trim(),
+    name:   name.value.trim(),
+    year:   year.value.trim(),
+    city:   city.value.trim(),
+    phone:  phone.value.trim(),
+    email:  email.value.trim(),
+    field:  field.value.trim(),
+    impression: impression.value.trim(),
+    notes:  notes.value.trim()
   };
+}
 
-  if (!data.name) {
-    alert('נא למלא שם מתעניין');
+// מילוי טופס מרשומה
+function setFormData(data){
+  document.getElementById('center').value = data.center || '';
+  document.getElementById('agent').value  = data.agent  || '';
+  document.getElementById('name').value   = data.name   || '';
+  document.getElementById('year').value   = data.year   || '';
+  document.getElementById('city').value   = data.city   || '';
+  document.getElementById('phone').value  = data.phone  || '';
+  document.getElementById('email').value  = data.email  || '';
+  document.getElementById('field').value  = data.field  || '';
+  document.getElementById('impression').value = data.impression || '';
+  document.getElementById('notes').value  = data.notes  || '';
+}
+
+// הוספה / עדכון רשומה
+function handleSave(){
+  clearInputErrors();
+  const data = getFormData();
+
+  // בדיקת חובה: מוקד + נציג
+  let hasError = false;
+  if(!data.center){
+    document.getElementById('center').classList.add('input-error');
+    hasError = true;
+  }
+  if(!data.agent){
+    document.getElementById('agent').classList.add('input-error');
+    hasError = true;
+  }
+  if(hasError){
+    showMsg('נא למלא מוקד ושם נציג (שדות חובה).','error');
     return;
   }
 
-  // שמירת כותרות (מוקד/תאריך/נציג) למשתמש
-  saveHeaderToStorage();
+  // הודעת אזהרה רכה אם אין שם או טלפון
+  if(!data.name && !data.phone){
+    document.getElementById('name').classList.add('input-error');
+    document.getElementById('phone').classList.add('input-error');
+    showMsg('שימי ❤ : לא הוזנו שם מתעניין וטלפון. מומלץ להשלים לפחות אחד מהם.', 'warn');
+  }else{
+    showMsg('');
+  }
 
-  if (editingIndex !== null) {
+  // תאריך ושעה אוטומטיים
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('he-IL');
+  const timeStr = now.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+
+  data.date = dateStr;
+  data.time = timeStr;
+  data.ownerId = ownerId;
+
+  saveHeader();
+
+  if(editingIndex !== null){
     records[editingIndex] = data;
-  } else {
+  }else{
     records.push(data);
   }
 
-  saveRecordsToStorage();
+  saveRecords();
   renderRecords();
-  renderTable();
-
-  // איפוס שדות המתעניין
-  name.value  = "";
-  year.value  = "";
-  city.value  = "";
-  phone.value = "";
-  email.value = "";
-  field.value = "";
-  notes.value = "";
+  resetPersonFields();
 
   editingIndex = null;
   document.getElementById('mainBtn').textContent = 'הוסף לרשימה';
   document.getElementById('editStatus').textContent = '';
 }
 
+// איפוס שדות מתעניין בלבד
+function resetPersonFields(){
+  ['name','year','city','phone','email','field','impression','notes'].forEach(id=>{
+    document.getElementById(id).value = '';
+  });
+  clearInputErrors();
+}
+
+// עריכת רשומה – רק אם ownerID תואם
 function editRecord(index){
-  const r = records[index];
-  center.value = r.center || '';
-  date.value   = r.date   || '';
-  agent.value  = r.agent  || '';
-  name.value   = r.name   || '';
-  year.value   = r.year   || '';
-  city.value   = r.city   || '';
-  phone.value  = r.phone  || '';
-  email.value  = r.email  || '';
-  field.value  = r.field  || '';
-  notes.value  = r.notes  || '';
+  const rec = records[index];
+  if(!rec || rec.ownerId !== ownerId) return;
 
+  setFormData(rec);
   editingIndex = index;
-  document.getElementById('mainBtn').textContent = 'עדכן רשומה';
-  document.getElementById('editStatus').textContent =
-    'מצב עריכה: רשומה #' + (index + 1);
+  document.getElementById('mainBtn').textContent = 'עדכון רשומה';
+  document.getElementById('editStatus').textContent = 'מצב עריכה: רשומה #' + (index+1);
+  showMsg('אתה עורך רשומה קיימת. לאחר סיום לחץ "עדכון רשומה".','info');
 }
 
-// === הצגת כרטיסיות ===
+// פתיחה/סגירה של פרטי הרשומה
+function toggleDetails(idx){
+  const details = document.getElementById('details-'+idx);
+  if(!details) return;
+  const visible = details.style.display === 'block';
+  details.style.display = visible ? 'none' : 'block';
+}
 
+// ציור הרשומות
 function renderRecords(){
-  const box = document.getElementById("list");
-  box.innerHTML = "";
+  const box = document.getElementById('recordList');
+  box.innerHTML = '';
 
-  records.forEach((r, idx) => {
-    box.innerHTML += `
-      <div class="record">
-        <button class="edit-btn" type="button" onclick="editRecord(${idx})">✏️</button>
-        <b>${r.name || ''}</b> • ${r.year || ''}<br>
-        ${r.city || ''} • ${r.phone || ''}<br>
-        מייל: ${r.email || ''}<br>
-        תחום: ${r.field || ''}<br>
-        <small>מוקד: ${r.center || ''} | ${r.date || ''} | נציג: ${r.agent || ''}</small><br>
-        <div><i>${r.notes || ''}</i></div>
-      </div>
-    `;
-  });
-}
-
-// === תצוגת טבלה ===
-
-function renderTable(){
-  const tbody = document.querySelector('#tableView tbody');
-  if (!tbody) return;
-
-  tbody.innerHTML = '';
-  records.forEach((r, idx) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${idx + 1}</td>
-      <td>${r.center || ''}</td>
-      <td>${r.date || ''}</td>
-      <td>${r.agent || ''}</td>
-      <td>${r.name || ''}</td>
-      <td>${r.year || ''}</td>
-      <td>${r.city || ''}</td>
-      <td>${r.phone || ''}</td>
-      <td>${r.email || ''}</td>
-      <td>${r.field || ''}</td>
-      <td>${(r.notes || '').replace(/[\r\n]+/g,' ')}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function toggleView(){
-  const cards = document.getElementById('list');
-  const tableWrap = document.getElementById('tableWrapper');
-  const btn = document.querySelector('.secondary-btn');
-
-  const showingTable = tableWrap.style.display === 'block';
-
-  if (showingTable) {
-    tableWrap.style.display = 'none';
-    cards.style.display = 'block';
-    btn.textContent = 'תצוגת טבלה';
-  } else {
-    tableWrap.style.display = 'block';
-    cards.style.display = 'none';
-    btn.textContent = 'תצוגת כרטיסיות';
-  }
-}
-
-// === ייצוא CSV + פתיחת גוגל שיטס ===
-
-function exportData(){
-  if (!records.length) {
-    alert('אין רשומות לייצא.');
+  if(!records.length){
+    box.innerHTML = '<div style="font-size:.8rem;color:#9ca3af;margin-top:4px;">אין עדיין רשומות. התחילו למלא בטופס למעלה.</div>';
     return;
   }
 
-  let csv = "מוקד,תאריך,נציג,שם,שנה,עיר,טלפון,מייל,תחום,התרשמות\n";
+  records.forEach((r,idx)=>{
+    const row = document.createElement('div');
+    row.className = 'record-row';
+    row.onclick = ()=>toggleDetails(idx);
+
+    const ownerCanEdit = (r.ownerId === ownerId);
+
+    row.innerHTML = `
+      <div class="record-row-top">
+        <div class="record-row-main">
+          <div class="record-line1">
+            <div class="record-name">${r.name || '(ללא שם)'}</div>
+            <div class="record-tag">${r.field || 'ללא תחום'}</div>
+          </div>
+          <div class="record-line2">
+            <span>${r.year || ''} ${r.city ? '· '+r.city : ''}</span>
+            <span>${r.phone || ''}</span>
+          </div>
+          <div class="record-line3">
+            <span>${r.center || ''}</span>
+            <span>${r.agent || ''}</span>
+            <span>${r.date || ''} ${r.time || ''}</span>
+          </div>
+        </div>
+        ${ownerCanEdit ? `<button class="edit-icon-btn" type="button" onclick="event.stopPropagation();editRecord(${idx})">✏️</button>` : ''}
+      </div>
+      <div class="record-details" id="details-${idx}">
+        <div><span class="record-meta-label">התרשמות:</span> ${r.impression || '—'}</div>
+        <div><span class="record-meta-label">הערות:</span> ${r.notes || '—'}</div>
+        ${(!r.name && !r.phone) ? `<div style="color:#b91c1c;font-size:.75rem;margin-top:2px;">הערה: אין שם/טלפון – מומלץ להשלים בהמשך.</div>` : ''}
+      </div>
+    `;
+
+    box.appendChild(row);
+  });
+}
+
+// ייצוא לקובץ CSV + פתיחת גוגל שיטס
+function exportData(){
+  if(!records.length){
+    showMsg('אין רשומות לייצוא כרגע.','warn');
+    return;
+  }
+
+  let csv = "מוקד,תאריך,שעה,נציג,שם,שנה,עיר,טלפון,מייל,תחום,התרשמות,הערות\n";
 
   records.forEach(r=>{
     const row = [
       r.center || '',
-      r.date   || '',
-      r.agent  || '',
-      r.name   || '',
-      r.year   || '',
-      r.city   || '',
-      r.phone  || '',
-      r.email  || '',
-      r.field  || '',
+      r.date || '',
+      r.time || '',
+      r.agent || '',
+      r.name || '',
+      r.year || '',
+      r.city || '',
+      r.phone || '',
+      r.email || '',
+      r.field || '',
+      (r.impression || '').replace(/[\r\n]+/g,' '),
       (r.notes || '').replace(/[\r\n]+/g,' ')
     ];
     csv += row.join(",") + "\n";
@@ -448,26 +604,36 @@ function exportData(){
 
   const blob = new Blob([csv], {type:"text/csv"});
   const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
+  const a = document.createElement('a');
   a.href = url;
-  a.download = "רשומות_יריד.csv";
+  a.download = 'רשומות_יריד.csv';
   a.click();
   URL.revokeObjectURL(url);
 
-  // פתיחת גוגל שיטס שלך בטאב חדש
-  if (SHEET_URL && SHEET_URL.startsWith('http')) {
-    window.open(SHEET_URL, '_blank');
+  if(SHEET_URL && SHEET_URL.startsWith('http')){
+    window.open(SHEET_URL,'_blank');
   }
 }
 
-// שמירת כותרות בכל שינוי
-['center','date','agent'].forEach(id=>{
-  document.getElementById(id).addEventListener('change', saveHeaderToStorage);
+// האזנות
+document.getElementById('mainBtn').addEventListener('click', handleSave);
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  resetPersonFields();
+  editingIndex = null;
+  document.getElementById('mainBtn').textContent = 'הוסף לרשימה';
+  document.getElementById('editStatus').textContent = '';
+  showMsg('');
+});
+document.getElementById('exportBtn').addEventListener('click', exportData);
+
+// שמירת כותרת בכל שינוי מוקד/נציג
+['center','agent'].forEach(id=>{
+  document.getElementById(id).addEventListener('change', saveHeader);
 });
 
-// טעינה ראשונית
-document.addEventListener('DOMContentLoaded', loadFromStorage);
+// אתחול
+initOwner();
+loadFromStorage();
 </script>
 
 </body>
