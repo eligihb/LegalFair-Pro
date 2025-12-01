@@ -524,7 +524,7 @@ tr.deleted-row{
 // ===== הגדרות =====
 
 // לכאן תכניס את ה-Apps Script שלך (POST JSON):
-const API_URL = 'https://script.google.com/macros/s/XXXXXXXXXXXX/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzUHeV_5NdOwymZ5QbHJMsWT-jd9nwV1BV5sNbJbbjEwytSFMJfsCZSOO-NRZDbxz0/exec';
 // קוד ניהול פשוט לייצוא/סנכרון ידני (תוכל לשנות):
 const ADMIN_CODE = '2100';
 
@@ -538,8 +538,7 @@ let ownerId = null;
 let currentRating = 0;
 
 // === עזר ===
-const E = id => document.getElementById(id);
-
+const SPREADSHEET_ID = '1AbCDeFgHijKlmnOP1234567890xyz';
 // ===== בעלים (owner) לכל דפדפן =====
 function initOwner(){
   ownerId = localStorage.getItem(OWNER_KEY);
