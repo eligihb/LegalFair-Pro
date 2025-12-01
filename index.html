@@ -511,6 +511,7 @@
   }
 
   // ===== שמירה / עדכון =====
+   // ===== שמירה / עדכון =====
   async function saveRecord(){
     clearErrors();
 
@@ -527,7 +528,9 @@
     const impression = E('impression').value.trim();
     const notes      = E('notes').value.trim();
 
-    const traits = Array.from(document.querySelectorAll('.trait-chip.active')).map(ch=>ch.dataset.t);
+    const traits = Array.from(
+      document.querySelectorAll('.trait-chip.active')
+    ).map(ch=>ch.dataset.t);
 
     const errors = [];
     if(!center){errors.push('יש לבחור מוקד.');E('center').classList.add('error');}
@@ -560,15 +563,18 @@
     // שליחה לסקריפט (הוספה/עדכון – action:add)
     try{
       if(API_URL && API_URL.includes('script.google.com')){
-        await fetch(API_URL,{
+        const res = await fetch(API_URL,{
           method:'POST',
           headers:{'Content-Type':'application/json'},
           body:JSON.stringify({action:'add',ownerId,record:rec})
         });
+        const txt = await res.text();
+        console.log('API response:', res.status, txt);
       }
       E('msgOk').textContent = 'הרשומה נשמרה ונשלחה לסנכרון.';
       E('msgOk').style.display='block';
     }catch(err){
+      console.error('sync error:', err);
       E('msgErr').textContent = 'הרשומה נשמרה מקומית, אך הסנכרון נכשל.';
       E('msgErr').style.display='block';
     }
