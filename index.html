@@ -1,407 +1,282 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>רישום מתעניינים – יריד מתמחים</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet" />
 
-<title>רישום מתעניינים – יריד מתמחים</title>
+  <style>
+    * { box-sizing: border-box; }
 
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+    body {
+      margin: 0;
+      padding: 12px;
+      font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+      direction: rtl;
+    }
 
-<style>
-*{box-sizing:border-box;}
+    .shell {
+      max-width: 480px;
+      margin: 0 auto;
+    }
 
-body{
-  font-family:'Heebo',sans-serif;
-  margin:0;
-  padding:10px;
-  background:#f3f4f6;
-  color:#111827;
-}
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
+      padding: 16px 14px 18px;
+    }
 
-.page{
-  max-width:520px;
-  margin:0 auto;
-}
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #0f766e;
+    }
 
-/* בר עליון */
-.header-bar{
-  background:#0f766e;
-  color:#fff;
-  padding:10px 14px;
-  border-radius:14px;
-  box-shadow:0 4px 14px rgba(0,0,0,.15);
-  margin-bottom:10px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-}
-.header-bar-title{
-  font-size:1.05rem;
-  font-weight:700;
-}
-.header-bar-sub{
-  font-size:.78rem;
-  opacity:.9;
-}
-.header-actions{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-.header-actions button{
-  border:none;
-  border-radius:999px;
-  font-size:.78rem;
-  padding:4px 10px;
-  cursor:pointer;
-}
-.btn-open-records{
-  background:#f9fafb;
-  color:#0f766e;
-}
-.btn-open-records:hover{background:#e5f3f2;}
-.btn-admin{
-  background:#78350f;
-  color:#fff;
-}
-.btn-admin:hover{background:#92400e;}
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 12px;
+    }
 
-/* כרטיסים */
-.card{
-  background:#fff;
-  border-radius:14px;
-  padding:12px;
-  box-shadow:0 4px 12px rgba(15,23,42,.08);
-  margin-bottom:12px;
-}
+    .section-title {
+      margin: 12px 0 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f766e;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 4px;
+    }
 
-.card-title{
-  font-weight:700;
-  font-size:.95rem;
-  margin-bottom:6px;
-  color:#0f766e;
-  text-align:center;
-}
+    .grid {
+      display: grid;
+      gap: 8px;
+    }
 
-/* טופס */
-label{
-  font-weight:600;
-  font-size:.85rem;
-  margin-bottom:2px;
-  display:block;
-}
+    /* מוקד + נציג + תאריך – שתי עמודות בדסקטופ, עמודה אחת במובייל */
+    .grid-2 {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
 
-input,select,textarea{
-  width:100%;
-  padding:9px 10px;
-  font-size:.95rem;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  background:#f9fafb;
-  margin-bottom:10px;
-}
+    @media (max-width: 600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
 
-input:focus,select:focus,textarea:focus{
-  outline:none;
-  border-color:#0f766e;
-  box-shadow:0 0 0 2px rgba(15,118,110,.12);
-}
+    label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 2px;
+    }
 
-textarea{
-  resize:vertical;
-  min-height:70px;
-}
+    .req::after {
+      content: " *";
+      color: #b91c1c;
+      font-weight: 700;
+    }
 
-/* שורות קצרות / ארוכות */
-.row-2{
-  display:flex;
-  gap:8px;
-}
-.row-2 .col{
-  flex:1 1 0;
-}
+    input, select, textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      padding: 7px 9px;
+      font-size: 0.95rem;
+      background: #f9fafb;
+      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    }
 
-/* הודעות */
-.msg-box{
-  min-height:1.3em;
-  font-size:.8rem;
-  margin:2px 0 6px;
-}
-.msg-box span{
-  display:inline-block;
-  padding:3px 8px;
-  border-radius:999px;
-}
-.msg-info span{background:#e0f2fe;color:#075985;}
-.msg-warn span{background:#fef9c3;color:#92400e;}
-.msg-error span{background:#fee2e2;color:#991b1b;}
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #0f766e;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+      background: #ffffff;
+    }
 
-/* כפתורים */
-.btn{
-  width:100%;
-  padding:11px;
-  border-radius:10px;
-  border:none;
-  font-size:1rem;
-  font-weight:700;
-  cursor:pointer;
-  margin-bottom:6px;
-}
-.btn-main{
-  background:#0d9488;
-  color:#fff;
-}
-.btn-main:hover{background:#0f766e;}
-.btn-secondary{
-  background:#6b7280;
-  color:#fff;
-}
-.btn-secondary:hover{background:#4b5563;}
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
 
-/* דירוג כוכבים */
-.stars{
-  display:flex;
-  gap:4px;
-  margin-bottom:8px;
-}
-.star{
-  font-size:1.3rem;
-  cursor:pointer;
-  color:#d1d5db;
-}
-.star.active{
-  color:#facc15;
-}
+    /* שדות "צרים" יחסית */
+    .short-input {
+      max-width: 230px;
+    }
 
-/* צ׳יפים של מאפיינים */
-.traits-container{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-bottom:8px;
-}
-.trait-chip{
-  padding:4px 9px;
-  border-radius:999px;
-  border:1px solid #e5e7eb;
-  font-size:.8rem;
-  background:#f9fafb;
-  cursor:pointer;
-}
-.trait-chip.active{
-  background:#0f766e;
-  color:#fff;
-  border-color:#0f766e;
-}
+    .short-input-inline {
+      max-width: 200px;
+    }
 
-/* שורת מצב עריכה */
-.edit-status{
-  font-size:.8rem;
-  color:#b91c1c;
-  text-align:center;
-  min-height:1.2em;
-  margin-bottom:4px;
-}
+    .error {
+      border-color: #dc2626 !important;
+      box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.4) !important;
+      background: #fef2f2 !important;
+    }
 
-/* רשימת רשומות – "טבלה מוביילית" */
-.records-card-title{
-  font-weight:700;
-  font-size:.9rem;
-  margin-bottom:4px;
-  color:#111827;
-}
+    .hint {
+      font-size: 0.78rem;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
 
-.record-list{
-  margin-top:6px;
-}
+    .btn-main {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 11px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: #0f766e;
+      color: #ffffff;
+      margin-top: 10px;
+    }
 
-.record-row{
-  background:#f9fafb;
-  border-radius:10px;
-  padding:8px 10px;
-  margin-bottom:10px;
-  border:1px solid #e5e7eb;
-  box-shadow:0 1px 3px rgba(15,23,42,.06);
-  cursor:pointer;
-}
-.record-row-main{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-}
-.record-row-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:4px;
-}
-.record-line1{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:6px;
-  font-size:.9rem;
-  font-weight:600;
-}
-.record-name{
-  max-width:55%;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.record-tag{
-  font-size:.75rem;
-  padding:2px 8px;
-  border-radius:999px;
-  background:#ecfeff;
-  color:#0f766e;
-}
-.record-line2,
-.record-line3{
-  display:flex;
-  justify-content:space-between;
-  font-size:.78rem;
-  color:#4b5563;
-}
+    .btn-main:hover {
+      background: #115e59;
+    }
 
-.record-details{
-  font-size:.8rem;
-  color:#374151;
-  border-top:1px dashed #e5e7eb;
-  margin-top:4px;
-  padding-top:4px;
-  display:none;
-}
-.record-meta-label{
-  font-weight:600;
-}
+    .btn-clear {
+      width: 100%;
+      border-radius: 999px;
+      padding: 9px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+      margin-top: 6px;
+      cursor: pointer;
+    }
 
-.record-removed{
-  border-color:#fecaca;
-  background:#fef2f2;
-}
+    .btn-clear:hover {
+      background: #f3f4f6;
+    }
 
-/* כפתורי עריכה/מחיקה */
-.record-buttons{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-.icon-btn{
-  border:none;
-  background:transparent;
-  cursor:pointer;
-  font-size:1.1rem;
-  padding:0 0 0 4px;
-}
-.icon-btn.delete{
-  color:#b91c1c;
-}
+    .msg {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      padding: 6px 8px;
+      border-radius: 10px;
+      display: none;
+    }
 
-/* שגיאה בשדה */
-.input-error{
-  border-color:#f97373 !important;
-  background:#fef2f2;
-}
+    .msg-ok {
+      background: #ecfdf3;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
 
-/* מסך רשומות (טבלה מלאה) */
-.screen{
-  display:none;
-}
-.screen.active{
-  display:block;
-}
+    .msg-err {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
 
-/* טבלת רשומות */
-.table-wrapper{
-  overflow-x:auto;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:.8rem;
-  background:#fff;
-}
-th,td{
-  border:1px solid #e5e7eb;
-  padding:4px 6px;
-  text-align:right;
-}
-th{
-  background:#eef2ff;
-  font-weight:600;
-}
-tr.deleted-row{
-  background:#fef2f2;
-  color:#b91c1c;
-}
+    /* דירוג כוכבים */
+    .stars {
+      display: inline-flex;
+      gap: 4px;
+      direction: ltr; /* שהכוכבים יהיו בצד הנכון */
+    }
 
-.back-btn{
-  margin-bottom:8px;
-  padding:8px 10px;
-  border-radius:999px;
-  border:none;
-  background:#0f766e;
-  color:#fff;
-  font-size:.85rem;
-  cursor:pointer;
-}
+    .star {
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #e5e7eb;
+      transition: color 0.15s, transform 0.1s;
+    }
 
-/* מובייל קטן */
-@media (max-width:360px){
-  .record-line2,
-  .record-line3{flex-direction:column;align-items:flex-start;gap:2px;}
-}
-</style>
+    .star.filled {
+      color: #f59e0b;
+    }
+
+    .star:hover {
+      transform: scale(1.1);
+    }
+
+    /* מאפייני מועמד (צ'יפים) */
+    .traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .trait-chip {
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      padding: 3px 9px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: #f9fafb;
+      color: #374151;
+    }
+
+    .trait-chip.active {
+      background: #0f766e;
+      color: #ffffff;
+      border-color: #0f766e;
+    }
+  </style>
 </head>
+
 <body>
+<div class="shell">
+  <div class="card">
+    <h1>רישום מתעניינים</h1>
+    <div class="subtitle">חוברת עבודה מקוונת ליריד המתמחים</div>
 
-<div class="page">
-
-  <!-- מסך: טופס -->
-  <div id="screenForm" class="screen active">
-    <div class="header-bar">
+    <!-- פרטי מוקד ונציג -->
+    <div class="section-title">פרטי מוקד ונציג</div>
+    <div class="grid grid-2">
       <div>
-        <div class="header-bar-title">רישום מתעניינים – יריד מתמחים</div>
-        <div class="header-bar-sub"></div>
+        <label class="req">מוקד</label>
+        <select id="center" class="short-input">
+          <option value="">בחר מוקד</option>
+          <option>אוניברסיטת רייכמן</option>
+          <option>(סימולציית שותפים לדרך)</option>
+          <option>אוניברסיטת בר אילן</option>
+          <option>אוניברסיטת תל-אביב</option>
+          <option>מכללת שערי מדע ומשפט</option>
+          <option>שותפים לדרך</option>
+          <option>מכללת ספיר</option>
+          <option>המכללה למנהל ראשל"צ</option>
+          <option>האוניברסיטה העברית</option>
+        </select>
       </div>
-      <div class="header-actions">
-        <button class="btn-open-records" type="button" id="openRecordsBtn">פתח רשומות</button>
-        <button class="btn-admin" type="button" id="adminBtn">ניהול / ייצוא (למורשים בלבד)</button>
+
+      <div>
+        <label class="req">שם נציג</label>
+        <input id="agent" type="text" class="short-input-inline" placeholder="שם מלא" />
       </div>
     </div>
 
-    <!-- טופס -->
-    <div class="card">
-      <div class="card-title">פרטי מוקד ונציג</div>
+    <div class="grid" style="margin-top:8px;">
+      <div style="max-width:190px;">
+        <label>תאריך יריד</label>
+        <input id="date" type="date" />
+      </div>
+    </div>
 
-      <label for="center">מוקד *</label>
-      <select id="center">
-        <option value="">בחר מוקד</option>
-        <option>אוניברסיטת ת"א</option>
-        <option>אוניברסיטת העברית</option>
-        <option>אוניברסיטת רייכמן</option>
-        <option>מכללת ספיר</option>
-        <option>המכללה למנהל</option>
-        <option>מכללת שערי מדע ומשפט</option>
-      </select>
+    <!-- פרטי סטודנט -->
+    <div class="section-title">פרטי סטודנט</div>
+    <div class="grid">
+      <div>
+        <label>שם סטודנט</label>
+        <input id="name" type="text" placeholder="לדוגמה: דנה כהן" />
+      </div>
 
-      <label for="agent">שם נציג *</label>
-      <input id="agent" type="text" placeholder="שם מלא">
-
-      <hr>
-
-      <div class="card-title" style="margin-top:4px;">פרטי סטודנט</div>
-
-      <div class="row-2">
-        <div class="col">
-          <label for="name">שם סטונדט</label>
-          <input id="name" type="text" placeholder="">
-        </div>
-        <div class="col">
-          <label for="year">שנה</label>
+      <div class="grid grid-2">
+        <div>
+          <label>שנה</label>
           <select id="year">
             <option value="">בחר שנה</option>
             <option>שנה א'</option>
@@ -411,523 +286,274 @@ tr.deleted-row{
             <option>סטאז'</option>
           </select>
         </div>
-      </div>
-
-      <div class="row-2">
-        <div class="col">
-          <label for="city">עיר</label>
-          <input id="city" type="text" placeholder="">
-        </div>
-        <div class="col">
-          <label for="phone">טלפון</label>
-          <input id="phone" type="tel" placeholder="050-0000000">
+        <div>
+          <label>עיר</label>
+          <input id="city" type="text" placeholder="לדוגמה: נתניה" />
         </div>
       </div>
 
-      <label for="email">מייל</label>
-      <input id="email" type="email" placeholder="example@mail.com">
-
-      <label for="field">תחום מועדף</label>
-      <select id="field">
-        <option value="">בחר תחום התמחות מעודף</option>
-        <option>ליטיגציה</option>
-        <option>מסחרי</option>
-        <option>חדלות פירעון</option>
-        <option>עבודה</option>
-        <option>נזיקין</option>
-        <option>משפחה</option>
-        <option>פלילי</option>
-      </select>
-
-      <!-- דירוג כוכבים -->
-      <label>דירוג כללי</label>
-      <div class="stars" id="stars">
-        <span class="star" data-value="1">★</span>
-        <span class="star" data-value="2">★</span>
-        <span class="star" data-value="3">★</span>
-        <span class="star" data-value="4">★</span>
-        <span class="star" data-value="5">★</span>
+      <div class="grid grid-2">
+        <div>
+          <label>טלפון</label>
+          <input id="phone" type="tel" placeholder="050-0000000" />
+          <div class="hint">9–10 ספרות, ניתן עם מקפים</div>
+        </div>
+        <div>
+          <label>מייל</label>
+          <input id="email" type="email" class="short-input" placeholder="example@mail.com" />
+        </div>
       </div>
 
-      <!-- צ׳יפים של מאפיינים -->
-      <label>מאפיינים בולטים</label>
-      <div class="traits-container" id="traitsContainer">
-        <button type="button" class="trait-chip" data-trait="חריצות">חריצות</button>
-        <button type="button" class="trait-chip" data-trait="מקצועיות">מקצועיות</button>
-        <button type="button" class="trait-chip" data-trait="ניסיון">ניסיון</button>
-        <button type="button" class="trait-chip" data-trait="שפה עשירה">שפה עשירה</button>
-        <button type="button" class="trait-chip" data-trait="כריזמטי">כריזמטי</button>
-        <button type="button" class="trait-chip" data-trait="ורבלי">ורבלי</button>
-        <button type="button" class="trait-chip" data-trait="ביטחון עצמי">ביטחון עצמי</button>
-        <button type="button" class="trait-chip" data-trait="יכולת ניסוח">יכולת ניסוח</button>
-        <button type="button" class="trait-chip" data-trait=" מוטביציה"> מוטיבציה</button>
-        <button type="button" class="trait-chip" data-trait=" יחסי אנוש מעולים"> יחסי אנוש מעולים</button>
+      <div>
+        <label>תחום מועדף</label>
+        <select id="field">
+          <option value="">בחר תחום</option>
+          <option>ליטיגציה</option>
+          <option>מסחרי</option>
+          <option>חדלות פירעון</option>
+          <option>דיני עבודה</option>
+          <option>נזיקין</option>
+          <option>משפחה</option>
+          <option>פלילי</option>
+        </select>
+      </div>
+    </div>
 
+    <!-- התרשמות ודירוג -->
+    <div class="section-title">התרשמות מהסטודנט</div>
+    <div class="grid">
+      <div>
+        <label>דירוג (כוכבים)</label>
+        <div class="stars" id="stars">
+          <span class="star" data-val="1">★</span>
+          <span class="star" data-val="2">★</span>
+          <span class="star" data-val="3">★</span>
+          <span class="star" data-val="4">★</span>
+          <span class="star" data-val="5">★</span>
+        </div>
       </div>
 
-      <label for="impression">התרשמות כללית</label>
-      <textarea id="impression" placeholder="התרשמות כללית"></textarea>
+      <div>
+        <label>מאפיינים בולטים</label>
+        <div class="traits" id="traitsBox">
+          <span class="trait-chip" data-t="חריצות">חריצות</span>
+          <span class="trait-chip" data-t="מקצועיות">מקצועיות</span>
+          <span class="trait-chip" data-t="ניסיון">ניסיון</span>
+          <span class="trait-chip" data-t="שפה עשירה">שפה עשירה</span>
+          <span class="trait-chip" data-t="כריזמטי">כריזמטי</span>
+          <span class="trait-chip" data-t="ורבלי">ורבלי</span>
+          <span class="trait-chip" data-t="ביישן">ביישן</span>
+        </div>
+      </div>
 
-      <label for="notes">הערות / מעקב</label>
-      <textarea id="notes" placeholder="הערות"></textarea>
+      <div>
+        <label>התרשמות כללית</label>
+        <textarea id="impression" placeholder="רושם, התאמה למשרד, נקודות לחיוב / לשיפור..."></textarea>
+      </div>
 
-      <div class="msg-box" id="msgBox"></div>
-      <div class="edit-status" id="editStatus"></div>
-
-      <button class="btn btn-main" id="mainBtn" type="button">הוסף לרשימה</button>
-      <button class="btn btn-secondary" id="clearBtn" type="button">נקה שדות מתעניין</button>
+      <div>
+        <label>הערות פנימיות</label>
+        <textarea id="notes" placeholder="פרטים טכניים, תיאומים, המשך טיפול ועוד..."></textarea>
+      </div>
     </div>
 
-    <!-- רשומות מתחת לטופס -->
-    <div class="card">
-      <div class="records-card-title">רשומות שנשמרו (בדפדפן שלך)</div>
-      <small style="font-size:.75rem;color:#6b7280;">כל נציג רואה רק את הרשומות שהזין מהמכשיר שלו. תאריך ושעה נשמרים אוטומטית.</small>
+    <button class="btn-main" id="btnSave">הוסף רשומה</button>
+    <button class="btn-clear" id="btnClear">נקה טופס</button>
 
-      <div class="record-list" id="recordList"></div>
-    </div>
+    <div id="msgOk" class="msg msg-ok">הרשומה נשמרה מקומית. (חיבור לגוגל שיטס יתוסף דרך ה־Apps Script)</div>
+    <div id="msgErr" class="msg msg-err"></div>
+
   </div>
-
-  <!-- מסך: רשומות בטבלה -->
-  <div id="screenRecords" class="screen">
-    <button class="back-btn" type="button" id="backBtn">← חזרה לטופס</button>
-
-    <div class="card" style="margin-top:4px;">
-      <div class="card-title">טבלת רשומות (המכשיר הנוכחי)</div>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>מוקד</th>
-              <th>נציג</th>
-              <th>תאריך</th>
-              <th>שעה</th>
-              <th>שם</th>
-              <th>טלפון</th>
-              <th>מייל</th>
-              <th>תחום</th>
-              <th>דירוג</th>
-              <th>מאפיינים</th>
-              <th>התרשמות</th>
-              <th>הערות</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <script>
-// ===== הגדרות =====
-const API_URL = 'https://script.google.com/macros/s/AKfycbzUHeV_5NdOwymZ5QbHJMsWT-jd9nwV1BV5sNbJbbjEwytSFMJfsCZSOO-NRZDbxz0/exec';
-const ADMIN_CODE = '2100';
+  // ===== לוח זמנים של יריד מתמחים =====
+  const FAIR_SCHEDULE = [
+    { centerId: "reichman",  centerName: "אוניברסיטת רייכמן",             date: "2025-12-01", agents: ["יעקב", "אופיר", "שקד", "גל"] },
+    { centerId: "partners_sim", centerName: "(סימולציית שותפים לדרך)",  date: "2025-12-02", agents: ["אורי", "איתי שגב", "ציונה"] },
+    { centerId: "barilan",   centerName: "אוניברסיטת בר אילן",           date: "2025-12-03", agents: ["אילון", "יעקב", "אליאב", "ביסאן"] },
+    { centerId: "tau",       centerName: "אוניברסיטת תל-אביב",           date: "2025-12-04", agents: ["אורי", "אופיר", "צליל"] },
+    { centerId: "shaarim",   centerName: "מכללת שערי מדע ומשפט",          date: "2025-12-08", agents: ["אורי", "אופיר", "צליל"] },
+    { centerId: "partners",  centerName: "שותפים לדרך",                   date: "2025-12-08", agents: ["איתי*", "ציונה*"] },
+    { centerId: "sapir",     centerName: "מכללת ספיר",                    date: "2025-12-09", agents: ["בקי", "איתי"] },
+    { centerId: "colman",    centerName: "המכללה למנהל ראשל\"צ",          date: "2025-12-25", agents: ["אורי", "ציונה", "אופיר"] },
+    { centerId: "huji",      centerName: "האוניברסיטה העברית",           date: "2025-12-28", agents: ["אורי", "אליאב"] }
+  ];
 
-const STORAGE_KEY = 'lfp_records_v3';
-const HEADER_KEY  = 'lfp_header_v3';
-const OWNER_KEY   = 'lfp_owner_id_v1';
-
-let records = [];
-let editingIndex = null;
-let ownerId = null;
-let currentRating = 0;
-
-// === עזר ===
-const E = id => document.getElementById(id);
-
-// ===== הודעות רכות =====
-function showMsg(text,type='info'){
-  const box = E('msgBox');
-  box.className = 'msg-box msg-' + type;
-  box.innerHTML = text ? `<span>${text}</span>` : '';
-  if(text){
-    setTimeout(()=>{box.innerHTML='';},4000);
-  }
-}
-
-// ===== שמירת כותרת (מוקד+נציג) =====
-function saveHeader(){
-  const header = {
-    center:E('center').value,
-    agent:E('agent').value
-  };
-  try{
-    localStorage.setItem(HEADER_KEY,JSON.stringify(header));
-  }catch(e){}
-}
-
-function loadHeader(){
-  try{
-    const h = localStorage.getItem(HEADER_KEY);
-    if(h){
-      const header = JSON.parse(h);
-      if(header.center) E('center').value = header.center;
-      if(header.agent)  E('agent').value  = header.agent;
-    }
-  }catch(e){}
-}
-
-// ===== localStorage של רשומות =====
-function loadRecords(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(raw){
-      const all = JSON.parse(raw) || [];
-      records = all.filter(r=>r.ownerId === ownerId);
-    }
-  }catch(e){
-    records = [];
-  }
-  renderRecords();
-  renderTable();
-}
-
-function saveRecords(){
-  try{
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(records));
-  }catch(e){}
-}
-
-// ===== כוכבים =====
-function setRating(val){
-  currentRating = val;
-  const stars = document.querySelectorAll('#stars .star');
-  stars.forEach(st=>{
-    const v = +st.dataset.value;
-    st.classList.toggle('active', v <= val);
-  });
-}
-
-// ===== צ׳יפים =====
-function getSelectedTraits(){
-  return Array.from(document.querySelectorAll('.trait-chip.active'))
-    .map(ch=>ch.dataset.trait);
-}
-function setSelectedTraits(list){
-  const set = new Set(list||[]);
-  document.querySelectorAll('.trait-chip').forEach(ch=>{
-    ch.classList.toggle('active', set.has(ch.dataset.trait));
-  });
-}
-
-// ===== שדות שגויים =====
-function clearInputErrors(){
-  ['center','agent','name','phone'].forEach(id=>{
-    E(id).classList.remove('input-error');
-  });
-}
-
-// ===== יצירת אובייקט מהרשומה =====
-function getFormData(){
-  return {
-    center:E('center').value.trim(),
-    agent:E('agent').value.trim(),
-    name:E('name').value.trim(),
-    year:E('year').value.trim(),
-    city:E('city').value.trim(),
-    phone:E('phone').value.trim(),
-    email:E('email').value.trim(),
-    field:E('field').value.trim(),
-    rating:currentRating || 0,
-    traits:getSelectedTraits(),
-    impression:E('impression').value.trim(),
-    notes:E('notes').value.trim()
-  };
-}
-
-function setFormData(data){
-  E('center').value = data.center || '';
-  E('agent').value  = data.agent || '';
-  E('name').value   = data.name || '';
-  E('year').value   = data.year || '';
-  E('city').value   = data.city || '';
-  E('phone').value  = data.phone || '';
-  E('email').value  = data.email || '';
-  E('field').value  = data.field || '';
-  E('impression').value = data.impression || '';
-  E('notes').value  = data.notes || '';
-  setRating(data.rating || 0);
-  setSelectedTraits(data.traits || []);
-}
-
-function resetPersonFields(){
-  ['name','year','city','phone','email','field','impression','notes'].forEach(id=>{
-    E(id).value='';
-  });
-  setRating(0);
-  setSelectedTraits([]);
-  clearInputErrors();
-}
-
-// ===== סנכרון ל-Google Sheets (צד שרת ב-Apps Script) =====
-async function syncRecord(rec,action){
-  if(!API_URL) return;
-  try{
-    const payload = {
-      action,   // 'create' | 'update' | 'delete' | 'bulk'
-      ownerId,
-      record:rec
-    };
-    await fetch(API_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
+  // מיפוי נציג → מוקדים ותאריכים
+  const AGENT_MAP = {};
+  FAIR_SCHEDULE.forEach(slot => {
+    slot.agents.forEach(name => {
+      const cleanName = name.replace("*", "").trim();
+      if (!AGENT_MAP[cleanName]) AGENT_MAP[cleanName] = [];
+      AGENT_MAP[cleanName].push({
+        centerId:   slot.centerId,
+        centerName: slot.centerName,
+        date:       slot.date
+      });
     });
-  }catch(e){
-    // לא מפיל את הממשק, רק הודעה רכה
-    console.log('sync error',e);
-  }
-}
+  });
 
-async function syncAllAsAdmin(){
-  if(!API_URL) return;
-  const code = prompt('נא להזין קוד מורשה');
-  if(code !== ADMIN_CODE){
-    alert('קוד שגוי.');
-    return;
+  const E = id => document.getElementById(id);
+
+  let currentRating = 0;
+
+  // ===== מילוי אוטומטי לפי שם נציג =====
+  function autoFillByAgent() {
+    const name = E("agent").value.trim();
+    if (!name) return;
+
+    const matches = AGENT_MAP[name] || [];
+
+    if (matches.length === 1) {
+      const m = matches[0];
+      E("center").value = m.centerName;
+      E("date").value   = m.date;
+    } else if (matches.length > 1) {
+      const list = matches.map((m, i) => `${i + 1}. ${m.centerName} (${m.date})`).join("\n");
+      const choice = prompt("הנציג משויך לכמה מוקדים.\nבחר מספר:\n\n" + list);
+      const idx = parseInt(choice, 10) - 1;
+      if (!isNaN(idx) && matches[idx]) {
+        const m = matches[idx];
+        E("center").value = m.centerName;
+        E("date").value   = m.date;
+      }
+    }
   }
-  try{
-    const payload = {
-      action:'bulk',
-      ownerId,
-      records
-    };
-    await fetch(API_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
+
+  // ===== כוכבי דירוג =====
+  function updateStars(val) {
+    currentRating = val;
+    document.querySelectorAll("#stars .star").forEach(star => {
+      const v = Number(star.dataset.val);
+      star.classList.toggle("filled", v <= val);
     });
-    alert('הסנכרון נשלח ל-Google Sheets (בהנחה שהסקריפט מחובר).');
-  }catch(e){
-    alert('אירעה שגיאה בשליחת הסנכרון.');
-  }
-}
-
-// ===== הוספה / עדכון =====
-async function handleSave(){
-  clearInputErrors();
-  const data = getFormData();
-
-  // חובה: מוקד + נציג
-  let hasError=false;
-  if(!data.center){
-    E('center').classList.add('input-error');
-    hasError=true;
-  }
-  if(!data.agent){
-    E('agent').classList.add('input-error');
-    hasError=true;
-  }
-  if(hasError){
-    showMsg('נא למלא מוקד ושם נציג (שדות חובה).','error');
-    return;
   }
 
-  // אזהרה רכה אם אין שם וגם אין טלפון
-  if(!data.name && !data.phone){
-    E('name').classList.add('input-error');
-    E('phone').classList.add('input-error');
-    showMsg('לא הוזנו שם מתעניין וטלפון. מומלץ להשלים לפחות אחד מהם.', 'warn');
-  }else{
-    showMsg('');
-  }
-
-  // תאריך ושעה אוטומטיים
-  const now = new Date();
-  data.date = now.toLocaleDateString('he-IL');
-  data.time = now.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
-  data.ownerId = ownerId;
-  data.deleted = false;
-
-  saveHeader();
-
-  let action = 'create';
-  if(editingIndex !== null){
-    records[editingIndex] = data;
-    action = 'update';
-  }else{
-    records.push(data);
-  }
-
-  saveRecords();
-  renderRecords();
-  renderTable();
-  resetPersonFields();
-
-  E('mainBtn').textContent='הוסף לרשימה';
-  E('editStatus').textContent='';
-  editingIndex=null;
-
-  syncRecord(data,action); // שליחה ל-Google Sheets
-}
-
-// ===== מחיקה =====
-async function deleteRecord(idx){
-  const rec = records[idx];
-  if(!rec || rec.ownerId !== ownerId) return;
-  const ok = confirm('למחוק רשומה זו? (אצלך תוסר מהרשימה; בגיליון היא תסומן כנמחקה)');
-  if(!ok) return;
-
-  // מסומן כנמחק לצורך סנכרון; מהתצוגה אנחנו מסירים
-  rec.deleted = true;
-  saveRecords(); // אם תרצה לא לשמור את המחוקים מקומית – אפשר גם splice
-  records.splice(idx,1);
-  renderRecords();
-  renderTable();
-  syncRecord(rec,'delete');
-}
-
-// ===== עריכה =====
-function editRecord(idx){
-  const rec = records[idx];
-  if(!rec || rec.ownerId !== ownerId) return;
-  setFormData(rec);
-  editingIndex = idx;
-  E('mainBtn').textContent='עדכון רשומה';
-  E('editStatus').textContent='מצב עריכה: רשומה #' + (idx+1);
-  showMsg('אתה עורך רשומה קיימת. לאחר סיום לחץ "עדכון רשומה".','info');
-}
-
-// ===== הצגת רשומות – כרטיסיות =====
-function toggleDetails(idx){
-  const d = E('details-'+idx);
-  if(!d) return;
-  d.style.display = d.style.display==='block' ? 'none' : 'block';
-}
-
-function ratingToStars(r){
-  if(!r) return '';
-  return '★'.repeat(r) + '☆'.repeat(5-r);
-}
-
-function renderRecords(){
-  const box = E('recordList');
-  box.innerHTML='';
-
-  if(!records.length){
-    box.innerHTML='<div style="font-size:.8rem;color:#9ca3af;margin-top:4px;">אין עדיין רשומות. התחילו למלא בטופס למעלה.</div>';
-    return;
-  }
-
-  records.forEach((r,idx)=>{
-    const row = document.createElement('div');
-    row.className = 'record-row';
-    row.onclick = ()=>toggleDetails(idx);
-
-    const traitsText = (r.traits && r.traits.length) ? r.traits.join(' · ') : 'ללא';
-    const ownerCanEdit = (r.ownerId === ownerId);
-
-    row.innerHTML = `
-      <div class="record-row-top">
-        <div class="record-row-main">
-          <div class="record-line1">
-            <div class="record-name">${r.name || '(ללא שם)'}</div>
-            <div class="record-tag">${r.field || 'ללא תחום'}</div>
-          </div>
-          <div class="record-line2">
-            <span>${r.year || ''} ${r.city ? '· '+r.city : ''}</span>
-            <span>${r.phone || ''}</span>
-          </div>
-          <div class="record-line3">
-            <span>${r.center || ''}</span>
-            <span>${r.agent || ''}</span>
-            <span>${r.date || ''} ${r.time || ''}</span>
-          </div>
-        </div>
-        <div class="record-buttons">
-          ${ownerCanEdit ? `<button class="icon-btn" type="button" onclick="event.stopPropagation();editRecord(${idx})">✏️</button>` : ''}
-          ${ownerCanEdit ? `<button class="icon-btn delete" type="button" onclick="event.stopPropagation();deleteRecord(${idx})">🗑️</button>` : ''}
-        </div>
-      </div>
-      <div class="record-details" id="details-${idx}">
-        <div><span class="record-meta-label">דירוג:</span> ${ratingToStars(r.rating)}</div>
-        <div><span class="record-meta-label">מאפיינים:</span> ${traitsText}</div>
-        <div><span class="record-meta-label">התרשמות:</span> ${r.impression || '—'}</div>
-        <div><span class="record-meta-label">הערות:</span> ${r.notes || '—'}</div>
-        ${(!r.name && !r.phone) ? `<div style="color:#b91c1c;font-size:.75rem;margin-top:2px;">הערה: אין שם/טלפון – מומלץ להשלים בהמשך.</div>` : ''}
-      </div>
-    `;
-    box.appendChild(row);
+  document.querySelectorAll("#stars .star").forEach(star => {
+    star.addEventListener("click", () => {
+      updateStars(Number(star.dataset.val));
+    });
   });
-}
 
-// ===== טבלת רשומות במסך נפרד =====
-function renderTable(){
-  const tbody = E('tableBody');
-  if(!tbody) return;
-  tbody.innerHTML='';
-  records.forEach((r,idx)=>{
-    const tr = document.createElement('tr');
-    if(r.deleted) tr.classList.add('deleted-row');
-    const traitsText = (r.traits && r.traits.length) ? r.traits.join(' · ') : '';
-    tr.innerHTML=`
-      <td>${idx+1}</td>
-      <td>${r.center||''}</td>
-      <td>${r.agent||''}</td>
-      <td>${r.date||''}</td>
-      <td>${r.time||''}</td>
-      <td>${r.name||''}</td>
-      <td>${r.phone||''}</td>
-      <td>${r.email||''}</td>
-      <td>${r.field||''}</td>
-      <td>${r.rating||''}</td>
-      <td>${traitsText}</td>
-      <td>${(r.impression||'').replace(/[\r\n]+/g,' ')}</td>
-      <td>${(r.notes||'').replace(/[\r\n]+/g,' ')}</td>
-    `;
-    tbody.appendChild(tr);
+  // ===== צ'יפים של מאפיינים =====
+  document.querySelectorAll(".trait-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      chip.classList.toggle("active");
+    });
   });
-}
 
-// ===== מסכים =====
-function showScreen(name){
-  ['screenForm','screenRecords'].forEach(id=>{
-    E(id).classList.remove('active');
-  });
-  E(name).classList.add('active');
-}
+  // ===== ולידציה =====
+  function normalizePhone(p) {
+    return (p || "").replace(/\D/g, "");
+  }
 
-// ===== האזנות =====
-E('mainBtn').addEventListener('click',handleSave);
-E('clearBtn').addEventListener('click',()=>{
-  resetPersonFields();
-  editingIndex=null;
-  E('mainBtn').textContent='הוסף לרשימה';
-  E('editStatus').textContent='';
-  showMsg('');
-});
-E('openRecordsBtn').addEventListener('click',()=>showScreen('screenRecords'));
-E('backBtn').addEventListener('click',()=>showScreen('screenForm'));
-E('adminBtn').addEventListener('click',syncAllAsAdmin);
+  function isValidPhone(p) {
+    const digits = normalizePhone(p);
+    return digits.length === 9 || digits.length === 10;
+  }
 
-// כוכבים
-document.querySelectorAll('#stars .star').forEach(st=>{
-  st.addEventListener('click',()=>{
-    const v = +st.dataset.value;
-    setRating(v);
-  });
-});
+  function isValidEmail(e) {
+    if (!e) return true; // מייל לא חובה, אבל אם יש – שיהיה תקין
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(e);
+  }
 
-// צ׳יפים
-document.querySelectorAll('.trait-chip').forEach(ch=>{
-  ch.addEventListener('click',()=>{
-    ch.classList.toggle('active');
-  });
-});
+  function clearErrors() {
+    ["center","agent","phone","email"].forEach(id => {
+      E(id).classList.remove("error");
+    });
+    E("msgErr").style.display = "none";
+    E("msgOk").style.display  = "none";
+  }
 
-// שמירת כותרת בכל שינוי
-['center','agent'].forEach(id=>{
-  E(id).addEventListener('change',saveHeader);
-});
+  // ===== שמירה מקומית (כרגע) =====
+  function saveRecord() {
+    clearErrors();
 
-// ===== אתחול =====
-initOwner();
-loadHeader();
-loadRecords();
-setRating(0);
+    const center = E("center").value.trim();
+    const agent  = E("agent").value.trim();
+    const date   = E("date").value;
+
+    const name   = E("name").value.trim();
+    const year   = E("year").value;
+    const city   = E("city").value.trim();
+    const phone  = E("phone").value.trim();
+    const email  = E("email").value.trim();
+    const field  = E("field").value;
+    const impression = E("impression").value.trim();
+    const notes      = E("notes").value.trim();
+
+    const traits = Array.from(document.querySelectorAll(".trait-chip.active"))
+      .map(ch => ch.dataset.t);
+
+    // בדיקות חובה בסיסיות
+    const errors = [];
+
+    if (!center) {
+      errors.push("יש לבחור מוקד.");
+      E("center").classList.add("error");
+    }
+    if (!agent) {
+      errors.push("יש למלא שם נציג.");
+      E("agent").classList.add("error");
+    }
+
+    if (phone && !isValidPhone(phone)) {
+      errors.push("מספר הטלפון אינו בפורמט תקין.");
+      E("phone").classList.add("error");
+    }
+
+    if (!isValidEmail(email)) {
+      errors.push("כתובת המייל אינה בפורמט תקין.");
+      E("email").classList.add("error");
+    }
+
+    if (errors.length) {
+      E("msgErr").textContent = errors.join(" ");
+      E("msgErr").style.display = "block";
+      return;
+    }
+
+    const rec = {
+      center, agent, date,
+      name, year, city, phone, email, field,
+      rating: currentRating,
+      traits, impression, notes
+    };
+
+    // כרגע – שמירה מקומית בלבד (אפשר להחליף בקריאה ל-API_URL)
+    const key = "lfp_local_records";
+    const existing = JSON.parse(localStorage.getItem(key) || "[]");
+    existing.push(rec);
+    localStorage.setItem(key, JSON.stringify(existing));
+
+    E("msgOk").style.display = "block";
+    console.log("Record saved locally:", rec);
+    clearForm(false);
+  }
+
+  function clearForm(resetCenterAndAgent = true) {
+    if (resetCenterAndAgent) {
+      E("center").value = "";
+      E("agent").value  = "";
+      E("date").value   = "";
+    }
+    ["name","year","city","phone","email","field","impression","notes"].forEach(id => {
+      E(id).value = "";
+    });
+    document.querySelectorAll(".trait-chip").forEach(chip => chip.classList.remove("active"));
+    updateStars(0);
+    clearErrors();
+  }
+
+  // ===== חיבור אירועים =====
+  E("agent").addEventListener("change", autoFillByAgent);
+  E("agent").addEventListener("blur", autoFillByAgent);
+
+  E("btnSave").addEventListener("click", saveRecord);
+  E("btnClear").addEventListener("click", () => clearForm(true));
+
 </script>
-
 </body>
 </html>
