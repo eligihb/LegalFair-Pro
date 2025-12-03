@@ -214,6 +214,35 @@ async function saveRecord(){
     const form = document.createElement('form');
     form.method='POST'; form.action=API_URL; form.target='hidden_frame';
     const inp = document.createElement('input'); 
+  // שליחה לשרת (Hidden Form)
+    const form = document.createElement('form');
+    form.method='POST'; form.action=API_URL; form.target='hidden_frame';
+    
+    const inp = document.createElement('input'); 
+    
+    // === הנה השורה שחסרה לך ===
+    inp.type = 'hidden'; 
+    // ==========================
+
+    inp.name='data'; inp.value=JSON.stringify({action:'add', ownerId, record:rec});
+    form.appendChild(inp); document.body.appendChild(form);
+    
+    const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
+    document.body.appendChild(ifr); 
+    form.submit();
+
+    // מנקה את האלמנטים המיותרים אחרי 2 שניות
+    setTimeout(()=>{
+        document.body.removeChild(form);
+        document.body.removeChild(ifr);
+    }, 2000);
+
+    setTimeout(()=>{
+        alert('נשמר בהצלחה!');
+        btn.textContent='שמור רשומה'; btn.disabled=false;
+        clearForm(false); 
+    }, 1500);
+} // סוגר את הפונקציה saveRecord
     inp.name='data'; inp.value=JSON.stringify({action:'add', ownerId, record:rec});
     form.appendChild(inp); document.body.appendChild(form);
     
