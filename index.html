@@ -5,68 +5,44 @@
   <title>רישום מתעניינים – יריד מתמחים</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
-
   <style>
-    /* --- CSS --- */
+    /* CSS בסיסי ונקי */
     *{box-sizing:border-box;}
     body{margin:0;padding:10px;font-family:'Heebo',sans-serif;background:#f3f4f6;color:#111827;}
     .shell{max-width:480px;margin:0 auto;}
-    
     .top-bar{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;justify-content:space-between;}
     .top-btn{flex:1 1 0;border-radius:999px;border:1px solid #d1d5db;padding:6px 10px;font-size:.8rem;font-weight:600;background:#ffffff;cursor:pointer;text-align:center;white-space:nowrap;}
     .top-btn.main{background:#0f766e;color:#fff;border-color:#0f766e;}
-    .top-btn.danger{background:#fee2e2;color:#991b1b;border-color:#fecaca;} /* כפתור החלף משתמש */
-
     .card{background:#ffffff;border-radius:16px;box-shadow:0 6px 18px rgba(15,23,42,.12);padding:14px 12px 16px;}
     h1{margin:0 0 4px;font-size:1.35rem;text-align:center;color:#0f766e;}
     .subtitle{text-align:center;font-size:.85rem;color:#6b7280;margin-bottom:8px;}
-
     .section-title{margin:10px 0 4px;font-size:.9rem;font-weight:700;color:#0f766e;border-bottom:1px solid #e5e7eb;padding-bottom:3px;}
-    
     .grid{display:grid;gap:6px;}
     .grid-2{grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);}
     @media(max-width:600px){.grid-2{grid-template-columns:1fr;}}
-
     label{display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:2px;}
     .req::after{content:" *";color:#b91c1c;font-weight:700;}
-
-    input,select,textarea{width:100%;border-radius:10px;border:1px solid #d1d5db;padding:7px 8px;font-size:.9rem;background:#f9fafb;transition:0.15s;}
-    input:focus,select:focus,textarea:focus{outline:none;border-color:#0f766e;box-shadow:0 0 0 2px rgba(16,185,129,.25);background:#fff;}
-    
-    /* סגנון לשדות נעולים */
-    input:disabled, select:disabled {
-        background-color: #e5e7eb;
-        color: #6b7280;
-        cursor: not-allowed;
-        border-color: #d1d5db;
-    }
-
+    input,select,textarea{width:100%;border-radius:10px;border:1px solid #d1d5db;padding:7px 8px;font-size:.9rem;background:#f9fafb;}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#0f766e;background:#fff;}
     textarea{resize:vertical;min-height:70px;}
     .short{max-width:220px;}
     .short-inline{max-width:200px;}
     .hint{font-size:.75rem;color:#9ca3af;margin-top:1px;}
-    .error{border-color:#dc2626!important;box-shadow:0 0 0 1px rgba(220,38,38,.4)!important;background:#fef2f2!important;}
-
+    .error{border-color:#dc2626!important;background:#fef2f2!important;}
     .btn-main{width:100%;border:none;border-radius:999px;padding:10px;font-size:.96rem;font-weight:700;background:#0f766e;color:#fff;cursor:pointer;margin-top:10px;}
-    .btn-main:hover{background:#115e59;}
     .btn-sub{width:100%;margin-top:5px;border-radius:999px;padding:7px;font-size:.8rem;font-weight:600;border:1px solid #e5e7eb;background:#f9fafb;cursor:pointer;}
-
     .msg{margin-top:6px;font-size:.8rem;padding:5px 7px;border-radius:9px;display:none;}
     .msg-ok{background:#ecfdf3;border:1px solid #bbf7d0;color:#166534;}
     .msg-err{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;}
-
     .stars{display:inline-flex;gap:3px;direction:ltr;}
-    .star{font-size:1.3rem;cursor:pointer;color:#e5e7eb;transition:transform .1s;}
+    .star{font-size:1.3rem;cursor:pointer;color:#e5e7eb;}
     .star.filled{color:#f59e0b;}
-    .star:hover{transform:scale(1.1);}
-
     .traits{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px;}
-    .trait-chip{border-radius:999px;border:1px solid #d1d5db;padding:3px 8px;font-size:.78rem;cursor:pointer;background:#f9fafb;color:#374151;}
+    .trait-chip{border-radius:999px;border:1px solid #d1d5db;padding:3px 8px;font-size:.78rem;cursor:pointer;background:#f9fafb;}
     .trait-chip.active{background:#0f766e;color:#fff;border-color:#0f766e;}
-
     .records-wrap{margin-top:10px;}
     .records-title{font-size:.9rem;font-weight:700;color:#111827;margin-bottom:4px;}
-    .record-card{background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;padding:8px 9px;margin-bottom:6px;font-size:.8rem;position:relative;}
+    .record-card{background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;padding:8px 9px;margin-bottom:6px;font-size:.8rem;}
     .record-header{display:flex;justify-content:space-between;gap:6px;margin-bottom:4px;}
     .record-meta{color:#4b5563;font-size:.76rem;}
     .record-actions{display:flex;gap:4px;}
@@ -77,11 +53,10 @@
 </head>
 <body>
 <div class="shell">
-
   <div class="top-bar">
-    <button id="btnSwitchUser" class="top-btn danger" style="display:none;">👤 החלף משתמש</button>
-    <button id="btnOpenRecords" class="top-btn">רשומות</button>
-    <button id="btnExportAdmin" class="top-btn main">ניהול</button>
+    <button id="btnOpenRecords" class="top-btn">פתח רשומות</button>
+    <button id="btnTopClear" class="top-btn">איפוס טופס</button>
+    <button id="btnExportAdmin" class="top-btn main">ייצוא / גיליון</button>
   </div>
 
   <div class="card">
@@ -112,7 +87,6 @@
         </select>
       </div>
     </div>
-
     <div class="grid" style="margin-top:6px;">
       <div style="max-width:190px;">
         <label>תאריך יריד</label>
@@ -126,7 +100,6 @@
         <label>שם סטודנט</label>
         <input id="name" type="text" placeholder="לדוגמה: דנה כהן">
       </div>
-
       <div class="grid grid-2">
         <div>
           <label>שנה</label>
@@ -144,19 +117,16 @@
           <input id="city" type="text" placeholder="לדוגמה: נתניה">
         </div>
       </div>
-
       <div class="grid grid-2">
         <div>
           <label>טלפון</label>
           <input id="phone" type="tel" inputmode="tel" placeholder="050-0000000">
-          <div class="hint">9–10 ספרות, ניתן עם מקפים</div>
         </div>
         <div>
           <label>מייל</label>
           <input id="email" type="email" class="short" placeholder="example@mail.com">
         </div>
       </div>
-
       <div>
         <label>תחום מועדף</label>
         <select id="field">
@@ -184,7 +154,6 @@
           <span class="star" data-val="5">★</span>
         </div>
       </div>
-
       <div>
         <label>מאפיינים בולטים</label>
         <div id="traitsBox" class="traits">
@@ -197,12 +166,10 @@
           <span class="trait-chip" data-t="ביישן">ביישן</span>
         </div>
       </div>
-
       <div>
         <label>התרשמות כללית</label>
         <textarea id="impression" placeholder="רושם, התאמה, חוו&quot;ד..."></textarea>
       </div>
-
       <div>
         <label>הערות פנימיות</label>
         <textarea id="notes" placeholder="פרטי המשך טיפול, תזכורות ועוד..."></textarea>
@@ -210,400 +177,287 @@
     </div>
 
     <button id="btnSave" class="btn-main">הוסף רשומה</button>
-    <button id="btnClear" class="btn-sub">נקה טופס (ללא מחיקת נציג)</button>
-
+    <button id="btnClear" class="btn-sub">נקה טופס</button>
     <div id="msgOk" class="msg msg-ok"></div>
     <div id="msgErr" class="msg msg-err"></div>
-
   </div>
 
   <div class="records-wrap">
     <div class="records-title">רשומות שהוזנו מהמכשיר הזה</div>
     <div id="recordsList"></div>
   </div>
-
 </div>
-  
+
 <script>
-  // ===== הגדרות =====
-  // ⚠️ יש להדביק כאן את ה-URL החדש שתקבל אחרי ה-Deploy של ה-Apps Script
-  const API_URL    = 'https://script.google.com/macros/s/AKfycbzANeU_nr303Uwj20IRY9wlYLva8JcQr-oraGv12oxK6pE1cDn12UvqKwYG6cFFSilh/exec'; 
-  const ADMIN_CODE = '2100';
-  const SHEET_URL  = 'https://docs.google.com/spreadsheets/d/1Oz32yNCobHdhz0APS4zl5O34rkqZxGvP0TJgPKKDLdk/edit?pli=1&gid=487137334#gid=487137334';
-  
-  const STORAGE_KEY = 'lfp_records_v4';
-  const OWNER_KEY   = 'lfp_owner_id_v1';
-  const USER_PREF_KEY = 'lfp_user_pref_v1'; // מפתח לשמירת זהות הנציג
+// --- הגדרות ---
+const API_URL    = 'https://script.google.com/macros/s/AKfycbwip8xRO6q99yg_iX5KRddVmv3suZmeCEQJ4_TGY4MVtENw3WcrDHUEnTUBI3D7KdE/exec';
+const ADMIN_CODE = '2100';
+const SHEET_URL  = 'https://docs.google.com/spreadsheets/d/1Oz32yNCobHdhz0APS4zl5O34rkqZxGvP0TJgPKKDLdk/edit?pli=1&gid=487137334#gid=487137334';
+const STORAGE_KEY = 'lfp_records_v4';
+const OWNER_KEY   = 'lfp_owner_id_v1';
 
-  let records = [];
-  let ownerId = null;
-  let editingId = null;
-  let currentRating = 0;
-  let isUserLocked = false;
+let records = [];
+let ownerId = null;
+let editingId = null;
+let currentRating = 0;
 
-  const E = id => document.getElementById(id);
+const E = id => document.getElementById(id);
 
-  // ===== לוח זמנים =====
-  const FAIR_SCHEDULE = [
-    { centerName:"אוניברסיטת רייכמן",            date:"2025-12-01", agents:["יעקב","אופיר","שקד","גל"] },
-    { centerName:"(סימולציית שותפים לדרך)",     date:"2025-12-02", agents:["אורי","איתי שגב","ציונה"] },
-    { centerName:"אוניברסיטת בר אילן",          date:"2025-12-03", agents:["אילון","יעקב","אליאב","ביסאן"] },
-    { centerName:"אוניברסיטת תל-אביב",          date:"2025-12-04", agents:["אורי","אופיר","צליל"] },
-    { centerName:"מכללת שערי מדע ומשפט",         date:"2025-12-08", agents:["אורי","אופיר","צליל"] },
-    { centerName:"שותפים לדרך",                 date:"2025-12-08", agents:["איתי*","ציונה*"] },
-    { centerName:"מכללת ספיר",                   date:"2025-12-09", agents:["בקי","איתי"] },
-    { centerName:"המכללה למנהל ראשל\"צ",         date:"2025-12-25", agents:["אורי","ציונה","אופיר"] },
-    { centerName:"האוניברסיטה העברית",           date:"2025-12-28", agents:["אורי","אליאב"] }
-  ];
+// --- לוח זמנים ---
+const FAIR_SCHEDULE = [
+  { centerName:"אוניברסיטת רייכמן", date:"2025-12-01", agents:["יעקב","אופיר","שקד","גל"] },
+  { centerName:"(סימולציית שותפים לדרך)", date:"2025-12-02", agents:["אורי","איתי שגב","ציונה"] },
+  { centerName:"אוניברסיטת בר אילן", date:"2025-12-03", agents:["אילון","יעקב","אליאב","ביסאן"] },
+  { centerName:"אוניברסיטת תל-אביב", date:"2025-12-04", agents:["אורי","אופיר","צליל"] },
+  { centerName:"מכללת שערי מדע ומשפט", date:"2025-12-08", agents:["אורי","אופיר","צליל"] },
+  { centerName:"שותפים לדרך", date:"2025-12-08", agents:["איתי*","ציונה*"] },
+  { centerName:"מכללת ספיר", date:"2025-12-09", agents:["בקי","איתי"] },
+  { centerName:"המכללה למנהל ראשל\"צ", date:"2025-12-25", agents:["אורי","ציונה","אופיר"] },
+  { centerName:"האוניברסיטה העברית", date:"2025-12-28", agents:["אורי","אליאב"] }
+];
 
-  function initOwner(){
-    ownerId = localStorage.getItem(OWNER_KEY);
-    if(!ownerId){
-      ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
-      localStorage.setItem(OWNER_KEY, ownerId);
-    }
+function initOwner(){
+  ownerId = localStorage.getItem(OWNER_KEY);
+  if(!ownerId){
+    ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+    localStorage.setItem(OWNER_KEY, ownerId);
   }
+}
 
-  // ===== ניהול זהות משתמש (נעילה/שמירה) =====
-  function loadUserIdentity() {
-    const pref = localStorage.getItem(USER_PREF_KEY);
-    if(pref) {
-      try {
-        const p = JSON.parse(pref);
-        if (p.center && p.agent) {
-          E('center').value = p.center;
-          onCenterChange(); // מעדכן תאריך ורשימת נציגים
-          E('agent').value = p.agent;
-          
-          // נעילת השדות
-          lockUserFields();
-        }
-      } catch(e) { console.error('Error loading pref', e); }
-    }
-  }
+// --- אירועים בסיסיים ---
+E('phone').addEventListener('input', () => {
+  const digits = E('phone').value.replace(/\D/g,'').slice(0,10);
+  E('phone').value = digits;
+});
 
-  function saveUserIdentity() {
-    const c = E('center').value;
-    const a = E('agent').value;
-    if (c && a) {
-      localStorage.setItem(USER_PREF_KEY, JSON.stringify({center: c, agent: a}));
-    }
-  }
-
-  function lockUserFields() {
-    E('center').disabled = true;
-    E('agent').disabled = true;
-    E('date').disabled = true; // נועל גם את התאריך
-    E('btnSwitchUser').style.display = 'block';
-    isUserLocked = true;
-  }
-
-  function unlockUserFields() {
-    if(!confirm('האם להחליף משתמש? השדות יתאפסו.')) return;
-    
-    localStorage.removeItem(USER_PREF_KEY);
-    E('center').disabled = false;
-    E('agent').disabled = false;
-    E('date').disabled = false;
-    E('center').value = '';
-    E('agent').innerHTML = '<option value="">בחר נציג</option>';
-    E('date').value = '';
-    E('btnSwitchUser').style.display = 'none';
-    isUserLocked = false;
-  }
-
-  E('btnSwitchUser').addEventListener('click', unlockUserFields);
-
-  // ===== אירועי טופס =====
-  E('phone').addEventListener('input', () => {
-    const digits = E('phone').value.replace(/\D/g,'').slice(0,10);
-    E('phone').value = digits;
-  });
-
-  function updateStars(v){
-    currentRating = v;
-    document.querySelectorAll('#stars .star').forEach(s=>{
-      const val = Number(s.dataset.val);
-      s.classList.toggle('filled', val<=v);
-    });
-  }
+function updateStars(v){
+  currentRating = v;
   document.querySelectorAll('#stars .star').forEach(s=>{
-    s.addEventListener('click',()=>updateStars(Number(s.dataset.val)));
+    const val = Number(s.dataset.val);
+    s.classList.toggle('filled', val<=v);
   });
+}
+document.querySelectorAll('#stars .star').forEach(s=>{
+  s.addEventListener('click',()=>updateStars(Number(s.dataset.val)));
+});
+document.querySelectorAll('.trait-chip').forEach(ch=>{
+  ch.addEventListener('click',()=>ch.classList.toggle('active'));
+});
 
-  document.querySelectorAll('.trait-chip').forEach(ch=>{
-    ch.addEventListener('click',()=>ch.classList.toggle('active'));
-  });
-   
-  // בחירת מוקד
-  function onCenterChange(){
-    const val = E('center').value;
-    const slot = FAIR_SCHEDULE.find(s=>s.centerName===val);
-    
-    if(slot){
-      E('date').value = slot.date;
-      const agentSel = E('agent');
-      // שומרים את הבחירה הנוכחית אם יש, כדי לא לדרוס בעת טעינה ראשונית
-      const currentAgent = agentSel.value; 
-      
-      agentSel.innerHTML = '<option value="">בחר נציג</option>';
-      slot.agents.forEach(a=>{
-        const clean = a.replace('*','').trim();
-        const opt = document.createElement('option');
-        opt.value = clean;
-        opt.textContent = clean;
-        agentSel.appendChild(opt);
-      });
-      
-      if(currentAgent) agentSel.value = currentAgent;
-
-    } else {
-      E('date').value = '';
-      E('agent').innerHTML = '<option value="">בחר נציג</option>';
-    }
-    
-    // ניסיון שמירה (אם כבר נבחר גם נציג)
-    saveUserIdentity();
+// שינוי מוקד
+function onCenterChange(){
+  const val = E('center').value;
+  const slot = FAIR_SCHEDULE.find(s=>s.centerName===val);
+  if(slot){
+    E('date').value = slot.date;
+    const agentSel = E('agent');
+    agentSel.innerHTML = '<option value="">בחר נציג</option>';
+    slot.agents.forEach(a=>{
+      const clean = a.replace('*','').trim();
+      const opt = document.createElement('option');
+      opt.value = clean;
+      opt.textContent = clean;
+      agentSel.appendChild(opt);
+    });
+  }else{
+    E('date').value = '';
+    E('agent').innerHTML = '<option value="">בחר נציג</option>';
   }
-  
-  E('center').addEventListener('change', onCenterChange);
-  E('agent').addEventListener('change', saveUserIdentity);
+}
+E('center').addEventListener('change', onCenterChange);
 
-  // ===== ולידציה וניקוי =====
-  function clearErrors(){
-    ['center','agent','phone','email'].forEach(id=>E(id).classList.remove('error'));
-    E('msgErr').style.display='none';
-    E('msgOk').style.display='none';
-  }
+// --- ולידציה וניקוי (הפונקציה שהייתה חסרה לך) ---
+function clearErrors(){
+  ['center','agent','phone','email'].forEach(id=>E(id).classList.remove('error'));
+  E('msgErr').style.display='none';
+  E('msgOk').style.display='none';
+}
+function isValidPhone(p){
+  const d = (p||'').replace(/\D/g,'');
+  return !d || d.length===9 || d.length===10;
+}
+function isValidEmail(e){
+  if(!e) return true;
+  const re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(e);
+}
 
-  function isValidPhone(p){
-    const d = (p||'').replace(/\D/g,'');
-    return !d || d.length===9 || d.length===10;
-  }
+// פונקציית הניקוי החשובה
+function clearForm(fullReset = false){
+  clearErrors();
+  ['name','year','city','phone','email','field','impression','notes'].forEach(id => E(id).value = '');
+  updateStars(0);
+  document.querySelectorAll('.trait-chip').forEach(ch => ch.classList.remove('active'));
 
-  function isValidEmail(e){
-    if(!e) return true;
-    const re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(e);
-  }
-
-  function clearForm(fullReset = false){
-    clearErrors();
-    
-    // ניקוי שדות הסטודנט
-    ['name','year','city','phone','email','field','impression','notes'].forEach(id => E(id).value = '');
-    updateStars(0);
-    document.querySelectorAll('.trait-chip').forEach(ch => ch.classList.remove('active'));
-
-    // אם זה Reset מלא ואין נעילת משתמש, או שהמשתמש ביקש לאפס הכל
-    if(fullReset && !isUserLocked){
-      E('center').value = '';
-      onCenterChange();
-    }
-    
+  if(fullReset){
+    E('center').value = '';
+    onCenterChange();
     editingId = null;
-    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// --- שמירה ---
+async function saveRecord(){
+  clearErrors();
+  const center = E('center').value.trim();
+  const agent  = E('agent').value.trim();
+  const date   = E('date').value;
+  const name   = E('name').value.trim();
+  const year   = E('year').value;
+  const city   = E('city').value.trim();
+  const phone  = E('phone').value.trim();
+  const email  = E('email').value.trim();
+  const field  = E('field').value;
+  const impression = E('impression').value.trim();
+  const notes      = E('notes').value.trim();
+  const traits = Array.from(document.querySelectorAll('.trait-chip.active')).map(ch=>ch.dataset.t);
+
+  const errors = [];
+  if(!center){errors.push('יש לבחור מוקד.');E('center').classList.add('error');}
+  if(!agent){errors.push('יש לבחור נציג.');E('agent').classList.add('error');}
+  if(!isValidPhone(phone)){errors.push('מספר הטלפון אינו תקין.');E('phone').classList.add('error');}
+  if(!isValidEmail(email)){errors.push('כתובת המייל אינה תקינה.');E('email').classList.add('error');}
+
+  if(errors.length){
+    E('msgErr').textContent = errors.join(' ');
+    E('msgErr').style.display='block';
+    return;
   }
 
-  // ===== שמירה =====
-  async function saveRecord(){
-    clearErrors();
+  const id = editingId || ('r_'+Date.now()+'_'+Math.random().toString(36).slice(2,7));
+  const now = new Date();
+  const time = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
 
-    const center = E('center').value.trim();
-    const agent  = E('agent').value.trim();
-    const date   = E('date').value;
+  const rec = {
+    id, ownerId, center, agent, date, time,
+    name, year, city, phone, email, field,
+    rating:currentRating, traits, impression, notes
+  };
 
-    const name   = E('name').value.trim();
-    const year   = E('year').value;
-    const city   = E('city').value.trim();
-    const phone  = E('phone').value.trim();
-    const email  = E('email').value.trim();
-    const field  = E('field').value;
-    const impression = E('impression').value.trim();
-    const notes      = E('notes').value.trim();
+  const idx = records.findIndex(r=>r.id===id);
+  if(idx>=0) records[idx]=rec;
+  else records.push(rec);
 
-    const traits = Array.from(document.querySelectorAll('.trait-chip.active')).map(ch=>ch.dataset.t);
+  persistRecords();
+  renderRecords();
 
-    const errors = [];
-    if(!center){errors.push('יש לבחור מוקד.');E('center').classList.add('error');}
-    if(!agent){errors.push('יש לבחור נציג.');E('agent').classList.add('error');}
-    if(!isValidPhone(phone)){errors.push('מספר הטלפון אינו תקין.');E('phone').classList.add('error');}
-    if(!isValidEmail(email)){errors.push('כתובת המייל אינה תקינה.');E('email').classList.add('error');}
-
-    if(errors.length){
-      E('msgErr').textContent = errors.join(' ');
-      E('msgErr').style.display='block';
-      return;
+  try{
+    if(API_URL && API_URL.includes('script.google.com')){
+      fetch(API_URL,{
+        method:'POST',
+        body:JSON.stringify({action:'add', ownerId, record:rec})
+      });
     }
-    
-    // אם זו שמירה ראשונה מוצלחת - נועלים את המשתמש
-    if (!isUserLocked) {
-      saveUserIdentity();
-      lockUserFields();
-    }
+    E('msgOk').textContent = 'הטופס נשלח בהצלחה!';
+    E('msgOk').style.display='block';
+    alert('הנתונים נשמרו בהצלחה!');
+  }catch(err){ console.error(err); }
 
-    const id = editingId || ('r_'+Date.now()+'_'+Math.random().toString(36).slice(2,7));
+  clearForm(false);
+}
 
-    // הוספת שעה
-    const now = new Date();
-    const time = now.toLocaleTimeString('he-IL', {hour:'2-digit', minute:'2-digit'});
+// --- טעינה ומחיקה ---
+function loadRecords(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    records = raw ? JSON.parse(raw) : [];
+  }catch{ records=[]; }
+}
+function persistRecords(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+}
 
-    const rec = {
-      id, ownerId,
-      center, agent, date, time,
-      name, year, city, phone, email, field,
-      rating:currentRating, traits, impression, notes
-    };
-
-    // עדכון לוקאלי
-    const idx = records.findIndex(r=>r.id===id);
-    if(idx>=0) records[idx]=rec;
-    else records.push(rec);
-    
-    persistRecords();
-    renderRecords();
-
-    // שליחה לשרת
-    try{
-      if(API_URL && API_URL.includes('script.google.com')){
-        // אין צורך לחכות לתשובה כדי להציג הודעה למשתמש
-        fetch(API_URL,{
-          method:'POST',
-          body:JSON.stringify({action:'add', ownerId, record:rec})
-        }).then(res => res.text()).then(txt => console.log('Saved remote:', txt));
-      }
-
-      E('msgOk').textContent = 'הטופס נשלח בהצלחה!';
-      E('msgOk').style.display='block';
-      alert('הנתונים נשמרו בהצלחה!');
-
-    } catch(err){
-      console.error('sync error:', err);
-      // עדיין נחשב הצלחה כי נשמר לוקאלית
-    }
-
-    clearForm(false); // מנקה רק נתוני סטודנט
+function renderRecords(){
+  const box = E('recordsList');
+  box.innerHTML='';
+  const mine = records.filter(r=>r.ownerId===ownerId);
+  if(!mine.length){
+    box.innerHTML='<div style="font-size:.78rem;color:#9ca3af;">אין רשומות להצגה.</div>';
+    return;
   }
+  mine.sort((a,b) => b.id.localeCompare(a.id));
 
-  // ===== ניהול רשומות ומחיקה =====
-  function loadRecords(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      records = raw ? JSON.parse(raw) : [];
-    }catch{ records=[]; }
-  }
-  function persistRecords(){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-  }
-
-  function renderRecords(){
-    const box = E('recordsList');
-    box.innerHTML='';
-    const mine = records.filter(r=>r.ownerId===ownerId);
-    if(!mine.length){
-      box.innerHTML='<div style="font-size:.78rem;color:#9ca3af;">אין רשומות להצגה.</div>';
-      return;
-    }
-    // מיון לפי זמן (חדש למעלה)
-    mine.sort((a,b) => b.id.localeCompare(a.id));
-
-    mine.forEach(r=>{
-      const div = document.createElement('div');
-      div.className='record-card';
-      div.innerHTML = `
-        <div class="record-header">
-          <div>
-            <strong>${r.name || 'ללא שם'}</strong>
-            <div class="record-meta">${r.time || ''} · ${r.center}</div>
-          </div>
-          <div class="record-actions">
-            <button class="icon-btn edit" data-id="${r.id}">✏ ערוך</button>
-            <button class="icon-btn del" data-id="${r.id}">🗑 מחק</button>
-          </div>
+  mine.forEach(r=>{
+    const div = document.createElement('div');
+    div.className='record-card';
+    div.innerHTML = `
+      <div class="record-header">
+        <div>
+          <strong>${r.name || 'ללא שם'}</strong>
+          <div class="record-meta">${r.time || ''} · ${r.center}</div>
         </div>
-        <div class="record-meta">
-          ${r.phone || '-'} · ${r.email || '-'}
+        <div class="record-actions">
+          <button class="icon-btn edit" data-id="${r.id}">✏ ערוך</button>
+          <button class="icon-btn del" data-id="${r.id}">🗑 מחק</button>
         </div>
-      `;
-      box.appendChild(div);
-    });
-
-    box.querySelectorAll('.icon-btn.edit').forEach(btn => btn.addEventListener('click',()=>startEdit(btn.dataset.id)));
-    box.querySelectorAll('.icon-btn.del').forEach(btn => btn.addEventListener('click',()=>deleteRecord(btn.dataset.id)));
-  }
-
-  function startEdit(id){
-    const r = records.find(x=>x.id===id);
-    if(!r) return;
-    editingId = id;
-    
-    // במצב עריכה - אנחנו חייבים לשחרר רגעית את הנעילה אם המוקד שונה, אבל לרוב זה אותו מוקד
-    // נטען את הנתונים לטופס
-    // אם המשתמש הנוכחי שונה מהרשומה, זה עלול להיות מוזר, אבל נניח שזה אותו נציג
-    E('name').value=r.name||'';
-    E('year').value=r.year||'';
-    E('city').value=r.city||'';
-    E('phone').value=r.phone||'';
-    E('email').value=r.email||'';
-    E('field').value=r.field||'';
-    E('impression').value=r.impression||'';
-    E('notes').value=r.notes||'';
-
-    document.querySelectorAll('.trait-chip').forEach(ch=>{
-      const t = ch.dataset.t;
-      ch.classList.toggle('active', (r.traits||[]).includes(t));
-    });
-    updateStars(r.rating||0);
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
-
-  async function deleteRecord(id){
-    const r = records.find(x=>x.id===id);
-    if(!r) return;
-    if(!confirm('האם למחוק את הרשומה?')) return;
-
-    // מחיקה מהזיכרון המקומי
-    records = records.filter(x=>x.id!==id);
-    persistRecords();
-    renderRecords();
-
-    // שליחה לשרת - עדכון סטטוס ל"נמחק"
-    try{
-      if(API_URL && API_URL.includes('script.google.com')){
-        await fetch(API_URL,{
-          method:'POST',
-          body:JSON.stringify({action:'delete', ownerId, record:r})
-        });
-      }
-    }catch(err){ console.error(err); }
-  }
-
-  // ===== כפתורים נוספים =====
-  E('btnTopClear').addEventListener('click',()=>clearForm(true)); // איפוס מלא יזום
-
-  E('btnOpenRecords').addEventListener('click',()=>{
-    const el = E('recordsList');
-    if(el) el.scrollIntoView({behavior:'smooth'});
+      </div>
+      <div class="record-meta">
+        ${r.phone || '-'} · ${r.email || '-'}
+      </div>
+    `;
+    box.appendChild(div);
   });
 
-  E('btnExportAdmin').addEventListener('click',()=>{
-    const code = prompt('הכנס קוד מורשה:');
-    if(code===ADMIN_CODE){
-      if(SHEET_URL.startsWith('http')) window.open(SHEET_URL,'_blank');
-      else alert('SHEET_URL חסר');
-    } else if(code) alert('קוד שגוי');
+  box.querySelectorAll('.icon-btn.edit').forEach(btn => btn.addEventListener('click',()=>startEdit(btn.dataset.id)));
+  box.querySelectorAll('.icon-btn.del').forEach(btn => btn.addEventListener('click',()=>deleteRecord(btn.dataset.id)));
+}
+
+function startEdit(id){
+  const r = records.find(x=>x.id===id);
+  if(!r) return;
+  editingId = id;
+  E('center').value=r.center||'';
+  onCenterChange();
+  E('agent').value=r.agent||'';
+  E('date').value=r.date||'';
+  E('name').value=r.name||'';
+  E('year').value=r.year||'';
+  E('city').value=r.city||'';
+  E('phone').value=r.phone||'';
+  E('email').value=r.email||'';
+  E('field').value=r.field||'';
+  E('impression').value=r.impression||'';
+  E('notes').value=r.notes||'';
+  document.querySelectorAll('.trait-chip').forEach(ch=>{
+    ch.classList.toggle('active', (r.traits||[]).includes(ch.dataset.t));
   });
+  updateStars(r.rating||0);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-  E('btnClear').addEventListener('click',()=>clearForm(false)); // ניקוי טופס רגיל (משאיר נציג)
-  E('btnSave').addEventListener('click',saveRecord);
+async function deleteRecord(id){
+  const r = records.find(x=>x.id===id);
+  if(!r) return;
+  if(!confirm('למחוק את הרשומה?')) return;
+  records = records.filter(x=>x.id!==id);
+  persistRecords();
+  renderRecords();
+  try{
+    if(API_URL) fetch(API_URL,{
+      method:'POST',
+      body:JSON.stringify({action:'delete', ownerId, record:r})
+    });
+  }catch(e){}
+}
 
-  // ===== INIT =====
-  (function init(){
-    initOwner();
-    loadUserIdentity(); // טעינת נציג מהזיכרון ונעילה
-    loadRecords();
-    renderRecords();
-  })();
+// --- כפתורים ראשיים ---
+E('btnTopClear').addEventListener('click',()=>clearForm(true));
+E('btnOpenRecords').addEventListener('click',()=>{
+  E('recordsList').scrollIntoView({behavior:'smooth'});
+});
+E('btnExportAdmin').addEventListener('click',()=>{
+  const code = prompt('קוד מורשה:');
+  if(code===ADMIN_CODE) window.open(SHEET_URL,'_blank');
+});
+E('btnClear').addEventListener('click',()=>clearForm(true));
+E('btnSave').addEventListener('click',saveRecord);
+
+(function init(){
+  initOwner();
+  loadRecords();
+  renderRecords();
+})();
 </script>
 </body>
 </html>
