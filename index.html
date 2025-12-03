@@ -114,7 +114,6 @@
 </div>
 
 <script>
-// הקפד לשים כאן את הקישור שלך מהפריסה
 const API_URL = 'https://script.google.com/macros/s/AKfycbwip8xRO6q99yg_iX5KRddVmv3suZmeCEQJ4_TGY4MVtENw3WcrDHUEnTUBI3D7KdE/exec'; 
 const SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1Oz32yNCobHdhz0APS4zl5O34rkqZxGvP0TJgPKKDLdk/edit';
 const ADMIN_CODE = '2100';
@@ -126,16 +125,15 @@ let records=[], ownerId=localStorage.getItem('uid')||'u_'+Date.now(), currentRat
 localStorage.setItem('uid', ownerId);
 
 function init(){
-    // שחזור שם נציג ומוקד אם קיימים בזיכרון
     const savedAgent = localStorage.getItem('last_agent');
     const savedCenter = localStorage.getItem('last_center');
     
     if(savedCenter){
         E('center').value = savedCenter;
-        onCenterChange(); // טוען את הנציגים
+        onCenterChange();
         if(savedAgent){
             E('agent').value = savedAgent;
-            lockHeader(); // נועל אוטומטית אם יש נתונים
+            lockHeader();
         }
     }
     
@@ -143,7 +141,6 @@ function init(){
     updCount();
 }
 
-// ניהול מוקד ונציג
 function lockHeader(){
     const a=E('agent').value, c=E('center').value;
     if(!a||!c)return;
@@ -153,7 +150,6 @@ function lockHeader(){
     E('headerLocked').style.display='flex';
     E('greeting').textContent = 'שלום, '+a;
     
-    // שמירה בזיכרון
     localStorage.setItem('last_agent', a);
     localStorage.setItem('last_center', c);
 }
@@ -173,7 +169,6 @@ function onCenterChange(){
     }
 }
 
-// ניהול קבצים
 function updFile(id, wrap, txt){
     const f=E(id).files[0];
     const el=E(wrap); const lbl=document.getElementById('lbl_'+id);
@@ -183,11 +178,9 @@ function updFile(id, wrap, txt){
 
 const file64 = f => new Promise(r=>{const rd=new FileReader(); rd.onload=()=>r({name:f.name,mime:f.type,data:rd.result.split(',')[1]}); rd.readAsDataURL(f);});
 
-// כוכבים
 document.querySelectorAll('.star').forEach(s=>s.onclick=()=>setStar(s.dataset.val));
 function setStar(n){ currentRating=n; document.querySelectorAll('.star').forEach(s=>s.classList.toggle('filled', s.dataset.val<=n));}
 
-// שמירה
 async function saveRecord(){
     const rec = {
         id: 'r_'+Date.now(),
@@ -213,25 +206,17 @@ async function saveRecord(){
     // שליחה לשרת (Hidden Form)
     const form = document.createElement('form');
     form.method='POST'; form.action=API_URL; form.target='hidden_frame';
-    const inp = document.createElement('input'); 
-  // שליחה לשרת (Hidden Form)
-    const form = document.createElement('form');
-    form.method='POST'; form.action=API_URL; form.target='hidden_frame';
     
     const inp = document.createElement('input'); 
-    
-    // === הנה השורה שחסרה לך ===
     inp.type = 'hidden'; 
-    // ==========================
-
     inp.name='data'; inp.value=JSON.stringify({action:'add', ownerId, record:rec});
+    
     form.appendChild(inp); document.body.appendChild(form);
     
     const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
     document.body.appendChild(ifr); 
     form.submit();
 
-    // מנקה את האלמנטים המיותרים אחרי 2 שניות
     setTimeout(()=>{
         document.body.removeChild(form);
         document.body.removeChild(ifr);
@@ -242,30 +227,14 @@ async function saveRecord(){
         btn.textContent='שמור רשומה'; btn.disabled=false;
         clearForm(false); 
     }, 1500);
-} // סוגר את הפונקציה saveRecord
-    inp.name='data'; inp.value=JSON.stringify({action:'add', ownerId, record:rec});
-    form.appendChild(inp); document.body.appendChild(form);
-    
-    const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
-    document.body.appendChild(ifr); 
-    form.submit();
-
-    setTimeout(()=>{
-        alert('נשמר בהצלחה!');
-        btn.textContent='שמור רשומה'; btn.disabled=false;
-        clearForm(false); // ניקוי רגיל (משאיר נציג)
-    }, 1500);
 }
 
-// פונקציית הניקוי המתוקנת
 function clearForm(fullReset=false){
-    // אם ביקשנו איפוס מלא (כפתור תחתון)
     if(fullReset){
         unlockHeader(); 
         E('center').value=''; 
         E('agent').innerHTML='<option value="">בחר נציג</option>';
         E('date').value='';
-        // מחיקה מהזיכרון
         localStorage.removeItem('last_agent');
         localStorage.removeItem('last_center');
         E('greeting').textContent = 'שלום, נציג 👋';
@@ -275,7 +244,6 @@ function clearForm(fullReset=false){
     E('city').value=''; E('year').value=''; E('field').value='';
     E('notes').value=''; E('impression').value='';
     
-    // איפוס בחירות ויזואליות
     setStar(0);
     document.querySelectorAll('.trait-chip').forEach(c=>c.classList.remove('active'));
     
