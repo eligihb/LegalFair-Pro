@@ -11,55 +11,44 @@
     body { margin: 0; padding: 10px; font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 40px; }
     .shell { max-width: 550px; margin: 0 auto; }
     
-    /* סרגל עליון */
     .stats-bar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px 15px; border-radius: 12px; margin-bottom: 10px; font-weight: 600; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
     .badge-count { background: #ecfdf5; color: #047857; padding: 2px 8px; border-radius: 10px; }
 
-    /* כפתורים עליונים */
     .top-bar { display: flex; gap: 8px; margin-bottom: 12px; }
     .top-btn { flex: 1; border: 1px solid var(--border); background: white; padding: 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: #4b5563; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; }
-    .top-btn:active { transform: scale(0.98); }
+    .top-btn:active { transform: scale(0.95); }
     .top-btn.main { background: var(--primary); color: white; border-color: var(--primary); }
-    .top-btn.reset { background: #fff1f2; color: #be123c; border-color: #fecdd3; } /* כפתור ניקוי עדין */
+    
+    /* תיקון כפתור הניקוי - שלא ייראה לחוץ */
+    .top-btn.reset { background: white; color: #b91c1c; border: 1px solid #fca5a5; }
 
-    /* כרטיס ועיצוב כללי */
-    .card { background: white; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); padding: 20px; animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-
-    /* אזור נעול (נציג ומוקד) */
+    .card { background: white; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); padding: 20px; }
+    
     .locked-header { display: none; background: #ecfdf5; border: 1px solid #10b981; border-radius: 12px; padding: 10px 15px; align-items: center; justify-content: space-between; margin-bottom: 15px; }
     .locked-info { font-size: 0.9rem; color: #065f46; font-weight: 700; }
-    .locked-sub { font-size: 0.8rem; color: #047857; }
     .btn-unlock { background: white; border: 1px solid #10b981; color: #059669; border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; }
 
-    /* כותרות ושדות */
     .section-title { display: flex; align-items: center; gap: 6px; margin: 15px 0 8px; font-size: 0.95rem; font-weight: 700; color: var(--primary); border-bottom: 2px solid #f0fdfa; padding-bottom: 4px; }
     .grid { display: grid; gap: 10px; } .grid-2 { grid-template-columns: 1fr 1fr; }
     label { display: block; font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 4px; }
     input, select, textarea { width: 100%; border-radius: 12px; border: 1px solid var(--border); padding: 10px; background: #f9fafb; font-size: 0.95rem; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15); }
     textarea { resize: vertical; min-height: 80px; }
 
-    /* העלאת קבצים */
     .file-upload-wrapper { border: 2px dashed #cbd5e1; border-radius: 12px; text-align: center; padding: 15px 10px; cursor: pointer; position: relative; background: #f8fafc; }
     .file-upload-wrapper.has-file { border-style: solid; border-color: #10b981; background: #ecfdf5; }
     .file-upload-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
     .file-icon { font-size: 1.5rem; display: block; margin-bottom: 5px; }
-    .file-label-text { font-size: 0.8rem; color: #64748b; font-weight: 500; }
 
-    /* כוכבים וצ'יפים */
     .stars { display: inline-flex; gap: 5px; direction: ltr; }
-    .star { font-size: 1.6rem; cursor: pointer; color: #e5e7eb; transition: 0.2s; }
-    .star.filled { color: #f59e0b; transform: scale(1.1); }
+    .star { font-size: 1.6rem; cursor: pointer; color: #e5e7eb; }
+    .star.filled { color: #f59e0b; }
     .traits { display: flex; flex-wrap: wrap; gap: 6px; }
-    .trait-chip { border-radius: 20px; border: 1px solid var(--border); padding: 5px 12px; font-size: 0.8rem; cursor: pointer; background: white; transition: 0.2s; }
+    .trait-chip { border-radius: 20px; border: 1px solid var(--border); padding: 5px 12px; font-size: 0.8rem; cursor: pointer; background: white; }
     .trait-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-    /* כפתורים תחתונים */
-    .btn-main { width: 100%; border: none; border-radius: 999px; padding: 12px; font-size: 1rem; font-weight: 700; background: var(--primary); color: white; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3); }
+    .btn-main { width: 100%; border: none; border-radius: 999px; padding: 12px; font-size: 1rem; font-weight: 700; background: var(--primary); color: white; cursor: pointer; margin-top: 20px; }
     .btn-sub { width: 100%; margin-top: 15px; border-radius: 999px; padding: 10px; font-size: 0.85rem; font-weight: 600; border: 1px solid #fee2e2; background: #fef2f2; color: #991b1b; cursor: pointer; }
     
-    /* טבלה */
     #viewTable { display: none; }
     .table-container { background: white; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); padding: 15px; overflow-x: auto; }
     .styled-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 600px; }
@@ -67,10 +56,6 @@
     .styled-table td { padding: 10px; border-bottom: 1px solid #ddd; }
     .actions-cell { display: flex; gap: 5px; }
     .btn-small { border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 1rem; background: transparent; }
-
-    .msg { margin-top: 10px; padding: 10px; border-radius: 8px; display: none; text-align: center; font-size: 0.85rem; }
-    .msg-ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-    .msg-err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
   </style>
 </head>
 <body>
@@ -84,7 +69,7 @@
   <div class="top-bar">
     <button class="top-btn reset" onclick="clearForm(false)">🧹 נקה טופס</button>
     <button id="btnToggleView" class="top-btn" onclick="toggleView()">📄 רשומות</button>
-    <button id="btnExportAdmin" class="top-btn main">📊 ניהול</button>
+    <button id="btnExportAdmin" class="top-btn main" onclick="openAdmin()">📊 ניהול</button>
   </div>
 
   <div id="viewForm">
@@ -105,7 +90,7 @@
           <div class="grid grid-2">
             <div>
               <label>מוקד</label>
-              <select id="center"><option value="">בחר מוקד</option>
+              <select id="center" onchange="onCenterChange()"><option value="">בחר מוקד</option>
                 <option>אוניברסיטת רייכמן</option><option>(סימולציית שותפים לדרך)</option><option>אוניברסיטת בר אילן</option><option>אוניברסיטת תל-אביב</option><option>מכללת שערי מדע ומשפט</option><option>שותפים לדרך</option><option>מכללת ספיר</option><option>המכללה למנהל ראשל"צ</option><option>האוניברסיטה העברית</option>
               </select>
             </div>
@@ -149,21 +134,25 @@
         <div>
           <label>דירוג</label>
           <div id="stars" class="stars">
-            <span class="star" data-val="1">★</span><span class="star" data-val="2">★</span><span class="star" data-val="3">★</span><span class="star" data-val="4">★</span><span class="star" data-val="5">★</span>
+            <span class="star" data-val="1" onclick="setStar(1)">★</span><span class="star" data-val="2" onclick="setStar(2)">★</span><span class="star" data-val="3" onclick="setStar(3)">★</span><span class="star" data-val="4" onclick="setStar(4)">★</span><span class="star" data-val="5" onclick="setStar(5)">★</span>
           </div>
         </div>
         <div id="traitsBox" class="traits">
-            <span class="trait-chip" data-t="חריצות">חריצות</span><span class="trait-chip" data-t="מקצועיות">מקצועיות</span><span class="trait-chip" data-t="כריזמטי">כריזמטי</span><span class="trait-chip" data-t="ורבלי">ורבלי</span>
+            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="חריצות">חריצות</span>
+            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="מטויבציה גבוהה">מוטיבציה גבוהה</span>
+            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="מקצועיות">מקצועיות</span>
+            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="כריזמטי">כריזמטי</span>
+            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="ורבלי">ורבלי</span>
+            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="ביישן">ביישן</span>
         </div>
-        <textarea id="impression" placeholder="התרשמות..."></textarea>
+        <textarea id="impression" placeholder=" התרשמות הנציג..."></textarea>
         <textarea id="notes" placeholder="הערות פנימיות..."></textarea>
       </div>
 
-      <button id="btnSave" class="btn-main">💾 שמור רשומה</button>
+      <button id="btnSave" class="btn-main" onclick="saveRecord()">💾 שמור רשומה</button>
       <button id="btnClearAll" class="btn-sub" onclick="clearForm(true)">⚠️ יציאה ואיפוס הכל</button>
 
       <div id="msgOk" class="msg msg-ok"></div>
-      <div id="msgErr" class="msg msg-err"></div>
     </div>
   </div>
 
@@ -189,7 +178,6 @@
   const STORAGE_KEY = 'lfp_records_v4';
   const OWNER_KEY   = 'lfp_owner_id_v1';
   
-  // נתוני יריד
   const FAIR_SCHEDULE = [{ centerName:"אוניברסיטת רייכמן",date:"2025-12-01",agents:["יעקב","אופיר","שקד","גל"] },{ centerName:"(סימולציית שותפים לדרך)",date:"2025-12-02",agents:["אורי","איתי שגב","ציונה"] },{ centerName:"אוניברסיטת בר אילן",date:"2025-12-03",agents:["אילון","יעקב","אליאב","ביסאן"] },{ centerName:"אוניברסיטת תל-אביב",date:"2025-12-04",agents:["אורי","אופיר","צליל"] },{ centerName:"מכללת שערי מדע ומשפט",date:"2025-12-08",agents:["אורי","אופיר","צליל"] },{ centerName:"שותפים לדרך",date:"2025-12-08",agents:["איתי*","ציונה*"] },{ centerName:"מכללת ספיר",date:"2025-12-09",agents:["בקי","איתי"] },{ centerName:"המכללה למנהל ראשל\"צ",date:"2025-12-25",agents:["אורי","ציונה","אופיר"] },{ centerName:"האוניברסיטה העברית",date:"2025-12-28",agents:["אורי","אליאב"] }];
 
   let records = [];
@@ -200,27 +188,26 @@
   const E = id => document.getElementById(id);
 
   // === אתחול ===
-  function initApp(){
+  (function initApp(){
     ownerId = localStorage.getItem(OWNER_KEY) || 'u_'+Date.now();
     localStorage.setItem(OWNER_KEY, ownerId);
 
-    // שחזור נציג ומוקד
+    try{ records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch{ records=[]; }
+    updateTotalCount();
+    
+    // שחזור
     const savedAgent = localStorage.getItem('last_agent');
     const savedCenter = localStorage.getItem('last_center');
     if(savedCenter) {
        E('center').value = savedCenter;
-       onCenterChange();
+       onCenterChange(); // טעינת נציגים
        if(savedAgent) {
            E('agent').value = savedAgent;
            lockHeader();
        }
     }
+  })();
 
-    try{ records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch{ records=[]; }
-    updateTotalCount();
-  }
-
-  // === נעילת נציג ===
   function lockHeader(){
       const a = E('agent').value;
       const c = E('center').value;
@@ -241,25 +228,33 @@
       E('headerSetup').style.display='block';
   }
 
-  // === מנגנון שליחה בטוח (Hidden Form) ===
+  function onCenterChange(){
+      const val = E('center').value;
+      const slot = FAIR_SCHEDULE.find(s=>s.centerName===val);
+      const sel = E('agent'); sel.innerHTML='<option value="">בחר נציג</option>';
+      if(slot){
+          E('date').value = slot.date;
+          slot.agents.forEach(a=> {
+              const opt = document.createElement('option');
+              opt.value = a.replace('*','');
+              opt.textContent = a.replace('*','');
+              sel.appendChild(opt);
+          });
+      }
+  }
+
   function sendToGoogle(payload) {
       const form = document.createElement('form');
       form.method='POST'; form.action=API_URL; form.target='hidden_frame';
-      
       const inp = document.createElement('input'); 
-      inp.type='hidden';
-      inp.name='data'; 
-      inp.value=JSON.stringify(payload);
-      
+      inp.type='hidden'; inp.name='data'; inp.value=JSON.stringify(payload);
       form.appendChild(inp); document.body.appendChild(form);
       const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
       document.body.appendChild(ifr); 
       form.submit();
-
       setTimeout(()=>{ document.body.removeChild(form); document.body.removeChild(ifr); }, 3000);
   }
 
-  // === שמירה ===
   async function saveRecord(){
       const id = editingId || ('r_'+Date.now());
       const rec = {
@@ -273,9 +268,8 @@
 
       if(!rec.center || !rec.agent) return alert('נא לבחור מוקד ונציג');
 
-      const btn = E('btnSave'); btn.textContent='שולח...'; btn.disabled=true;
+      const btn = E('btnSave'); btn.textContent='⏳ שומר...'; btn.disabled=true;
 
-      // המרת קבצים
       const file64 = f => new Promise(r=>{const rd=new FileReader(); rd.onload=()=>r({name:f.name,mime:f.type,data:rd.result.split(',')[1]}); rd.readAsDataURL(f);});
       if(E('fileCV').files[0]) rec.fileCV = await file64(E('fileCV').files[0]);
       if(E('fileImg').files[0]) rec.fileImg = await file64(E('fileImg').files[0]);
@@ -298,23 +292,19 @@
       }, 1000);
   }
 
-  // === מחיקה ===
-  window.deleteRecord = function(id) {
-    if(!confirm('למחוק את הרשומה? (היא תסומן כמחוקה בגיליון)')) return;
+  function deleteRecord(id) {
+    if(!confirm('למחוק? (הרשומה תסומן כמחוקה בגיליון)')) return;
     const r = records.find(x=>x.id===id);
     records = records.filter(x=>x.id!==id);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
     updateTotalCount();
     if(isTableView) renderTable();
-
-    // שליחת פקודת מחיקה לגיליון (מעדכן עמודה D ל-deleted)
     sendToGoogle({action:'delete', ownerId, record:r});
-  };
+  }
 
-  // === ניקוי ===
-  window.clearForm = function(fullReset=false) {
+  function clearForm(fullReset=false) {
       if(fullReset) {
-          if(!confirm('האם אתה בטוח שברצונך להתנתק ולאפס את בחירת הנציג?')) return;
+          if(!confirm('האם אתה בטוח שברצונך להתנתק ולאפס את הכל?')) return;
           unlockHeader();
           E('center').value=''; E('agent').innerHTML='<option>בחר נציג</option>'; E('date').value='';
           localStorage.removeItem('last_agent'); localStorage.removeItem('last_center');
@@ -322,52 +312,39 @@
       }
       
       ['name','phone','email','city','year','field','notes','impression'].forEach(i=>E(i).value='');
-      updateStars(0);
+      setStar(0);
       document.querySelectorAll('.trait-chip').forEach(c=>c.classList.remove('active'));
       E('fileCV').value=''; updateFileLabel('fileCV','lblCV','wrapCV');
       E('fileImg').value=''; updateFileLabel('fileImg','lblImg','wrapImg');
       editingId = null;
-  };
+  }
 
-  // === עריכה ===
-  window.editRecord = function(id) {
+  function editRecord(id) {
       const r = records.find(x=>x.id===id);
       if(!r) return;
       editingId = id;
-      toggleView(); // חזרה לטופס
-      unlockHeader(); // פותח כדי לאפשר עריכה אם צריך, אבל משחזר ערכים
+      toggleView(); 
+      unlockHeader(); 
       
       E('center').value = r.center; onCenterChange();
       E('agent').value = r.agent;
-      if(r.agent) lockHeader(); // נועל חזרה
+      if(r.agent) lockHeader(); 
 
       E('date').value=r.date; E('name').value=r.name; E('year').value=r.year;
       E('city').value=r.city; E('phone').value=r.phone; E('email').value=r.email;
       E('field').value=r.field; E('impression').value=r.impression; E('notes').value=r.notes;
       
-      updateStars(r.rating||0);
+      setStar(r.rating||0);
       document.querySelectorAll('.trait-chip').forEach(c => {
           c.classList.toggle('active', (r.traits||[]).includes(c.dataset.t));
       });
-  };
-
-  // === עזרים ===
-  function onCenterChange(){
-      const val = E('center').value;
-      const slot = FAIR_SCHEDULE.find(s=>s.centerName===val);
-      const sel = E('agent'); sel.innerHTML='<option value="">בחר נציג</option>';
-      if(slot){
-          E('date').value = slot.date;
-          slot.agents.forEach(a=> sel.innerHTML+=`<option>${a.replace('*','')}</option>`);
-      }
   }
-  E('center').addEventListener('change', onCenterChange);
 
   function toggleView() {
       isTableView = !isTableView;
       E('viewForm').style.display = isTableView ? 'none' : 'block';
       E('viewTable').style.display = isTableView ? 'block' : 'none';
-      E('btnToggleView').innerHTML = isTableView ? '✏️ חזור לטופס' : '📄 הצג רשומות';
+      E('btnToggleView').innerHTML = isTableView ? '✏️ חזור לטופס' : '📄 רשומות';
       if(isTableView) renderTable();
   }
 
@@ -397,17 +374,9 @@
       }
   }
 
-  // צ'יפים וכוכבים
-  function updateStars(v){ currentRating=v; document.querySelectorAll('.star').forEach(s=>s.classList.toggle('filled', s.dataset.val<=v)); }
-  document.querySelectorAll('.star').forEach(s=>s.onclick=()=>updateStars(s.dataset.val));
-  document.querySelectorAll('.trait-chip').forEach(c=>c.onclick=()=>c.classList.toggle('active'));
+  function setStar(v){ currentRating=v; document.querySelectorAll('.star').forEach(s=>s.classList.toggle('filled', s.dataset.val<=v)); }
 
-  // כפתורים
-  E('btnExportAdmin').onclick = () => { if(prompt('קוד')===ADMIN_CODE) window.open(SHEET_URL); };
-  E('btnSave').onclick = saveRecord;
-
-  initApp();
-});
+  function openAdmin(){ if(prompt('קוד')===ADMIN_CODE) window.open(SHEET_URL); }
 </script>
 </body>
 </html>
