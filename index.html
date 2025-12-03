@@ -673,22 +673,30 @@ const SHEET_URL  = 'https://docs.google.com/spreadsheets/d/1Oz32yNCobHdhz0APS4zl
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  async function deleteRecord(id){
+ async function deleteRecord(id){
     const r = records.find(x=>x.id===id);
     if(!r) return;
-    if(!confirm('למחוק את הרשומה? היא תסומן כמחוקה בגיליון.')) return;
+    if(!confirm('למחוק את הרשומה? הסטטוס שלה בגיליון יהפוך ל-deleted.')) return;
 
+    // מחיקה מקומית מהתצוגה
     records = records.filter(x=>x.id!==id);
     persistRecords();
     renderRecords();
 
+    // שליחה לשרת (עם התיקון של no-cors)
     try{
       if(API_URL && API_URL.includes('script.google.com')){
         await fetch(API_URL,{
           method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({action:'delete',ownerId,record:r})
+          mode: 'no-cors', // <--- התיקון החשוב
+          // שימ לב: מחקנו את ה-headers שעשו בעיות
+          body:JSON.stringify({action:'delete', ownerId, record:r})
         });
+      }
+    }catch(err){
+      console.error('delete error', err);
+    }
+  }
       }
     }catch(err){
       // אם נכשל – לא נורא, יש עותק מקומי
