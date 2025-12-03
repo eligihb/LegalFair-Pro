@@ -286,7 +286,7 @@
   </div>
 
   <div class="top-bar">
-    <button id="btnToggleView" class="top-btn" onclick="toggleView()">
+    <button id="btnToggleView" class="top-btn" onclick="window.toggleView()">
       📄 הצג רשומות
     </button>
     <button id="btnExportAdmin" class="top-btn main">
@@ -376,13 +376,13 @@
 
         <div class="grid grid-2" style="margin-top:5px;">
            <div class="file-upload-wrapper" id="wrapCV">
-              <input type="file" id="fileCV" class="file-upload-input" accept=".pdf,.doc,.docx" onchange="updateFileLabel('fileCV','lblCV','wrapCV')">
+              <input type="file" id="fileCV" class="file-upload-input" accept=".pdf,.doc,.docx" onchange="window.updateFileLabel('fileCV','lblCV','wrapCV')">
               <span class="file-icon">📄</span>
               <div class="file-label-text" id="lblCV">העלאת קו"ח</div>
            </div>
            
            <div class="file-upload-wrapper" id="wrapImg">
-              <input type="file" id="fileImg" class="file-upload-input" accept="image/*" onchange="updateFileLabel('fileImg','lblImg','wrapImg')">
+              <input type="file" id="fileImg" class="file-upload-input" accept="image/*" onchange="window.updateFileLabel('fileImg','lblImg','wrapImg')">
               <span class="file-icon">📷</span>
               <div class="file-label-text" id="lblImg">העלאת תמונה</div>
            </div>
@@ -451,13 +451,15 @@
                </tbody>
          </table>
        </div>
-       <button class="btn-main" onclick="toggleView()" style="margin-top:15px;background:#64748b;">🔙 חזור לטופס</button>
+       <button class="btn-main" onclick="window.toggleView()" style="margin-top:15px;background:#64748b;">🔙 חזור לטופס</button>
     </div>
   </div>
 
 </div>
 
 <script>
+window.addEventListener('DOMContentLoaded', () => {
+
   // ===== הגדרות =====
   const API_URL    = 'https://script.google.com/macros/s/AKfycbwip8xRO6q99yg_iX5KRddVmv3suZmeCEQJ4_TGY4MVtENw3WcrDHUEnTUBI3D7KdE/exec';
   const ADMIN_CODE = '2100';
@@ -465,7 +467,7 @@
   
   const STORAGE_KEY = 'lfp_records_v4';
   const OWNER_KEY   = 'lfp_owner_id_v1';
-  const AGENT_KEY   = 'lfp_agent_name'; // מפתח חדש לשמירת שם הנציג
+  const AGENT_KEY   = 'lfp_agent_name';
 
   let records = [];
   let ownerId = null;
@@ -488,25 +490,8 @@
     { centerName:"האוניברסיטה העברית",          date:"2025-12-28", agents:["אורי","אליאב"] }
   ];
 
-  function initApp(){
-    ownerId = localStorage.getItem(OWNER_KEY);
-    if(!ownerId){
-      ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
-      localStorage.setItem(OWNER_KEY, ownerId);
-    }
-
-    // טעינת שם הנציג
-    const savedAgent = localStorage.getItem(AGENT_KEY);
-    if(savedAgent){
-       E('greeting').textContent = 'שלום, ' + savedAgent + ' 👋';
-    }
-
-    loadRecords();
-  }
-
-  // ===== UI עדכונים =====
-  
-  function toggleView() {
+  // ===== פונקציות גלובליות לשימוש ב-HTML =====
+  window.toggleView = function() {
       isTableView = !isTableView;
       const formDiv = E('viewForm');
       const tableDiv = E('viewTable');
@@ -522,9 +507,9 @@
           tableDiv.style.display = 'none';
           btn.innerHTML = '📄 הצג רשומות';
       }
-  }
-  
-  function updateFileLabel(inputId, labelId, wrapperId) {
+  };
+
+  window.updateFileLabel = function(inputId, labelId, wrapperId) {
       const input = E(inputId);
       const label = E(labelId);
       const wrap = E(wrapperId);
@@ -541,6 +526,47 @@
           label.style.fontWeight = '500';
           wrap.classList.remove('has-file');
       }
+  };
+  
+  window.editFromTable = function(id) {
+      window.toggleView();
+      startEdit(id);
+  };
+
+  window.deleteRecord = async function(id) {
+    const r = records.find(x=>x.id===id);
+    if(!r) return;
+    if(!confirm('למחוק רשומה זו?')) return;
+
+    records = records.filter(x=>x.id!==id);
+    persistRecords();
+    updateTotalCount();
+    
+    if(isTableView) renderTable();
+
+    try{
+      if(API_URL && API_URL.includes('script.google.com')){
+        await fetch(API_URL,{
+          method:'POST',
+          mode: 'no-cors',
+          body:JSON.stringify({action:'delete',ownerId,record:r})
+        });
+      }
+    }catch(err){}
+  };
+
+
+  function initApp(){
+    ownerId = localStorage.getItem(OWNER_KEY);
+    if(!ownerId){
+      ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+      localStorage.setItem(OWNER_KEY, ownerId);
+    }
+    const savedAgent = localStorage.getItem(AGENT_KEY);
+    if(savedAgent){
+       E('greeting').textContent = 'שלום, ' + savedAgent + ' 👋';
+    }
+    loadRecords();
   }
 
   // טלפון
@@ -619,7 +645,6 @@
   async function saveRecord(){
     clearErrors();
 
-    // בדיקת גודל קבצים
     const MAX_SIZE = 4 * 1024 * 1024; // 4MB
     const cvInput = E('fileCV').files[0];
     const imgInput = E('fileImg').files[0];
@@ -652,11 +677,10 @@
       return;
     }
 
-    // שמירת שם הנציג לדפדפן (לפעמים הבאות)
+    // שמירת שם הנציג
     localStorage.setItem(AGENT_KEY, agent);
     E('greeting').textContent = 'שלום, ' + agent + ' 👋';
 
-    // UI המתנה
     const btn = E('btnSave');
     const orgBtnText = btn.textContent;
     btn.textContent = '⏳ שומר...';
@@ -688,7 +712,6 @@
       fileImg: fileImgData
     };
 
-    // שמירה מקומית
     const localRec = {...rec};
     delete localRec.fileCV; delete localRec.fileImg;
 
@@ -698,7 +721,6 @@
     persistRecords();
     updateTotalCount(); 
 
-    // שליחה לשרת
     try{
       if(API_URL && API_URL.includes('script.google.com')){
         await fetch(API_URL,{
@@ -735,11 +757,10 @@
     clearErrors();
     
     E('fileCV').value = ''; E('fileImg').value = '';
-    updateFileLabel('fileCV','lblCV','wrapCV');
-    updateFileLabel('fileImg','lblImg','wrapImg');
+    window.updateFileLabel('fileCV','lblCV','wrapCV');
+    window.updateFileLabel('fileImg','lblImg','wrapImg');
   }
 
-  // ===== נתונים =====
   function loadRecords(){
     try{
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -757,7 +778,6 @@
       E('totalCount').textContent = mine.length;
   }
 
-  // בניית הטבלה
   function renderTable(){
     const tbody = E('tableBody');
     tbody.innerHTML = '';
@@ -768,7 +788,6 @@
         return;
     }
 
-    // מיון לפי תאריך יורד
     mine.sort((a,b) => b.id.localeCompare(a.id));
 
     mine.forEach(r => {
@@ -780,18 +799,13 @@
            <td>${r.date || '-'}</td>
            <td>
               <div class="actions-cell">
-                 <button class="btn-small btn-edit" onclick="editFromTable('${r.id}')">✏️</button>
-                 <button class="btn-small btn-del" onclick="deleteRecord('${r.id}')">🗑️</button>
+                 <button class="btn-small btn-edit" onclick="window.editFromTable('${r.id}')">✏️</button>
+                 <button class="btn-small btn-del" onclick="window.deleteRecord('${r.id}')">🗑️</button>
               </div>
            </td>
         `;
         tbody.appendChild(tr);
     });
-  }
-
-  function editFromTable(id) {
-      toggleView(); // חזרה לטופס
-      startEdit(id);
   }
 
   function startEdit(id){
@@ -821,33 +835,7 @@
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  async function deleteRecord(id){
-    const r = records.find(x=>x.id===id);
-    if(!r) return;
-    if(!confirm('למחוק רשומה זו?')) return;
-
-    records = records.filter(x=>x.id!==id);
-    persistRecords();
-    updateTotalCount();
-    
-    if(isTableView) renderTable();
-
-    try{
-      if(API_URL && API_URL.includes('script.google.com')){
-        await fetch(API_URL,{
-          method:'POST',
-          mode: 'no-cors',
-          body:JSON.stringify({action:'delete',ownerId,record:r})
-        });
-      }
-    }catch(err){}
-  }
-
-  // ===== כפתורים =====
-  
-  // תוקן: אין יותר שימוש בכפתור הישן שלא קיים
-  // הכפתורים החדשים עובדים דרך ה-HTML (onclick) או כאן למטה:
-
+  // ===== חיבור כפתורים =====
   E('btnExportAdmin').addEventListener('click',()=>{
     const code = prompt('קוד מנהל:');
     if(code===ADMIN_CODE){
@@ -863,6 +851,7 @@
   // ===== אתחול =====
   initApp();
 
+});
 </script>
 </body>
 </html>
