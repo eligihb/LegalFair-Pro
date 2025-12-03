@@ -84,6 +84,13 @@
       border-color: var(--primary);
       box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.2);
     }
+    
+    /* כפתור הניקוי החדש בסרגל העליון */
+    .top-btn.reset {
+        border-color: #fca5a5;
+        color: #b91c1c;
+        background: #fef2f2;
+    }
 
     /* --- כרטיס ראשי --- */
     .card {
@@ -107,6 +114,41 @@
       font-size: 0.85rem;
       color: #6b7280;
       margin-bottom: 15px;
+    }
+
+    /* --- אזור נעול (Header Locked) --- */
+    .locked-header {
+        display: none; /* מוסתר בהתחלה */
+        background: #ecfdf5;
+        border: 1px solid #10b981;
+        border-radius: 12px;
+        padding: 10px 15px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        animation: fadeIn 0.3s ease;
+    }
+    .locked-info {
+        font-size: 0.9rem;
+        color: #065f46;
+        font-weight: 600;
+    }
+    .locked-sub {
+        font-size: 0.75rem;
+        color: #047857;
+        opacity: 0.8;
+    }
+    .btn-unlock {
+        background: white;
+        border: 1px solid #10b981;
+        color: #059669;
+        border-radius: 8px;
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
 
     /* --- שדות --- */
@@ -286,6 +328,9 @@
   </div>
 
   <div class="top-bar">
+    <button id="btnTopReset" class="top-btn reset" onclick="window.clearForm(false)">
+      🧹 נקה טופס
+    </button>
     <button id="btnToggleView" class="top-btn" onclick="window.toggleView()">
       📄 הצג רשומות
     </button>
@@ -299,34 +344,45 @@
       <h1>רישום מתעניינים</h1>
       <div class="subtitle">יריד מתמחים 2025</div>
 
-      <div class="section-title">📍 פרטי מוקד ונציג</div>
-      <div class="grid grid-2">
-        <div>
-          <label class="req">מוקד</label>
-          <select id="center">
-            <option value="">בחר מוקד</option>
-            <option>אוניברסיטת רייכמן</option>
-            <option>(סימולציית שותפים לדרך)</option>
-            <option>אוניברסיטת בר אילן</option>
-            <option>אוניברסיטת תל-אביב</option>
-            <option>מכללת שערי מדע ומשפט</option>
-            <option>שותפים לדרך</option>
-            <option>מכללת ספיר</option>
-            <option>המכללה למנהל ראשל"צ</option>
-            <option>האוניברסיטה העברית</option>
-          </select>
-        </div>
-        <div>
-          <label class="req">שם נציג</label>
-          <select id="agent">
-            <option value="">בחר נציג</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid" style="margin-top:6px;">
-         <div style="width:100%;"><label>תאריך</label><input id="date" type="date"></div>
+      <div id="headerLocked" class="locked-header">
+         <div>
+             <div id="lockedAgentName" class="locked-info"></div>
+             <div id="lockedCenterName" class="locked-sub"></div>
+         </div>
+         <button class="btn-unlock" onclick="window.unlockHeader()">
+             ✏️ שינוי
+         </button>
       </div>
 
+      <div id="headerSetup">
+          <div class="section-title">📍 פרטי מוקד ונציג</div>
+          <div class="grid grid-2">
+            <div>
+              <label class="req">מוקד</label>
+              <select id="center">
+                <option value="">בחר מוקד</option>
+                <option>אוניברסיטת רייכמן</option>
+                <option>(סימולציית שותפים לדרך)</option>
+                <option>אוניברסיטת בר אילן</option>
+                <option>אוניברסיטת תל-אביב</option>
+                <option>מכללת שערי מדע ומשפט</option>
+                <option>שותפים לדרך</option>
+                <option>מכללת ספיר</option>
+                <option>המכללה למנהל ראשל"צ</option>
+                <option>האוניברסיטה העברית</option>
+              </select>
+            </div>
+            <div>
+              <label class="req">שם נציג</label>
+              <select id="agent">
+                <option value="">בחר נציג</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid" style="margin-top:6px;">
+             <div style="width:100%;"><label>תאריך</label><input id="date" type="date"></div>
+          </div>
+      </div>
       <div class="section-title">🎓 פרטי סטודנט</div>
       <div class="grid">
         <div>
@@ -427,7 +483,7 @@
       </div>
 
       <button id="btnSave" class="btn-main">💾 שמור רשומה</button>
-      <button id="btnClear" class="btn-sub">ניקוי טופס</button>
+      <button id="btnClear" class="btn-sub">יציאה ואיפוס הכל</button>
 
       <div id="msgOk" class="msg msg-ok"></div>
       <div id="msgErr" class="msg msg-err"></div>
@@ -474,6 +530,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let editingId = null;
   let currentRating = 0;
   let isTableView = false;
+  let isHeaderLocked = false;
 
   const E = id => document.getElementById(id);
 
@@ -490,7 +547,43 @@ window.addEventListener('DOMContentLoaded', () => {
     { centerName:"האוניברסיטה העברית",          date:"2025-12-28", agents:["אורי","אליאב"] }
   ];
 
-  // ===== פונקציות גלובליות לשימוש ב-HTML =====
+  // ===== לוגיקה לנעילת כותרת (Header Lock) =====
+  
+  window.lockHeader = function() {
+      const center = E('center').value;
+      const agent = E('agent').value;
+      
+      if(!center || !agent) return; // נועל רק אם שניהם נבחרו
+      
+      // עדכון התצוגה הנעולה
+      E('lockedAgentName').textContent = 'נציג: ' + agent;
+      E('lockedCenterName').textContent = center;
+      
+      // החלפת תצוגה
+      E('headerSetup').style.display = 'none';
+      E('headerLocked').style.display = 'flex';
+      isHeaderLocked = true;
+      
+      // שמירה לשימוש חוזר
+      localStorage.setItem(AGENT_KEY, agent);
+      E('greeting').textContent = 'שלום, ' + agent + ' 👋';
+  };
+
+  window.unlockHeader = function() {
+      E('headerLocked').style.display = 'none';
+      E('headerSetup').style.display = 'block';
+      isHeaderLocked = false;
+  };
+  
+  // האזנה לבחירת נציג -> נעילה אוטומטית
+  E('agent').addEventListener('change', () => {
+      if(E('agent').value && E('center').value) {
+          window.lockHeader();
+      }
+  });
+
+  // ===== פונקציות גלובליות =====
+
   window.toggleView = function() {
       isTableView = !isTableView;
       const formDiv = E('viewForm');
@@ -555,7 +648,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }catch(err){}
   };
 
-
   function initApp(){
     ownerId = localStorage.getItem(OWNER_KEY);
     if(!ownerId){
@@ -565,6 +657,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedAgent = localStorage.getItem(AGENT_KEY);
     if(savedAgent){
        E('greeting').textContent = 'שלום, ' + savedAgent + ' 👋';
+       // אם יש נציג שמור, אנחנו לא נועלים אוטומטית כי צריך לבחור מוקד מחדש בדרך כלל,
+       // אבל השם מופיע.
     }
     loadRecords();
   }
@@ -606,6 +700,8 @@ window.addEventListener('DOMContentLoaded', () => {
         opt.textContent = clean;
         agentSel.appendChild(opt);
       });
+      // אם בחרנו מוקד, והנציג כבר מלא (נניח ממקודם), ננסה לנעול
+      if(E('agent').value) window.lockHeader();
     }else{
       E('date').value = '';
       E('agent').innerHTML = '<option value="">בחר נציג</option>';
@@ -629,7 +725,6 @@ window.addEventListener('DOMContentLoaded', () => {
     return re.test(e);
   }
 
-  // המרת קבצים
   const fileToBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -677,7 +772,6 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // שמירת שם הנציג
     localStorage.setItem(AGENT_KEY, agent);
     E('greeting').textContent = 'שלום, ' + agent + ' 👋';
 
@@ -686,7 +780,6 @@ window.addEventListener('DOMContentLoaded', () => {
     btn.textContent = '⏳ שומר...';
     btn.disabled = true;
 
-    // המרת קבצים
     let fileCVData = null;
     let fileImgData = null;
     try {
@@ -741,15 +834,29 @@ window.addEventListener('DOMContentLoaded', () => {
 
     btn.textContent = orgBtnText;
     btn.disabled = false;
-    clearForm(false);
+    
+    // ניקוי חלקי (שומר על המוקד והנציג אם הם נעולים)
+    window.clearForm(false);
   }
 
-  function clearForm(resetHeader=true){
-    if(resetHeader){
-      E('center').value='';
-      E('agent').innerHTML='<option value="">בחר נציג</option>';
-      E('date').value='';
+  window.clearForm = function(forceFullReset=false) {
+    
+    // אם לחצנו על ניקוי מלא (כפתור תחתון) - פותחים את הנעילה
+    if(forceFullReset) {
+        window.unlockHeader();
+        E('center').value='';
+        E('agent').innerHTML='<option value="">בחר נציג</option>';
+        E('date').value='';
+    } else {
+        // ניקוי חלקי (כפתור עליון או אחרי שמירה)
+        // אם לא נעול, אז כן מנקים את השדות למעלה
+        if(!isHeaderLocked) {
+             // אבל המשתמש ביקש שבכפתור העליון לא ימחק.
+             // נשאיר את זה לפי שיקול דעת: אם זה "נעול" זה נשמר. אם זה פתוח, זה נשמר גם?
+             // בוא נעשה שזה לא מוחק בכלל אם הפונקציה נקראה עם false.
+        }
     }
+
     ['name','year','city','phone','email','field','impression','notes'].forEach(id=>E(id).value='');
     document.querySelectorAll('.trait-chip').forEach(ch=>ch.classList.remove('active'));
     updateStars(0);
@@ -759,7 +866,7 @@ window.addEventListener('DOMContentLoaded', () => {
     E('fileCV').value = ''; E('fileImg').value = '';
     window.updateFileLabel('fileCV','lblCV','wrapCV');
     window.updateFileLabel('fileImg','lblImg','wrapImg');
-  }
+  };
 
   function loadRecords(){
     try{
@@ -813,6 +920,11 @@ window.addEventListener('DOMContentLoaded', () => {
     if(!r) return;
     editingId = id;
 
+    // בעריכה אנחנו חייבים לפתוח את הנעילה כדי שאפשר יהיה לשנות מוקד אם צריך
+    // או שאפשר לטעון לתוך השדות הנעולים? 
+    // הגישה הפשוטה: פותחים את הנעילה כדי לראות מה עורכים.
+    window.unlockHeader();
+
     E('center').value=r.center||'';
     onCenterChange();
     E('agent').value=r.agent||'';
@@ -833,6 +945,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     updateStars(r.rating||0);
     window.scrollTo({top:0,behavior:'smooth'});
+    
+    // אם עורכים, אולי נרצה לנעול בחזרה? בינתיים נשאיר פתוח לשינוי.
+    if(r.agent && r.center) window.lockHeader();
   }
 
   // ===== חיבור כפתורים =====
@@ -845,7 +960,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  E('btnClear').addEventListener('click',()=>clearForm(true));
+  // כפתור ניקוי תחתון - עושה איפוס מלא
+  E('btnClear').addEventListener('click',()=>window.clearForm(true));
   E('btnSave').addEventListener('click',saveRecord);
 
   // ===== אתחול =====
