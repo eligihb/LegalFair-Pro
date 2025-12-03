@@ -2,620 +2,179 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>רישום מתעניינים</title>
+  <title>רישום מתעניינים – יריד מתמחים</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+
   <style>
-    :root { --primary: #0f766e; --bg: #f3f4f6; --text: #111827; --border: #e5e7eb; }
+    :root {
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --text: #111827;
+      --border: #e5e7eb;
+    }
+
     * { box-sizing: border-box; }
-    body { margin: 0; padding: 10px; font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 40px; }
-    .shell { max-width: 550px; margin: 0 auto; }
-    
-    .stats-bar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px 15px; border-radius: 12px; margin-bottom: 10px; font-weight: 600; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-    .badge-count { background: #ecfdf5; color: #047857; padding: 2px 8px; border-radius: 10px; }
 
-    .top-bar { display: flex; gap: 8px; margin-bottom: 12px; }
-    .top-btn { flex: 1; border: 1px solid var(--border); background: white; padding: 8px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: #4b5563; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; }
-    .top-btn:active { transform: scale(0.95); }
-    .top-btn.main { background: var(--primary); color: white; border-color: var(--primary); }
-    
-    /* תיקון כפתור הניקוי - שלא ייראה לחוץ */
-    .top-btn.reset { background: white; color: #b91c1c; border: 1px solid #fca5a5; }
+    body {
+      margin: 0;
+      padding: 10px;
+      font-family: 'Heebo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 40px;
+    }
 
-    .card { background: white; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); padding: 20px; }
-    
-    .locked-header { display: none; background: #ecfdf5; border: 1px solid #10b981; border-radius: 12px; padding: 10px 15px; align-items: center; justify-content: space-between; margin-bottom: 15px; }
-    .locked-info { font-size: 0.9rem; color: #065f46; font-weight: 700; }
-    .btn-unlock { background: white; border: 1px solid #10b981; color: #059669; border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; cursor: pointer; }
+    .shell {
+      max-width: 550px;
+      margin: 0 auto;
+    }
 
-    .section-title { display: flex; align-items: center; gap: 6px; margin: 15px 0 8px; font-size: 0.95rem; font-weight: 700; color: var(--primary); border-bottom: 2px solid #f0fdfa; padding-bottom: 4px; }
-    .grid { display: grid; gap: 10px; } .grid-2 { grid-template-columns: 1fr 1fr; }
-    label { display: block; font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 4px; }
-    input, select, textarea { width: 100%; border-radius: 12px; border: 1px solid var(--border); padding: 10px; background: #f9fafb; font-size: 0.95rem; }
+    /* --- סרגל סטטיסטיקה --- */
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 8px 15px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .badge-count {
+      background: #ecfdf5;
+      color: #047857;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-right: 5px;
+    }
+
+    /* --- כפתורים עליונים --- */
+    .top-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .top-btn {
+      flex: 1;
+      border: 1px solid var(--border);
+      background: white;
+      padding: 8px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4b5563;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .top-btn:active { transform: scale(0.98); }
+    .top-btn.main {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 6px -1px rgba(15, 118, 110, 0.2);
+    }
+
+    /* --- כרטיס ראשי --- */
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      text-align: center;
+      color: var(--primary);
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 15px;
+    }
+
+    /* --- שדות --- */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 18px 0 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      border-bottom: 2px solid #f0fdfa;
+      padding-bottom: 4px;
+    }
+
+    .grid { display: grid; gap: 10px; }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+    .req::after { content: " *"; color: #ef4444; }
+
+    input, select, textarea {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 10px;
+      font-size: 0.95rem;
+      background: #f9fafb;
+      transition: 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+    }
     textarea { resize: vertical; min-height: 80px; }
 
-    .file-upload-wrapper { border: 2px dashed #cbd5e1; border-radius: 12px; text-align: center; padding: 15px 10px; cursor: pointer; position: relative; background: #f8fafc; }
-    .file-upload-wrapper.has-file { border-style: solid; border-color: #10b981; background: #ecfdf5; }
-    .file-upload-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-    .file-icon { font-size: 1.5rem; display: block; margin-bottom: 5px; }
-
-    .stars { display: inline-flex; gap: 5px; direction: ltr; }
-    .star { font-size: 1.6rem; cursor: pointer; color: #e5e7eb; }
-    .star.filled { color: #f59e0b; }
-    .traits { display: flex; flex-wrap: wrap; gap: 6px; }
-    .trait-chip { border-radius: 20px; border: 1px solid var(--border); padding: 5px 12px; font-size: 0.8rem; cursor: pointer; background: white; }
-    .trait-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-    .btn-main { width: 100%; border: none; border-radius: 999px; padding: 12px; font-size: 1rem; font-weight: 700; background: var(--primary); color: white; cursor: pointer; margin-top: 20px; }
-    .btn-sub { width: 100%; margin-top: 15px; border-radius: 999px; padding: 10px; font-size: 0.85rem; font-weight: 600; border: 1px solid #fee2e2; background: #fef2f2; color: #991b1b; cursor: pointer; }
-    
-    #viewTable { display: none; }
-    .table-container { background: white; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); padding: 15px; overflow-x: auto; }
-    .styled-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 600px; }
-    .styled-table th { background: var(--primary); color: white; padding: 10px; text-align: right; }
-    .styled-table td { padding: 10px; border-bottom: 1px solid #ddd; }
-    .actions-cell { display: flex; gap: 5px; }
-    .btn-small { border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 1rem; background: transparent; }
-  </style>
-</head>
-<body>
-<div class="shell">
-
-  <div class="stats-bar">
-    <div id="greeting">שלום, נציג 👋</div>
-    <div>סה"כ: <span id="totalCount" class="badge-count">0</span></div>
-  </div>
-
-  <div class="top-bar">
-    <button class="top-btn reset" onclick="clearForm(false)">🧹 נקה טופס</button>
-    <button id="btnToggleView" class="top-btn" onclick="toggleView()">📄 רשומות</button>
-    <button id="btnExportAdmin" class="top-btn main" onclick="openAdmin()">📊 ניהול</button>
-  </div>
-
-  <div id="viewForm">
-    <div class="card">
-      <h1 style="text-align:center;color:var(--primary);margin:0;">רישום מתעניינים</h1>
-      <div style="text-align:center;color:#666;font-size:0.85rem;margin-bottom:15px;">יריד מתמחים 2025</div>
-
-      <div id="headerLocked" class="locked-header">
-         <div>
-             <div id="lockedAgentName" class="locked-info"></div>
-             <div id="lockedCenterName" class="locked-sub"></div>
-         </div>
-         <button class="btn-unlock" onclick="unlockHeader()">✏️ שנה</button>
-      </div>
-
-      <div id="headerSetup">
-          <div class="section-title">📍 פרטי מוקד</div>
-          <div class="grid grid-2">
-            <div>
-              <label>מוקד</label>
-              <select id="center" onchange="onCenterChange()"><option value="">בחר מוקד</option>
-                <option>אוניברסיטת רייכמן</option><option>(סימולציית שותפים לדרך)</option><option>אוניברסיטת בר אילן</option><option>אוניברסיטת תל-אביב</option><option>מכללת שערי מדע ומשפט</option><option>שותפים לדרך</option><option>מכללת ספיר</option><option>המכללה למנהל ראשל"צ</option><option>האוניברסיטה העברית</option>
-              </select>
-            </div>
-            <div>
-              <label>נציג</label>
-              <select id="agent"><option value="">בחר נציג</option></select>
-            </div>
-          </div>
-          <div class="grid" style="margin-top:5px;"><input id="date" type="date"></div>
-      </div>
-
-      <div class="section-title">🎓 פרטי סטודנט</div>
-      <div class="grid">
-        <input id="name" type="text" placeholder="שם מלא">
-        <div class="grid grid-2">
-          <select id="year"><option value="">שנה...</option><option>שנה א'</option><option>שנה ב'</option><option>שנה ג'</option><option>שנה ד'</option><option>סטאז'</option></select>
-          <input id="city" type="text" placeholder="עיר">
-        </div>
-        <div class="grid grid-2">
-          <input id="phone" type="tel" placeholder="טלפון">
-          <input id="email" type="email" placeholder="מייל">
-        </div>
-        <select id="field">
-            <option value="">תחום מועדף...</option><option>ליטיגציה</option><option>מסחרי</option><option>חדלות פירעון</option><option>דיני עבודה</option><option>נזיקין</option><option>משפחה</option><option>פלילי</option>
-        </select>
-        
-        <div class="grid grid-2" style="margin-top:5px;">
-           <div class="file-upload-wrapper" id="wrapCV">
-              <input type="file" id="fileCV" class="file-upload-input" accept=".pdf,.doc,.docx" onchange="updateFileLabel('fileCV','lblCV','wrapCV')">
-              <span class="file-icon">📄</span><div class="file-label-text" id="lblCV">העלאת קו"ח</div>
-           </div>
-           <div class="file-upload-wrapper" id="wrapImg">
-              <input type="file" id="fileImg" class="file-upload-input" accept="image/*" onchange="updateFileLabel('fileImg','lblImg','wrapImg')">
-              <span class="file-icon">📷</span><div class="file-label-text" id="lblImg">העלאת תמונה</div>
-           </div>
-        </div>
-      </div>
-
-      <div class="section-title">⭐ סיכום</div>
-      <div class="grid">
-        <div>
-          <label>דירוג</label>
-          <div id="stars" class="stars">
-            <span class="star" data-val="1" onclick="setStar(1)">★</span><span class="star" data-val="2" onclick="setStar(2)">★</span><span class="star" data-val="3" onclick="setStar(3)">★</span><span class="star" data-val="4" onclick="setStar(4)">★</span><span class="star" data-val="5" onclick="setStar(5)">★</span>
-          </div>
-        </div>
-        <div id="traitsBox" class="traits">
-            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="חריצות">חריצות</span>
-            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="מטויבציה גבוהה">מוטיבציה גבוהה</span>
-            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="מקצועיות">מקצועיות</span>
-            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="כריזמטי">כריזמטי</span>
-            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="ורבלי">ורבלי</span>
-            <span class="trait-chip" onclick="this.classList.toggle('active')" data-t="ביישן">ביישן</span>
-        </div>
-        <textarea id="impression" placeholder=" התרשמות הנציג..."></textarea>
-        <textarea id="notes" placeholder="הערות פנימיות..."></textarea>
-      </div>
-
-      <button id="btnSave" class="btn-main" onclick="saveRecord()">💾 שמור רשומה</button>
-      <button id="btnClearAll" class="btn-sub" onclick="clearForm(true)">⚠️ יציאה ואיפוס הכל</button>
-
-      <div id="msgOk" class="msg msg-ok"></div>
-    </div>
-  </div>
-
-  <div id="viewTable">
-    <div class="table-container">
-       <h3 style="text-align:center;color:var(--primary);margin-top:0;">היסטוריה</h3>
-       <table class="styled-table">
-          <thead><tr><th>שם</th><th>תחום</th><th>פעולות</th></tr></thead>
-          <tbody id="tableBody"></tbody>
-       </table>
-       <button class="btn-main" onclick="toggleView()" style="margin-top:15px;background:#64748b;">🔙 חזור</button>
-    </div>
-  </div>
-
-</div>
-
-<script>
-  // הגדרות
-  const API_URL    = 'https://script.google.com/macros/s/AKfycbwip8xRO6q99yg_iX5KRddVmv3suZmeCEQJ4_TGY4MVtENw3WcrDHUEnTUBI3D7KdE/exec';
-  const SHEET_URL  = 'https://docs.google.com/spreadsheets/d/1Oz32yNCobHdhz0APS4zl5O34rkqZxGvP0TJgPKKDLdk/edit';
-  const ADMIN_CODE = '2100';
-  
-  const STORAGE_KEY = 'lfp_records_v4';
-  const OWNER_KEY   = 'lfp_owner_id_v1';
-  
-  const FAIR_SCHEDULE = [{ centerName:"אוניברסיטת רייכמן",date:"2025-12-01",agents:["יעקב","אופיר","שקד","גל"] },{ centerName:"(סימולציית שותפים לדרך)",date:"2025-12-02",agents:["אורי","איתי שגב","ציונה"] },{ centerName:"אוניברסיטת בר אילן",date:"2025-12-03",agents:["אילון","יעקב","אליאב","ביסאן"] },{ centerName:"אוניברסיטת תל-אביב",date:"2025-12-04",agents:["אורי","אופיר","צליל"] },{ centerName:"מכללת שערי מדע ומשפט",date:"2025-12-08",agents:["אורי","אופיר","צליל"] },{ centerName:"שותפים לדרך",date:"2025-12-08",agents:["איתי*","ציונה*"] },{ centerName:"מכללת ספיר",date:"2025-12-09",agents:["בקי","איתי"] },{ centerName:"המכללה למנהל ראשל\"צ",date:"2025-12-25",agents:["אורי","ציונה","אופיר"] },{ centerName:"האוניברסיטה העברית",date:"2025-12-28",agents:["אורי","אליאב"] }];
-
-  let records = [];
-  let ownerId = null;
-  let editingId = null;
-  let currentRating = 0;
-  let isTableView = false;
-  const E = id => document.getElementById(id);
-
-  // === אתחול ===
-  (function initApp(){
-    ownerId = localStorage.getItem(OWNER_KEY) || 'u_'+Date.now();
-    localStorage.setItem(OWNER_KEY, ownerId);
-
-    try{ records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch{ records=[]; }
-    updateTotalCount();
-    
-    // שחזור
-    const savedAgent = localStorage.getItem('last_agent');
-    const savedCenter = localStorage.getItem('last_center');
-    if(savedCenter) {
-       E('center').value = savedCenter;
-       onCenterChange(); // טעינת נציגים
-       if(savedAgent) {
-           E('agent').value = savedAgent;
-           lockHeader();
-       }
+    /* --- כפתורי העלאת קבצים מעוצבים --- */
+    .file-upload-wrapper {
+      position: relative;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      background: #f8fafc;
+      text-align: center;
+      padding: 15px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-  })();
-
-  function lockHeader(){
-      const a = E('agent').value;
-      const c = E('center').value;
-      if(!a || !c) return;
-      
-      E('headerSetup').style.display='none';
-      E('headerLocked').style.display='flex';
-      E('lockedAgentName').textContent = 'נציג: ' + a;
-      E('lockedCenterName').textContent = c;
-      E('greeting').textContent = 'שלום, ' + a + ' 👋';
-      
-      localStorage.setItem('last_agent', a);
-      localStorage.setItem('last_center', c);
-  }
-
-  function unlockHeader(){
-      E('headerLocked').style.display='none';
-      E('headerSetup').style.display='block';
-  }
-
-  function onCenterChange(){
-      const val = E('center').value;
-      const slot = FAIR_SCHEDULE.find(s=>s.centerName===val);
-      const sel = E('agent'); sel.innerHTML='<option value="">בחר נציג</option>';
-      if(slot){
-          E('date').value = slot.date;
-          slot.agents.forEach(a=> {
-              const opt = document.createElement('option');
-              opt.value = a.replace('*','');
-              opt.textContent = a.replace('*','');
-              sel.appendChild(opt);
-          });
-      }
-  }
-
-  function sendToGoogle(payload) {
-      const form = document.createElement('form');
-      form.method='POST'; form.action=API_URL; form.target='hidden_frame';
-      const inp = document.createElement('input'); 
-      inp.type='hidden'; inp.name='data'; inp.value=JSON.stringify(payload);
-      form.appendChild(inp); document.body.appendChild(form);
-      const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
-      document.body.appendChild(ifr); 
-      form.submit();
-      setTimeout(()=>{ document.body.removeChild(form); document.body.removeChild(ifr); }, 3000);
-  }
-
-  async function saveRecord(){
-      const id = editingId || ('r_'+Date.now());
-      const rec = {
-          id: id,
-          center: E('center').value, agent: E('agent').value, date: E('date').value, time: new Date().toLocaleTimeString(),
-          name: E('name').value, year: E('year').value, city: E('city').value, phone: E('phone').value, email: E('email').value,
-          field: E('field').value, rating: currentRating,
-          traits: [...document.querySelectorAll('.trait-chip.active')].map(c=>c.dataset.t),
-          impression: E('impression').value, notes: E('notes').value
-      };
-
-      if(!rec.center || !rec.agent) return alert('נא לבחור מוקד ונציג');
-
-      const btn = E('btnSave'); btn.textContent='⏳ שומר...'; btn.disabled=true;
-
-      const file64 = f => new Promise(r=>{const rd=new FileReader(); rd.onload=()=>r({name:f.name,mime:f.type,data:rd.result.split(',')[1]}); rd.readAsDataURL(f);});
-      if(E('fileCV').files[0]) rec.fileCV = await file64(E('fileCV').files[0]);
-      if(E('fileImg').files[0]) rec.fileImg = await file64(E('fileImg').files[0]);
-
-      // שמירה מקומית
-      const local = {...rec}; delete local.fileCV; delete local.fileImg;
-      const idx = records.findIndex(r=>r.id===id);
-      if(idx>=0) records[idx]=local; else records.push(local);
-      
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-      updateTotalCount();
-
-      // שליחה לגוגל
-      sendToGoogle({action:'add', ownerId, record:rec});
-
-      setTimeout(()=>{
-          alert('נשמר בהצלחה!');
-          btn.textContent='💾 שמור רשומה'; btn.disabled=false;
-          clearForm(false);
-      }, 1000);
-  }
-
-  function deleteRecord(id) {
-    if(!confirm('למחוק? (הרשומה תסומן כמחוקה בגיליון)')) return;
-    const r = records.find(x=>x.id===id);
-    records = records.filter(x=>x.id!==id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-    updateTotalCount();
-    if(isTableView) renderTable();
-    sendToGoogle({action:'delete', ownerId, record:r});
-  }
-
-  function clearForm(fullReset=false) {
-      if(fullReset) {
-          if(!confirm('האם אתה בטוח שברצונך להתנתק ולאפס את הכל?')) return;
-          unlockHeader();
-          E('center').value=''; E('agent').innerHTML='<option>בחר נציג</option>'; E('date').value='';
-          localStorage.removeItem('last_agent'); localStorage.removeItem('last_center');
-          E('greeting').textContent = 'שלום, נציג 👋';
-      }
-      
-      ['name','phone','email','city','year','field','notes','impression'].forEach(i=>E(i).value='');
-      setStar(0);
-      document.querySelectorAll('.trait-chip').forEach(c=>c.classList.remove('active'));
-      E('fileCV').value=''; updateFileLabel('fileCV','lblCV','wrapCV');
-      E('fileImg').value=''; updateFileLabel('fileImg','lblImg','wrapImg');
-      editingId = null;
-  }
-
-  function editRecord(id) {
-      const r = records.find(x=>x.id===id);
-      if(!r) return;
-      editingId = id;
-      toggleView(); 
-      unlockHeader(); 
-      
-      E('center').value = r.center; onCenterChange();
-      E('agent').value = r.agent;
-      if(r.agent) lockHeader(); 
-
-      E('date').value=r.date; E('name').value=r.name; E('year').value=r.year;
-      E('city').value=r.city; E('phone').value=r.phone; E('email').value=r.email;
-      E('field').value=r.field; E('impression').value=r.impression; E('notes').value=r.notes;
-      
-      setStar(r.rating||0);
-      document.querySelectorAll('.trait-chip').forEach(c => {
-          c.classList.toggle('active', (r.traits||[]).includes(c.dataset.t));
-      });
-  }
-
-  function toggleView() {
-      isTableView = !isTableView;
-      E('viewForm').style.display = isTableView ? 'none' : 'block';
-      E('viewTable').style.display = isTableView ? 'block' : 'none';
-      E('btnToggleView').innerHTML = isTableView ? '✏️ חזור לטופס' : '📄 רשומות';
-      if(isTableView) renderTable();
-  }
-
-  function renderTable(){
-      const b = E('tableBody'); b.innerHTML='';
-      records.slice().reverse().forEach(r => {
-          b.innerHTML += `
-             <tr>
-                <td><strong>${r.name||'-'}</strong></td>
-                <td>${r.field||'-'}</td>
-                <td class="actions-cell">
-                   <button class="btn-small" onclick="editRecord('${r.id}')">✏️</button>
-                   <button class="btn-small" onclick="deleteRecord('${r.id}')">🗑️</button>
-                </td>
-             </tr>`;
-      });
-  }
-
-  function updateFileLabel(inputId, labelId, wrapperId) {
-      const input = E(inputId);
-      if(input.files[0]) {
-          E(labelId).textContent = input.files[0].name.slice(0,10)+'...';
-          E(wrapperId).classList.add('has-file');
-      } else {
-          E(labelId).textContent = inputId.includes('CV') ? 'העלאת קו"ח' : 'העלאת תמונה';
-          E(wrapperId).classList.remove('has-file');
-      }
-  }
-
-  function setStar(v){ currentRating=v; document.querySelectorAll('.star').forEach(s=>s.classList.toggle('filled', s.dataset.val<=v)); }
-
-  function openAdmin(){ if(prompt('קוד')===ADMIN_CODE) window.open(SHEET_URL); }
-</script>
-  <script>
-// וודא שהכתובת הזו מעודכנת מה-Deploy האחרון שעשית!
-const API_URL = 'https://script.google.com/macros/s/AKfycbwip8xRO6q99yg_iX5KRddVmv3suZmeCEQJ4_TGY4MVtENw3WcrDHUEnTUBI3D7KdE/exec'; 
-const SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1Oz32yNCobHdhz0APS4zl5O34rkqZxGvP0TJgPKKDLdk/edit';
-const ADMIN_CODE = '2100';
-
-const FAIR_SCHEDULE = [{ centerName:"אוניברסיטת רייכמן",date:"2025-12-01",agents:["יעקב","אופיר","שקד","גל"] },{ centerName:"(סימולציית שותפים לדרך)",date:"2025-12-02",agents:["אורי","איתי שגב","ציונה"] },{ centerName:"אוניברסיטת בר אילן",date:"2025-12-03",agents:["אילון","יעקב","אליאב","ביסאן"] },{ centerName:"אוניברסיטת תל-אביב",date:"2025-12-04",agents:["אורי","אופיר","צליל"] },{ centerName:"מכללת שערי מדע ומשפט",date:"2025-12-08",agents:["אורי","אופיר","צליל"] },{ centerName:"שותפים לדרך",date:"2025-12-08",agents:["איתי*","ציונה*"] },{ centerName:"מכללת ספיר",date:"2025-12-09",agents:["בקי","איתי"] },{ centerName:"המכללה למנהל ראשל\"צ",date:"2025-12-25",agents:["אורי","ציונה","אופיר"] },{ centerName:"האוניברסיטה העברית",date:"2025-12-28",agents:["אורי","אליאב"] }];
-
-const E = id => document.getElementById(id);
-let records=[], ownerId=localStorage.getItem('uid')||'u_'+Date.now(), currentRating=0;
-let editingId = null; 
-
-localStorage.setItem('uid', ownerId);
-
-// פונקציית אתחול שרצה מיד בטעינה
-(function init(){
-    try {
-        const savedAgent = localStorage.getItem('last_agent');
-        const savedCenter = localStorage.getItem('last_center');
-        
-        if(savedCenter){
-            E('center').value = savedCenter;
-            onCenterChange();
-            if(savedAgent){
-                E('agent').value = savedAgent;
-                lockHeader();
-            }
-        }
-        
-        const raw=localStorage.getItem('recs'); if(raw) records=JSON.parse(raw);
-        updCount();
-    } catch(e) { console.log('Error init', e); }
-})();
-
-function lockHeader(){
-    const a=E('agent').value, c=E('center').value;
-    if(!a||!c)return;
-    E('lockedAgentName').textContent = 'נציג: '+a;
-    E('lockedCenterName').textContent = c;
-    E('headerSetup').style.display='none';
-    E('headerLocked').style.display='flex';
-    E('greeting').textContent = 'שלום, '+a;
-    localStorage.setItem('last_agent', a);
-    localStorage.setItem('last_center', c);
-}
-
-function unlockHeader(){
-    E('headerLocked').style.display='none';
-    E('headerSetup').style.display='block';
-}
-
-function onCenterChange(){
-    const val = E('center').value;
-    const slot = FAIR_SCHEDULE.find(s=>s.centerName===val);
-    const sel = E('agent'); sel.innerHTML='<option value="">בחר נציג</option>';
-    if(slot){
-        E('date').value = slot.date;
-        slot.agents.forEach(a=> {
-            const opt = document.createElement('option');
-            opt.value = a.replace('*','');
-            opt.textContent = a.replace('*','');
-            sel.appendChild(opt);
-        });
+    .file-upload-wrapper:hover {
+      border-color: var(--primary);
+      background: #f0fdfa;
     }
-}
-
-function updateFileLabel(inputId, labelId, wrapperId) {
-    const input = E(inputId);
-    if(input.files[0]) {
-        E(labelId).textContent = input.files[0].name.slice(0,10)+'...';
-        E(wrapperId).classList.add('has-file');
-    } else {
-        E(labelId).textContent = inputId.includes('CV') ? 'העלאת קו"ח' : 'העלאת תמונה';
-        E(wrapperId).classList.remove('has-file');
+    .file-upload-wrapper.has-file {
+      border-style: solid;
+      border-color: #10b981;
+      background: #ecfdf5;
     }
-}
-
-const file64 = f => new Promise((resolve, reject) => {
-    const rd = new FileReader();
-    rd.onload = () => resolve({name:f.name, mime:f.type, data:rd.result.split(',')[1]});
-    rd.onerror = reject;
-    rd.readAsDataURL(f);
-});
-
-function setStar(v){ currentRating=v; document.querySelectorAll('.star').forEach(s=>s.classList.toggle('filled', s.dataset.val<=v)); }
-
-// === פונקציית השמירה המשודרגת (נגד תקיעות) ===
-async function saveRecord(){
-    const btn = E('btnSave');
-    
-    // בדיקת חובה
-    if(!E('center').value || !E('agent').value) {
-        alert('חובה לבחור מוקד ונציג!');
-        return;
+    .file-upload-input {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      cursor: pointer;
     }
-
-    try {
-        btn.textContent='⏳ שומר...'; 
-        btn.disabled=true;
-
-        const id = editingId || ('r_'+Date.now());
-        const rec = {
-            id: id,
-            center: E('center').value, agent: E('agent').value, date: E('date').value, time: new Date().toLocaleTimeString(),
-            name: E('name').value, year: E('year').value, city: E('city').value, phone: E('phone').value, email: E('email').value,
-            field: E('field').value, rating: currentRating,
-            traits: [...document.querySelectorAll('.trait-chip.active')].map(c=>c.dataset.t),
-            impression: E('impression').value, notes: E('notes').value
-        };
-
-        // המרת קבצים
-        if(E('fileCV').files[0]) rec.fileCV = await file64(E('fileCV').files[0]);
-        if(E('fileImg').files[0]) rec.fileImg = await file64(E('fileImg').files[0]);
-
-        // שמירה לוקאלית
-        const local = {...rec}; delete local.fileCV; delete local.fileImg;
-        const idx = records.findIndex(r=>r.id===id);
-        if(idx>=0) records[idx]=local; else records.push(local);
-        localStorage.setItem('recs', JSON.stringify(records));
-        updCount();
-
-        // שליחה לגוגל
-        const form = document.createElement('form');
-        form.method='POST'; form.action=API_URL; form.target='hidden_frame';
-        const inp = document.createElement('input'); 
-        inp.type='hidden'; inp.name='data'; inp.value=JSON.stringify({action:'add', ownerId, record:rec});
-        form.appendChild(inp); document.body.appendChild(form);
-        
-        const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
-        document.body.appendChild(ifr);
-        
-        form.submit(); // כאן השליחה מתבצעת
-
-        // טיימר לשחרור הכפתור
-        setTimeout(()=>{
-            document.body.removeChild(form); 
-            document.body.removeChild(ifr);
-            
-            alert('נשמר בהצלחה! (הקבצים עולים ברקע)');
-            btn.textContent='💾 שמור רשומה'; 
-            btn.disabled=false;
-            clearForm(false);
-        }, 2000); // 2 שניות המתנה
-
-    } catch (err) {
-        console.error(err);
-        alert('אירעה שגיאה בשמירה: ' + err.message);
-        btn.textContent='💾 שמור רשומה'; 
-        btn.disabled=false;
-    }
-}
-
-function deleteRecord(id) {
-    if(!confirm('למחוק? (יסומן בגיליון כמחוק)')) return;
-    const r = records.find(x=>x.id===id);
-    records = records.filter(x=>x.id!==id);
-    localStorage.setItem('recs',JSON.stringify(records)); 
-    updCount();
-    
-    // שליחה שקטה
-    try {
-        const form = document.createElement('form');
-        form.method='POST'; form.action=API_URL; form.target='hidden_frame';
-        const inp = document.createElement('input'); 
-        inp.type='hidden'; inp.name='data'; inp.value=JSON.stringify({action:'delete', ownerId, record:r});
-        form.appendChild(inp); document.body.appendChild(form);
-        const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
-        document.body.appendChild(ifr); form.submit();
-        setTimeout(()=>{ document.body.removeChild(form); document.body.removeChild(ifr); }, 2000);
-    } catch(e){}
-}
-
-function clearForm(fullReset=false){
-    if(fullReset){
-        if(!confirm('למחוק הכל ולהתנתק?')) return;
-        unlockHeader(); 
-        E('center').value=''; E('agent').innerHTML='<option value="">בחר נציג</option>'; E('date').value='';
-        localStorage.removeItem('last_agent'); localStorage.removeItem('last_center');
-        E('greeting').textContent = 'שלום, נציג 👋';
-    }
-
-    E('name').value=''; E('phone').value=''; E('email').value=''; 
-    E('city').value=''; E('year').value=''; E('field').value='';
-    E('notes').value=''; E('impression').value='';
-    setStar(0);
-    document.querySelectorAll('.trait-chip').forEach(c=>c.classList.remove('active'));
-    E('fileCV').value=''; updateFileLabel('fileCV','lblCV','wrapCV');
-    E('fileImg').value=''; updateFileLabel('fileImg','lblImg','wrapImg');
-    editingId = null;
-}
-
-function editRecord(id){
-    const r = records.find(x=>x.id===id);
-    if(!r) return;
-    editingId = id;
-    toggleView(); 
-    unlockHeader(); 
-    E('center').value = r.center; onCenterChange();
-    E('agent').value = r.agent;
-    if(r.agent) lockHeader(); 
-
-    E('date').value=r.date; E('name').value=r.name; E('year').value=r.year;
-    E('city').value=r.city; E('phone').value=r.phone; E('email').value=r.email;
-    E('field').value=r.field; E('impression').value=r.impression; E('notes').value=r.notes;
-    setStar(r.rating||0);
-    document.querySelectorAll('.trait-chip').forEach(c => {
-        c.classList.toggle('active', (r.traits||[]).includes(c.dataset.t));
-    });
-}
-
-function updCount(){ E('totalCount').textContent = records.length; renderTable(); }
-
-function toggleView(){ 
-    const v=E('viewTable'), f=E('viewForm'); 
-    if(v.style.display==='none'){v.style.display='block';f.style.display='none'; E('btnToggleView').textContent='✏️ חזור לטופס';}
-    else{v.style.display='none';f.style.display='block'; E('btnToggleView').textContent='📄 רשומות';}
-    renderTable();
-}
-
-function renderTable(){
-    const b=E('tableBody'); b.innerHTML='';
-    records.slice().reverse().forEach(r=>{
-        b.innerHTML+=`<tr>
-            <td><strong>${r.name||'-'}</strong></td>
-            <td>${r.field||'-'}</td>
-            <td class="actions-cell">
-               <button class="btn-small" onclick="editRecord('${r.id}')">✏️</button>
-               <button class="btn-small" onclick="deleteRecord('${r.id}')">🗑️</button>
-            </td>
-        </tr>`;
-    });
-}
-
-function openAdmin(){
-    const c = prompt('קוד מנהל:');
-    if(c === ADMIN_CODE) window.open(SHEET_LINK, '_blank');
-    else if(c) alert('קוד שגוי');
-}
-</script>
-</body>
-</html>
+    .file-icon { font-size: 1.5rem; display: block; margin-bottom: 5
