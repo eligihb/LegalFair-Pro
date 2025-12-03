@@ -465,6 +465,7 @@
   
   const STORAGE_KEY = 'lfp_records_v4';
   const OWNER_KEY   = 'lfp_owner_id_v1';
+  const AGENT_KEY   = 'lfp_agent_name'; // מפתח חדש לשמירת שם הנציג
 
   let records = [];
   let ownerId = null;
@@ -487,17 +488,24 @@
     { centerName:"האוניברסיטה העברית",          date:"2025-12-28", agents:["אורי","אליאב"] }
   ];
 
-  function initOwner(){
+  function initApp(){
     ownerId = localStorage.getItem(OWNER_KEY);
     if(!ownerId){
       ownerId = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
       localStorage.setItem(OWNER_KEY, ownerId);
     }
+
+    // טעינת שם הנציג
+    const savedAgent = localStorage.getItem(AGENT_KEY);
+    if(savedAgent){
+       E('greeting').textContent = 'שלום, ' + savedAgent + ' 👋';
+    }
+
+    loadRecords();
   }
 
   // ===== UI עדכונים =====
   
-  // החלפת מסכים (טופס <-> טבלה)
   function toggleView() {
       isTableView = !isTableView;
       const formDiv = E('viewForm');
@@ -508,7 +516,7 @@
           formDiv.style.display = 'none';
           tableDiv.style.display = 'block';
           btn.innerHTML = '✏️ חזור לטופס';
-          renderTable(); // רענון הטבלה
+          renderTable();
       } else {
           formDiv.style.display = 'block';
           tableDiv.style.display = 'none';
@@ -516,7 +524,6 @@
       }
   }
   
-  // עדכון כפתורי העלאה
   function updateFileLabel(inputId, labelId, wrapperId) {
       const input = E(inputId);
       const label = E(labelId);
@@ -645,6 +652,10 @@
       return;
     }
 
+    // שמירת שם הנציג לדפדפן (לפעמים הבאות)
+    localStorage.setItem(AGENT_KEY, agent);
+    E('greeting').textContent = 'שלום, ' + agent + ' 👋';
+
     // UI המתנה
     const btn = E('btnSave');
     const orgBtnText = btn.textContent;
@@ -685,7 +696,7 @@
     if(idx>=0) records[idx]=localRec;
     else records.push(localRec);
     persistRecords();
-    updateTotalCount(); // עדכון המונה
+    updateTotalCount(); 
 
     // שליחה לשרת
     try{
@@ -709,9 +720,6 @@
     btn.textContent = orgBtnText;
     btn.disabled = false;
     clearForm(false);
-    E('fileCV').value = ''; E('fileImg').value = '';
-    updateFileLabel('fileCV','lblCV','wrapCV');
-    updateFileLabel('fileImg','lblImg','wrapImg');
   }
 
   function clearForm(resetHeader=true){
@@ -726,7 +734,6 @@
     editingId=null;
     clearErrors();
     
-    // ניקוי קבצים
     E('fileCV').value = ''; E('fileImg').value = '';
     updateFileLabel('fileCV','lblCV','wrapCV');
     updateFileLabel('fileImg','lblImg','wrapImg');
@@ -837,7 +844,9 @@
   }
 
   // ===== כפתורים =====
-  E('btnTopClear').addEventListener('click',()=>clearForm(true));
+  
+  // תוקן: אין יותר שימוש בכפתור הישן שלא קיים
+  // הכפתורים החדשים עובדים דרך ה-HTML (onclick) או כאן למטה:
 
   E('btnExportAdmin').addEventListener('click',()=>{
     const code = prompt('קוד מנהל:');
@@ -852,10 +861,8 @@
   E('btnSave').addEventListener('click',saveRecord);
 
   // ===== אתחול =====
-  (function init(){
-    initOwner();
-    loadRecords();
-  })();
+  initApp();
+
 </script>
 </body>
 </html>
