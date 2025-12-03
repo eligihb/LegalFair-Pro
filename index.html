@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* אותו עיצוב בדיוק */
     :root { --primary: #0f766e; --bg: #f3f4f6; --text: #111827; }
     body { margin: 0; padding: 10px; font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 40px; }
     .shell { max-width: 550px; margin: 0 auto; }
@@ -29,7 +28,6 @@
     .msg { margin-top: 10px; padding: 10px; border-radius: 8px; display: none; text-align: center; }
     .msg-ok { background: #ecfdf5; color: #065f46; } .msg-err { background: #fef2f2; color: #991b1b; }
     #viewTable { display: none; }
-    /* טבלה */
     .styled-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     .styled-table th { background: var(--primary); color: white; padding: 8px; }
     .styled-table td { border-bottom: 1px solid #ddd; padding: 8px; }
@@ -99,7 +97,6 @@
       </div>
 
       <button id="btnSave" class="btn-main" onclick="saveRecord()">💾 שמור רשומה</button>
-      
       <button id="btnClear" class="btn-sub" onclick="clearForm(true)">יציאה ואיפוס הכל</button>
 
       <div id="msgOk" class="msg msg-ok"></div><div id="msgErr" class="msg msg-err"></div>
@@ -114,6 +111,7 @@
 </div>
 
 <script>
+// וודא שזה הקישור הנכון מה-Deploy שלך
 const API_URL = 'https://script.google.com/macros/s/AKfycbwip8xRO6q99yg_iX5KRddVmv3suZmeCEQJ4_TGY4MVtENw3WcrDHUEnTUBI3D7KdE/exec'; 
 const SHEET_LINK = 'https://docs.google.com/spreadsheets/d/1Oz32yNCobHdhz0APS4zl5O34rkqZxGvP0TJgPKKDLdk/edit';
 const ADMIN_CODE = '2100';
@@ -122,6 +120,9 @@ const FAIR_SCHEDULE = [{ centerName:"אוניברסיטת רייכמן",date:"20
 
 const E = id => document.getElementById(id);
 let records=[], ownerId=localStorage.getItem('uid')||'u_'+Date.now(), currentRating=0;
+// משתנה גלובלי לניהול עריכה
+let editingId = null; 
+
 localStorage.setItem('uid', ownerId);
 
 function init(){
@@ -182,8 +183,11 @@ document.querySelectorAll('.star').forEach(s=>s.onclick=()=>setStar(s.dataset.va
 function setStar(n){ currentRating=n; document.querySelectorAll('.star').forEach(s=>s.classList.toggle('filled', s.dataset.val<=n));}
 
 async function saveRecord(){
+    // שימוש ב-ID קיים אם עורכים, או חדש אם לא
+    const id = editingId || ('r_'+Date.now());
+    
     const rec = {
-        id: 'r_'+Date.now(),
+        id: id,
         center: E('center').value, agent: E('agent').value, date: E('date').value, time: new Date().toLocaleTimeString(),
         name: E('name').value, year: E('year').value, city: E('city').value, phone: E('phone').value, email: E('email').value,
         field: E('field').value, rating: currentRating,
@@ -200,10 +204,16 @@ async function saveRecord(){
 
     // שמירה לוקאלית
     const local = {...rec}; delete local.fileCV; delete local.fileImg;
-    records.push(local); localStorage.setItem('recs', JSON.stringify(records));
+    
+    // אם זו עריכה, נעדכן במקום להוסיף
+    const idx = records.findIndex(r => r.id === id);
+    if(idx >= 0) records[idx] = local;
+    else records.push(local);
+
+    localStorage.setItem('recs', JSON.stringify(records));
     updCount();
 
-    // שליחה לשרת (Hidden Form)
+    // שליחה לשרת (Hidden Form) - השיטה הכי בטוחה
     const form = document.createElement('form');
     form.method='POST'; form.action=API_URL; form.target='hidden_frame';
     
@@ -249,6 +259,8 @@ function clearForm(fullReset=false){
     
     E('fileCV').value=''; updFile('fileCV','wrapCV','קוח');
     E('fileImg').value=''; updFile('fileImg','wrapImg','תמונה');
+    
+    editingId = null; // איפוס מצב עריכה
 }
 
 function updCount(){ E('totalCount').textContent = records.length; renderTable(); }
@@ -257,7 +269,46 @@ function toggleView(){ const v=E('viewTable'); const f=E('viewForm'); if(v.style
 function renderTable(){
     const b=E('tableBody'); b.innerHTML='';
     records.slice().reverse().forEach(r=>{
-        b.innerHTML+=`<tr><td>${r.name||'-'}</td><td>${r.field||'-'}</td><td><button onclick="del('${r.id}')">🗑️</button></td></tr>`;
+        b.innerHTML+=`<tr>
+            <td>${r.name||'-'}</td>
+            <td>${r.field||'-'}</td>
+            <td style="display:flex; gap:5px;">
+                <button style="border:none;background:none;cursor:pointer;" onclick="edit('${r.id}')">✏️</button>
+                <button style="border:none;background:none;cursor:pointer;" onclick="del('${r.id}')">🗑️</button>
+            </td>
+        </tr>`;
+    });
+}
+
+function edit(id){
+    const r = records.find(x => x.id === id);
+    if(!r) return;
+    
+    editingId = id; // סימון שאנחנו במצב עריכה
+    toggleView(); // חזרה לטופס
+    unlockHeader(); // פתיחת כותרת למקרה שצריך לשנות נציג
+    
+    E('center').value = r.center || '';
+    onCenterChange(); // טעינת נציגים מחדש
+    E('agent').value = r.agent || '';
+    if(r.agent) lockHeader(); // נעילה חזרה אם יש נתונים
+
+    E('date').value = r.date || '';
+    E('name').value = r.name || '';
+    E('year').value = r.year || '';
+    E('city').value = r.city || '';
+    E('phone').value = r.phone || '';
+    E('email').value = r.email || '';
+    E('field').value = r.field || '';
+    E('impression').value = r.impression || '';
+    E('notes').value = r.notes || '';
+    
+    // שחזור כוכבים
+    setStar(r.rating || 0);
+    
+    // שחזור צ'יפים
+    document.querySelectorAll('.trait-chip').forEach(c => {
+        c.classList.toggle('active', (r.traits || []).includes(c.dataset.t));
     });
 }
 
@@ -265,7 +316,19 @@ function del(id){
     if(!confirm('למחוק?'))return;
     const r=records.find(x=>x.id==id);
     records=records.filter(x=>x.id!=id); localStorage.setItem('recs',JSON.stringify(records)); updCount();
-    fetch(API_URL, {method:'POST', mode:'no-cors', body:JSON.stringify({action:'delete', ownerId, record:r})});
+    
+    // שליחת מחיקה (Hidden Form)
+    const form = document.createElement('form');
+    form.method='POST'; form.action=API_URL; form.target='hidden_frame';
+    const inp = document.createElement('input'); 
+    inp.type = 'hidden';
+    inp.name='data'; inp.value=JSON.stringify({action:'delete', ownerId, record:r});
+    form.appendChild(inp); document.body.appendChild(form);
+    
+    const ifr = document.createElement('iframe'); ifr.name='hidden_frame'; ifr.style.display='none';
+    document.body.appendChild(ifr); form.submit();
+    
+    setTimeout(()=>{ document.body.removeChild(form); document.body.removeChild(ifr); }, 2000);
 }
 
 function openAdmin(){
